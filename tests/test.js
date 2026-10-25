@@ -19,4 +19,10 @@ assert(eqm > 4.5 && eqm < 5.8, "EQ Martin " + eqm); assert(eqj > 6 && eqj < 8, "
 global.window = {}; require("../data/will2017.js");
 const db = window.WILL2017; assert(db.length > 300, "db size " + db.length);
 assert(db.find(r => r.specimen === "AL 288-1").bm === 26, "Lucy BM");
+// 7. Обратный пересчёт «Вы и Люси»: Люси 105 см -> бедро ~280 мм (в литературе 281); головка бедра по массе 26 кг ~27 мм (измерено 28.6)
+const { REVERSE } = require("../formulas.js");
+near(REVERSE.femurFromStature(105), 280.3, 0.1, "femur from stature");
+near(REVERSE.fhFromMass(26), 26.8, 0.1, "FH from mass");
+for (const bm of [26, 50, 70, 90]) { const fh = REVERSE.fhFromMass(bm), m3 = ["ruff91-c", "mch92", "grine95"].reduce((s, id) => s + by(id).fn({ fh }), 0) / 3; near(m3, bm, 1, "FH roundtrip " + bm); }
+near(REVERSE.bmi(172, 72), 24.34, 0.01, "BMI");
 console.log(`OK: ${FORMULAS.length + EQ_FORMULAS.length} формул, ${db.length} записей базы. EQ Martin=${eqm.toFixed(2)}, Jerison=${eqj.toFixed(2)}`);

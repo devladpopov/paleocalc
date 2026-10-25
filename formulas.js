@@ -121,4 +121,17 @@ function intervalOf(f, est) {
   return null;
 }
 
-if (typeof module !== "undefined") module.exports = { SOURCES, FORMULAS, EQ_FORMULAS, INPUTS, intervalOf };
+// ---------- «Вы и Люси»: обратный пересчёт от роста и массы живого человека ----------
+// Бедро: отношение Feldesman (симметрично, инверсии регрессии нет). Головка бедра: среднее
+// обращений трёх уравнений Auerbach & Ruff 2004; обращение регрессии смещено, поэтому только ориентир.
+const REVERSE = {
+  femurFromStature: st => st / 3.7456 * 10, // мм
+  fhFromMass: bm => ((bm + 24.8) / 2.160 + (bm + 39.9) / 2.239 + (bm + 36.5) / 2.268) / 3, // мм
+  brainFromEcv: ecv => 1.147 * Math.pow(ecv, 0.976), // г, Ruff et al. 1997
+  eqMartin: (ecv, bm) => EQ_FORMULAS[0].fn(1.147 * Math.pow(ecv, 0.976), bm),
+  // Типичный объём мозговой полости современного взрослого, если свой неизвестен (ориентир, не измерение)
+  ecvDefault: sex => sex === "M" ? 1420 : sex === "F" ? 1260 : 1350,
+  bmi: (st, bm) => bm / Math.pow(st / 100, 2),
+};
+
+if (typeof module !== "undefined") module.exports = { SOURCES, FORMULAS, EQ_FORMULAS, INPUTS, intervalOf, REVERSE };

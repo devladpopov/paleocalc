@@ -7,7 +7,7 @@
 <meta name="description" content="Открытый калькулятор роста, массы тела и массы мозга ископаемых гоминид по обмерам костей: 17 опубликованных формул с источниками и интервалами, база из 311 находок (Will et al. 2017).">
 <link rel="canonical" href="https://vladislavpopov.ru/paleocalc/">
 <meta property="og:title" content="Палеокалькулятор: сколько весила Люси?">
-<meta property="og:description" content="Рост, масса и мозг ископаемых гоминид по обмерам костей. Опубликованные формулы, источники, интервалы, 311 находок.">
+<meta property="og:description" content="Сравните свой рост, вес и мозг с Люси, неандертальцем и хоббитом. Рост, масса и мозг ископаемых гоминид по опубликованным формулам, 311 находок.">
 <meta property="og:url" content="https://vladislavpopov.ru/paleocalc/">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="https://vladislavpopov.ru/favicon-light.svg">
@@ -173,6 +173,44 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 .road li b{color:var(--text);font-family:'Space Grotesk';font-weight:500;display:block}
 .road li::before{content:'0' counter(r);position:absolute;left:0;top:14px;font-family:'Space Grotesk';color:var(--accent);font-size:.85rem}
 .road li.now::after{content:'сейчас';position:absolute;right:0;top:16px;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);border-radius:100px;padding:1px 8px}
+/* вы и люси */
+.you{display:grid;grid-template-columns:340px minmax(0,1fr);gap:28px;align-items:start}
+@media(max-width:900px){.you{grid-template-columns:1fr}}
+.you-in{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.you-in .seg{flex-wrap:wrap}
+.you-in .frow{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.cmp{display:flex;flex-wrap:wrap;gap:6px}
+.cmp button{font:inherit;font-size:.8rem;border:1px solid var(--border-h);background:transparent;color:var(--text-2);padding:6px 12px;border-radius:100px;cursor:pointer;text-align:left;line-height:1.25}
+.cmp button span{display:block;font-size:.68rem;color:var(--text-3)}
+.cmp button.on{border-color:var(--accent);color:var(--text);background:var(--accent-dim)}
+.you-out{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px}
+.duo-wrap{display:grid;grid-template-columns:minmax(200px,320px) minmax(0,1fr);gap:24px;align-items:center}
+@media(max-width:700px){.duo-wrap{grid-template-columns:1fr}}
+#duo{width:100%;height:auto;display:block}
+#duo .bn{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.cmpt{width:100%;border-collapse:collapse;font-size:.85rem}
+.cmpt td,.cmpt th{padding:8px 6px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
+.cmpt th{font-family:'Space Grotesk',sans-serif;font-weight:500;color:var(--text-2);font-size:.78rem}
+.cmpt td:first-child,.cmpt th:first-child{text-align:left;white-space:normal;color:var(--text-2)}
+.cmpt td.me{font-family:'Space Grotesk',sans-serif;color:var(--accent);font-weight:500}
+.cmpt td.sp{font-family:'Space Grotesk',sans-serif}
+.cmpt td.x{color:var(--text-3);font-size:.78rem}
+.cmpt .ap{font-size:.68rem;color:var(--text-3);display:block;white-space:normal;line-height:1.25}
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.big3 div{border-top:2px solid var(--accent);padding-top:8px}
+.big3 b{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.3rem,2.6vw,1.8rem);font-weight:500;letter-spacing:-.02em;display:block;line-height:1.1}
+.big3 span{font-size:.75rem;color:var(--text-2)}
+.you-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+@media(max-width:900px){.you-grid{grid-template-columns:1fr}}
+.near li{list-style:none;display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--border);font-size:.86rem;cursor:pointer}
+.near li:hover{background:var(--accent-dim)}
+.near li b{font-family:'Space Grotesk',sans-serif;font-weight:500}
+.near li span{color:var(--text-3);font-size:.76rem;text-align:right}
+.pl{margin:0 0 4px 18px;font-size:.86rem;color:var(--text-2)}
+.pl li{margin:5px 0}
+.h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:500;margin:12px 0 4px}
+#rm{width:100%;display:block}
+.fine{font-size:.74rem;color:var(--text-3);margin-top:10px}
 footer{border-top:1px solid var(--border);padding:36px 0 50px;font-size:.82rem;color:var(--text-3)}
 footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer a{color:var(--text-2)}
@@ -185,6 +223,7 @@ footer a:hover{color:var(--accent)}
   <a href="https://vladislavpopov.ru/" class="nav-name">Vladislav Popov</a>
   <div class="nav-right">
     <div class="nav-links">
+      <a href="#you">Вы и Люси</a>
       <a href="#calc">Калькулятор</a>
       <a href="#tree">Находки</a>
       <a href="#methods">Методика</a>
@@ -196,13 +235,14 @@ footer a:hover{color:var(--accent)}
 
 <main>
 <header class="hero container">
-  <div class="eyebrow"><b>Палеокалькулятор</b> &middot; открытый научный инструмент &middot; v0.1</div>
+  <div class="eyebrow"><b>Палеокалькулятор</b> &middot; открытый научный инструмент &middot; v0.3</div>
   <h1>Сколько весила <em>Люси</em>?</h1>
   <div class="hero-sub">
     <div>
       <p>Введите обмеры кости, и калькулятор оценит рост, массу тела и массу мозга по опубликованным формулам палеоантропологии. У каждой оценки виден источник, интервал и то, как он посчитан. Результат сразу ложится на шкалу 4 миллионов лет эволюции человека.</p>
       <div class="cta">
-        <a class="btn primary" href="#calc">Открыть калькулятор</a>
+        <a class="btn primary" href="#you">Сравнить себя с Люси</a>
+        <a class="btn" href="#calc">Калькулятор по костям</a>
         <button class="btn" id="lucyBtn" type="button">Где на шкале Люси</button>
       </div>
     </div>
@@ -215,9 +255,53 @@ footer a:hover{color:var(--accent)}
   <div class="note"><b>Черновик для научной проверки.</b> Коэффициенты сверены по вторичным источникам (у каждой формулы указано, где) и ждут сверки с оригинальными статьями. Все формулы построены на современных людях: для ископаемых видов реальная неопределённость выше показанных интервалов.</div>
 </header>
 
+<section class="block container" id="you">
+  <div class="sec-head">
+    <div><div class="sec-num">01 / ВЫ И ЛЮСИ</div><h2>Поставьте <em>себя</em> рядом с предками</h2></div>
+    <p>Введите свой рост и вес. Калькулятор пройдёт путь в обратную сторону: оценит ваши кости по тем же формулам, нарисует вас в одном масштабе с находкой и найдёт среди 311 оценок тех, на кого вы похожи сильнее всего.</p>
+  </div>
+  <div class="you">
+    <div class="you-in">
+      <div class="frow">
+        <div class="field"><label for="y-st">Ваш рост</label><div class="in"><input id="y-st" type="number" inputmode="decimal" step="any" min="50" max="250" placeholder="172"><span class="u">см</span></div></div>
+        <div class="field"><label for="y-bm">Ваш вес</label><div class="in"><input id="y-bm" type="number" inputmode="decimal" step="any" min="15" max="300" placeholder="72"><span class="u">кг</span></div></div>
+      </div>
+      <div class="seg" id="ySex" role="group" aria-label="Пол"><button type="button" data-v="" class="on">Не важно</button><button type="button" data-v="M">Мужской</button><button type="button" data-v="F">Женский</button></div>
+      <div class="field"><label for="y-ecv">Объём мозга, если знаете (по МРТ)</label><div class="in"><input id="y-ecv" type="number" inputmode="decimal" step="any" min="500" max="2200" placeholder="пусто: типичный"><span class="u">см³</span></div><div class="hint" id="y-ecv-h">&nbsp;</div></div>
+      <div><div class="rtitle" style="margin-bottom:8px">С кем сравнить</div><div class="cmp" id="yCmp"></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn sm primary" type="button" id="yCard">Скачать карточку</button>
+        <button class="btn sm" type="button" id="yLink">Ссылка на сравнение</button>
+        <button class="btn sm" type="button" id="yShow">Я на шкале эволюции</button>
+      </div>
+    </div>
+    <div class="you-out">
+      <div class="big3" id="yBig"></div>
+      <div class="duo-wrap">
+        <svg id="duo" viewBox="0 0 340 300" role="img" aria-label="Вы и выбранная находка в одном масштабе"></svg>
+        <div style="overflow-x:auto"><table class="cmpt" id="yTab"></table></div>
+      </div>
+    </div>
+  </div>
+  <div class="you-grid">
+    <div class="you-out">
+      <div class="rtitle">На кого вы похожи</div>
+      <div class="rsub" id="yPct" style="margin:8px 0 6px"></div>
+      <ul class="near" id="yNear"></ul>
+      <svg id="rm" viewBox="0 0 520 300" role="img" aria-label="Рост и масса 147 находок и ваша точка"></svg>
+      <div class="fine">Ближайшие по росту и массе среди 147 находок, у которых в базе есть обе оценки (расстояние в стандартных отклонениях выборки). Нажмите на находку, чтобы увидеть её на шкале.</div>
+    </div>
+    <div class="you-out">
+      <div class="rtitle" id="yDiffT">Что у вас общего</div>
+      <div id="yDiff"></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:18px"><b>Это иллюстрация метода, а не медицинские данные.</b> Ваши кости оценены обращением формул, выведенных для другой задачи: длина бедра через постоянное отношение к росту (Feldesman et al. 1990), диаметр головки бедра обращением уравнений массы (среднее Ruff 1991, McHenry 1992, Grine 1995), а обращённая регрессия даёт смещённую оценку. Оценки находок взяты из базы Will et al. 2017 и сами имеют интервалы ±10-20%. Ничего не отправляется на сервер: всё считается в вашем браузере.</div>
+</section>
+
 <section class="block container" id="calc">
   <div class="sec-head">
-    <div><div class="sec-num">01 / КАЛЬКУЛЯТОР</div><h2>Обмерьте кость, <em>получите</em> тело</h2></div>
+    <div><div class="sec-num">02 / КАЛЬКУЛЯТОР</div><h2>Обмерьте кость, <em>получите</em> тело</h2></div>
     <p>Нажмите на кость на схеме или заполните поле. Можно ввести один обмер, можно все: калькулятор применит каждую подходящую формулу и покажет, насколько они согласуются.</p>
   </div>
   <div class="calc">
@@ -270,7 +354,7 @@ footer a:hover{color:var(--accent)}
 
 <section class="block container" id="tree">
   <div class="sec-head">
-    <div><div class="sec-num">02 / ШКАЛА ЭВОЛЮЦИИ</div><h2>311 находок <em>и ваша</em> оценка</h2></div>
+    <div><div class="sec-num">03 / ШКАЛА ЭВОЛЮЦИИ</div><h2>311 находок <em>и ваша</em> оценка</h2></div>
     <p>Каждая точка: опубликованная оценка для конкретной находки из базы Will, Pablos, Stock 2017. Полоса: ваш результат с интервалом. Наведите на точку, чтобы увидеть образец, метод и источник.</p>
   </div>
   <div class="chart-card">
@@ -291,7 +375,7 @@ footer a:hover{color:var(--accent)}
 
 <section class="block container" id="db">
   <div class="sec-head">
-    <div><div class="sec-num">03 / БАЗА</div><h2>Открытые <em>данные</em></h2></div>
+    <div><div class="sec-num">04 / БАЗА</div><h2>Открытые <em>данные</em></h2></div>
     <p>Will M., Pablos A., Stock J.T. (2017), Royal Society Open Science, дополнительные материалы под лицензией CC BY. Интервалы с пометкой «b» в оригинале посчитаны как ±20% (масса) и ±10% (рост). Нажмите на строку, чтобы найти находку на шкале.</p>
   </div>
   <div class="dbbar"><input class="search" id="q" placeholder="Поиск: AL 288, Neanderthal, Kenya, Feldesman..." aria-label="Поиск по базе"><span class="rsub" id="dbcount"></span>
@@ -301,7 +385,7 @@ footer a:hover{color:var(--accent)}
 
 <section class="block container" id="methods">
   <div class="sec-head">
-    <div><div class="sec-num">04 / МЕТОДИКА</div><h2>Откуда <em>цифры</em></h2></div>
+    <div><div class="sec-num">05 / МЕТОДИКА</div><h2>Откуда <em>цифры</em></h2></div>
     <p>Калькулятор ничего не придумывает: только опубликованные уравнения, ссылки на первоисточники с DOI и явная пометка, где коэффициенты сверены.</p>
   </div>
   <div class="acc">
@@ -322,7 +406,7 @@ footer a:hover{color:var(--accent)}
 
 <section class="block container" id="about">
   <div class="sec-head">
-    <div><div class="sec-num">05 / О ПРОЕКТЕ</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
+    <div><div class="sec-num">06 / О ПРОЕКТЕ</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
   </div>
   <div class="about">
     <div>
@@ -343,7 +427,7 @@ footer a:hover{color:var(--accent)}
 
 <footer class="container">
   <div class="row">
-    <div>Палеокалькулятор v0.1 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
+    <div>Палеокалькулятор v0.3 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
     <div>Данные: <a class="srcl" href="https://doi.org/10.1098/rsos.171339" target="_blank" rel="noopener">Will, Pablos, Stock 2017</a>, CC BY &middot; код MIT</div>
   </div>
 </footer>
@@ -516,7 +600,7 @@ function drawScatter() {
   s += `<text class="axt" x="${(W + m.l) / 2}" y="${H - 6}" text-anchor="middle">миллионов лет назад</text><text class="axt" transform="translate(14 ${(H - m.b) / 2}) rotate(-90)" text-anchor="middle">${METRIC === "bm" ? "масса тела, кг" : "рост, см"}</text>`;
   if (me) {
     s += `<rect x="${m.l}" width="${W - m.l - m.r}" y="${sy(me.hi)}" height="${sy(me.lo) - sy(me.hi)}" fill="var(--accent-band)"/><line x1="${m.l}" x2="${W - m.r}" y1="${sy(me.est)}" y2="${sy(me.est)}" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>`;
-    s += `<text class="lbl" x="${W - m.r - 6}" y="${sy(me.hi) - 6}" text-anchor="end">Ваша оценка: ${fmt(me.est, 0)} ${METRIC === "bm" ? "кг" : "см"} (${fmt(me.lo, 0)}–${fmt(me.hi, 0)})</text>`;
+    s += `<text class="lbl" x="${W - m.r - 6}" y="${sy(me.hi) - 6}" text-anchor="end">${me.who || "Ваша оценка"}: ${fmt(me.est, 0)} ${METRIC === "bm" ? "кг" : "см"}${me.lo !== me.hi ? ` (${fmt(me.lo, 0)}–${fmt(me.hi, 0)})` : ""}</text>`;
   }
   s += pts.map(r => { const i = DB.indexOf(r), dim = (SELTAX && r.taxon !== SELTAX) ? " dim" : "", sel = SELSPEC === i ? " sel" : "";
     return `${mark(r.g, sx(r.mya), sy(r[METRIC]), SELSPEC === i ? 7 : 4.5)} class="pt${dim}${sel}" fill="var(--s${r.g})" data-i="${i}"/>`; }).join("");
@@ -554,7 +638,7 @@ function drawTaxa() {
     g.onmousemove = e => showTip(`<b>${esc(d.k)}</b><div class="m">${d.n} находок, средняя датировка ${fmt(d.age, 2)} млн лет</div><div style="margin-top:6px">Медиана ${fmt(d.med)} ${METRIC === "bm" ? "кг" : "см"}<br>Размах ${fmt(d.min)}–${fmt(d.max)}</div><div class="m" style="margin-top:6px">Нажмите, чтобы выделить на шкале</div>`, e);
     g.onmouseleave = hideTip; g.onclick = () => { const t = DB.find(r => r.taxon && r.taxon.replace(/^Au\. Africanus$/, "Au. africanus") === d.k).taxon; SELTAX = t; $("taxSel").value = t; drawScatter(); $("tree").scrollIntoView({ behavior: "smooth" }); }; });
 }
-function drawAll() { drawScatter(); drawTaxa(); }
+function drawAll() { drawScatter(); drawTaxa(); if (typeof YC !== "undefined") drawYou(); }
 
 // ---------- база ----------
 function renderDb() {
@@ -571,6 +655,147 @@ function locate(i) { const r = DB[i]; SELSPEC = i; SELTAX = ""; $("taxSel").valu
 $("q").addEventListener("input", renderDb);
 $("lucyBtn").onclick = () => locate(DB.findIndex(r => r.specimen === "AL 288-1"));
 
+// ---------- Вы и Люси ----------
+const YS = [
+  { id: "lucy", spec: "AL 288-1", name: "Люси", gen: "Люси", ins: "Люси", sub: "Au. afarensis, Эфиопия", ecv: 450, ecvNote: "черепа нет, среднее Au. afarensis", arm: 1.12,
+    common: ["Ходила на двух ногах: бедро сходится к колену под углом, как у вас.", "Таз короткий и широкий, перестроенный под прямохождение.", "Большой палец стопы приведён к остальным, а не отставлен, как у шимпанзе."],
+    diff: ["Руки длиннее относительно ног, пальцы изогнуты: Люси ещё хорошо лазала по деревьям.", "Грудная клетка воронкообразная, как у человекообразных обезьян.", "Мозг размером с мозг шимпанзе."] },
+  { id: "turkana", spec: "KNM-WT 15000 (adult)", name: "Мальчик из Турканы", gen: "Мальчика из Турканы", ins: "Мальчиком из Турканы", sub: "Homo erectus, Кения", ecv: 880, ecvNote: "на момент смерти", arm: 1,
+    common: ["Пропорции тела почти как у современных жителей жарких стран: длинные ноги, узкий таз.", "Полностью наземная жизнь и выносливость в долгой ходьбе и беге.", "Рост и масса в базе даны для взрослого: сам мальчик умер подростком. Оценки роста взрослого спорны, от 1,6 до 1,85 м."],
+    diff: ["Мозг около двух третей вашего.", "Массивные надбровные дуги, нет подбородка.", "Позвоночный канал в грудном отделе уже, чем у современного человека."] },
+  { id: "ferrassie", spec: "La Ferrassie 1", name: "Неандерталец из Ла Ферраси", gen: "неандертальца из Ла Ферраси", ins: "неандертальцем из Ла Ферраси", sub: "H. neanderthalensis, Франция", ecv: 1640, ecvNote: "один из самых крупных", arm: 1,
+    common: ["Мозг не меньше вашего, а скорее больше.", "Рост как у среднего современного мужчины.", "Наш вид скрещивался с неандертальцами: у большинства людей вне Африки 1-2% неандертальских генов."],
+    diff: ["Массивное тело с широкой бочкообразной грудной клеткой: при том же росте масса больше.", "Короткие голени и предплечья, как у народов холодного климата.", "Толстые стенки длинных костей: высокие физические нагрузки всю жизнь."] },
+  { id: "hobbit", spec: "LB1", name: "Хоббит с острова Флорес", gen: "хоббита с Флореса", ins: "хоббитом с Флореса", sub: "Homo floresiensis, Индонезия", ecv: 426, ecvNote: "по КТ эндокрана", arm: 1.06,
+    common: ["Ходил на двух ногах и относится к тому же роду Homo, что и вы.", "Рядом с хоббитами найдены каменные орудия.", "Жил около 60-100 тысяч лет назад, когда Homo sapiens уже существовал."],
+    diff: ["Рост около метра: островная карликовость.", "Мозг размером с мозг шимпанзе.", "Длинные стопы относительно ног и примитивное запястье."] },
+];
+YS.forEach(y => { y.i = DB.findIndex(r => r.specimen === y.spec); y.r = DB[y.i]; });
+let YC = YS[0], YSEX = "";
+$("yCmp").innerHTML = YS.map(y => `<button type="button" data-id="${y.id}">${esc(y.name)}<span>${esc(y.sub)}</span></button>`).join("");
+$("yCmp").onclick = e => { const b = e.target.closest("button"); if (!b) return; YC = YS.find(y => y.id === b.dataset.id); drawYou(); };
+$("ySex").onclick = e => { const b = e.target.closest("button"); if (!b) return; YSEX = b.dataset.v; drawYou(); };
+["y-st", "y-bm", "y-ecv"].forEach(id => $(id).addEventListener("input", drawYou));
+const clampIn = (id, lo, hi, def) => { const x = parseFloat(String($(id).value).replace(",", ".")); return isFinite(x) && x >= lo && x <= hi ? x : def; };
+function you() {
+  const st = clampIn("y-st", 50, 250, 172), bm = clampIn("y-bm", 15, 300, 72), ecvIn = clampIn("y-ecv", 500, 2200, null);
+  return { st, bm, ecv: ecvIn || REVERSE.ecvDefault(YSEX), ecvOwn: !!ecvIn, sex: YSEX };
+}
+// скелет: базовые координаты 200×470, от макушки (y=12) до пят (y=462) 450 единиц = рост
+function skel(cx, ground, ppc, st, bm, ecv, arm, col) {
+  const k = st * ppc / 450, wf = Math.min(1.35, Math.max(.8, Math.sqrt(REVERSE.bmi(st, bm) / 22))), hf = Math.min(1.5, Math.max(.75, Math.cbrt(ecv / 1350) * 170 / st));
+  const b = `fill="none" stroke="${col}" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"`, w1 = `stroke-width="${Math.max(2, 6.8 * k)}"`, w2 = `stroke-width="${Math.max(1, 3.2 * k)}"`;
+  return `<g transform="translate(${cx - 100 * k * wf} ${ground - 462 * k}) scale(${k * wf} ${k})">
+    <path ${b} ${w2} d="M100 82 V232 M78 112 Q100 104 122 112 M74 128 Q100 120 126 128 M74 144 Q100 136 126 144 M76 160 Q100 152 124 160 M80 175 Q100 168 120 175"/>
+    <path ${b} ${w1} d="M66 96 Q100 86 134 96 M82 262 L78 366 M118 262 L122 366 M78 380 L80 452 M122 380 L120 452"/>
+    <path ${b} ${w2} d="M79 378 L74 448 M121 378 L126 448 M80 456 L62 462 M120 456 L138 462"/>
+    <g transform="translate(0 100) scale(1 ${arm}) translate(0 -100)"><path ${b} ${w1} d="M64 100 L52 198 M136 100 L148 198"/><path ${b} ${w2} d="M48 204 L38 290 M54 205 L46 290 M152 204 L162 290 M146 205 L154 290"/></g>
+    <path d="M70 226 Q66 206 84 210 Q100 222 116 210 Q134 206 130 226 Q126 252 108 258 L100 252 L92 258 Q74 252 70 226Z" fill="${col}"/>
+    <g transform="translate(100 72) scale(${hf / wf} ${hf}) translate(-100 -72)"><ellipse cx="100" cy="42" rx="24" ry="30" fill="${col}"/></g>
+  </g>`;
+}
+function duoSVG(u, c, C, font, attrs = "") {
+  const sp = c.r, ground = 268, maxH = Math.max(u.st, sp.st, 180), ppc = 222 / maxH;
+  let s = "";
+  for (let t = 50; t <= maxH; t += 50) { const y = ground - t * ppc; s += `<line x1="34" x2="330" y1="${y}" y2="${y}" stroke="${C.grid}" stroke-width="1"/><text x="28" y="${y + 4}" text-anchor="end" font-size="10" fill="${C.t3}" font-family="${font}">${t}</text>`; }
+  s += `<line x1="34" x2="330" y1="${ground}" y2="${ground}" stroke="${C.t3}" stroke-width="1"/><text x="28" y="${ground + 4}" text-anchor="end" font-size="10" fill="${C.t3}" font-family="${font}">0 см</text>`;
+  s += skel(130, ground, ppc, u.st, u.bm, u.ecv, 1, C.acc);
+  s += skel(255, ground, ppc, sp.st, sp.bm, c.ecv, c.arm, C.sp);
+  const lab = (x, st, a, b, col) => `<text x="${x}" y="${ground - st * ppc - 12}" text-anchor="middle" font-size="12" font-weight="500" fill="${col}" font-family="${font}">${a}</text><text x="${x}" y="${ground + 20}" text-anchor="middle" font-size="11" fill="${C.t2}" font-family="${font}">${b}</text>`;
+  s += lab(130, u.st, "Вы", `${fmt(u.st, 0)} см, ${fmt(u.bm, 0)} кг`, C.acc) + lab(255, sp.st, esc(c.name.split(" ")[0]), `${fmt(sp.st, 0)} см, ${fmt(sp.bm, 0)} кг`, C.sp);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 300" ${attrs}>${s}</svg>`;
+}
+function times(a, b, more, less, unit, d = 0) {
+  const r = a / b;
+  if (Math.abs(r - 1) < .15) { const x = a - b; return Math.abs(x) < (d ? .05 : .5) ? "почти одинаково" : `на ${fmt(Math.abs(x), d)}${unit ? " " + unit : ""} ${x > 0 ? more : less}`; }
+  return r > 1 ? `в ${fmt(r, 1)} раза ${more}` : `в ${fmt(1 / r, 1)} раза ${less}`;
+}
+let YLAST = null;
+function drawYou() {
+  const u = you(), c = YC, sp = c.r; if (!sp) return;
+  for (const b of $("yCmp").children) b.classList.toggle("on", b.dataset.id === c.id);
+  for (const b of $("ySex").children) b.classList.toggle("on", b.dataset.v === YSEX);
+  $("y-ecv-h").textContent = u.ecvOwn ? "ваше значение" : `типичный для ${u.sex === "M" ? "мужчин" : u.sex === "F" ? "женщин" : "взрослых"}: ${fmt(u.ecv, 0)} см³ (ориентир)`;
+  const big = [[times(u.st, sp.st, "выше", "ниже", "см"), "рост"], [times(u.bm, sp.bm, "тяжелее", "легче", "кг"), "масса"], [times(u.ecv, c.ecv, "больше", "меньше", "см³"), "объём мозга"]];
+  $("yBig").innerHTML = big.map(([a, b]) => `<div><b>${a}</b><span>${b}, чем у ${esc(c.gen)}</span></div>`).join("");
+  $("duo").outerHTML = duoSVG(u, c, { acc: "var(--accent)", sp: `var(--s${sp.g})`, grid: "var(--border)", t2: "var(--text-2)", t3: "var(--text-3)" }, "Space Grotesk, sans-serif", `id="duo" role="img" aria-label="Вы и ${esc(c.name)} в одном масштабе"`);
+  const F = REVERSE, fu = F.femurFromStature(u.st), fs = F.femurFromStature(sp.st), hu = F.fhFromMass(u.bm), hs = F.fhFromMass(sp.bm);
+  const eu = F.eqMartin(u.ecv, u.bm), es = F.eqMartin(c.ecv, sp.bm), age = sp.mya < .1 ? `${fmt(sp.mya * 1000, 0)} тыс. лет назад` : `${fmt(sp.mya, 1)} млн лет назад`;
+  const row = (l, a, b, x, ap = "", bp = "") => `<tr><td>${l}</td><td class="me">${a}${ap ? `<span class="ap">${ap}</span>` : ""}</td><td class="sp">${b}${bp ? `<span class="ap">${bp}</span>` : ""}</td></tr>`;
+  $("yTab").innerHTML = `<tr><th></th><th>Вы</th><th>${esc(c.name.split(" ")[0])}</th></tr>` +
+    row("Рост, см", fmt(u.st, 0), fmt(sp.st, 0), times(u.st, sp.st, "выше", "ниже", "см"), "", sp.st_lo ? `${fmt(sp.st_lo, 0)}–${fmt(sp.st_hi, 0)}` : "") +
+    row("Масса, кг", fmt(u.bm, 0), fmt(sp.bm, 0), times(u.bm, sp.bm, "тяжелее", "легче", "кг"), "", sp.bm_lo ? `${fmt(sp.bm_lo, 0)}–${fmt(sp.bm_hi, 0)}` : "") +
+    row("Индекс массы тела", fmt(F.bmi(u.st, u.bm)), fmt(F.bmi(sp.st, sp.bm)), times(F.bmi(u.st, u.bm), F.bmi(sp.st, sp.bm), "больше", "меньше", "", 1)) +
+    row("Бедренная кость, мм", fmt(fu, 0), fmt(fs, 0), times(fu, fs, "длиннее", "короче", "мм"), `${fmt(fu * .9, 0)}–${fmt(fu * 1.1, 0)}`, "по росту, Feldesman") +
+    row("Головка бедра, мм", fmt(hu, 0), fmt(hs, 0), times(hu, hs, "больше", "меньше", "мм"), `${fmt(F.fhFromMass(u.bm * .8), 0)}–${fmt(F.fhFromMass(u.bm * 1.2), 0)}`, "по массе, ориентир") +
+    row("Объём мозга, см³", fmt(u.ecv, 0), fmt(c.ecv, 0), times(u.ecv, c.ecv, "больше", "меньше", "см³"), u.ecvOwn ? "" : "типичный", c.ecvNote) +
+    row("Энцефализация, EQ", fmt(eu, 1), fmt(es, 1), times(eu, es, "выше", "ниже", "", 1), "", "по Martin") +
+    row("Когда жил", "сегодня", age, "");
+  // похожие находки
+  const both = DB.filter(r => r.st && r.bm), mean = k => both.reduce((s, r) => s + r[k], 0) / both.length;
+  const ms = mean("st"), mb = mean("bm"), ss = Math.sqrt(both.reduce((s, r) => s + (r.st - ms) ** 2, 0) / both.length), sb = Math.sqrt(both.reduce((s, r) => s + (r.bm - mb) ** 2, 0) / both.length);
+  const dist = (st, bm) => Math.hypot((st - u.st) / ss, (bm - u.bm) / sb);
+  const near = both.map(r => ({ r, d: dist(r.st, r.bm) })).sort((a, b) => a.d - b.d).slice(0, 3);
+  const stAll = DB.filter(r => r.st), bmAll = DB.filter(r => r.bm);
+  const pst = Math.round(100 * stAll.filter(r => r.st < u.st).length / stAll.length), pbm = Math.round(100 * bmAll.filter(r => r.bm < u.bm).length / bmAll.length);
+  const byT = {}; both.filter(r => r.taxon && r.taxon !== "?").forEach(r => { const k = r.taxon.replace(/^Au\. Africanus$/, "Au. africanus"); (byT[k] = byT[k] || []).push(r); });
+  const med = a => { const v = [...a].sort((x, y) => x - y); return v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2; };
+  const tx = Object.entries(byT).filter(([, a]) => a.length >= 3).map(([k, a]) => ({ k, n: a.length, d: dist(med(a.map(r => r.st)), med(a.map(r => r.bm))) })).sort((a, b) => a.d - b.d)[0];
+  $("yPct").innerHTML = `Вы выше, чем ${pst}% находок с оценкой роста, и тяжелее, чем ${pbm}% находок с оценкой массы. По медианам ближе всего к вам таксон <b>${esc(tx.k)}</b> (${tx.n} ${tx.n % 10 >= 2 && tx.n % 10 <= 4 && (tx.n % 100 < 12 || tx.n % 100 > 14) ? "находки" : tx.n % 10 === 1 && tx.n % 100 !== 11 ? "находка" : "находок"}).`;
+  $("yNear").innerHTML = near.map(({ r }) => `<li data-i="${DB.indexOf(r)}"><div><span class="dot" style="background:var(--s${r.g})"></span><b>${esc(r.specimen)}</b><div class="rsub">${esc(r.taxon || "таксон не указан")}, ${r.mya < .1 ? fmt(r.mya * 1000, 0) + " тыс. лет" : fmt(r.mya, 2) + " млн лет"}</div></div><span>${fmt(r.st, 0)} см<br>${fmt(r.bm, 0)} кг</span></li>`).join("");
+  $("yNear").querySelectorAll("li").forEach(li => li.onclick = () => locate(+li.dataset.i));
+  drawRM(u, both, near.map(n => n.r));
+  // общее и различия
+  const bu = F.bmi(u.st, u.bm), bs = F.bmi(sp.st, sp.bm), q = eu / es;
+  const nums = [`Ваш мозг ${times(u.ecv, c.ecv, "больше", "меньше", "см³")}, а тело ${times(u.bm, sp.bm, "тяжелее", "легче", "кг")}. С поправкой на массу тела (EQ по Martin) ${Math.abs(q - 1) < .1 ? "разница почти исчезает" : `разница ${fmt(Math.max(q, 1 / q), 1)} раза в пользу ${q > 1 ? "вас" : esc(c.gen)}`}.`];
+  nums.push(Math.abs(bu / bs - 1) < .12 ? `Индекс массы тела почти одинаковый: ${fmt(bu)} у вас и ${fmt(bs)} у ${esc(c.gen)}. По сложению вы похожи сильнее, чем по размеру.`
+    : `Индекс массы тела ${fmt(bu)} у вас и ${fmt(bs)} у ${esc(c.gen)}: ${bu > bs ? "вы сложены плотнее" : "вы сложены легче"}.`);
+  $("yDiffT").textContent = `Что у вас общего с ${c.ins}`;
+  $("yDiff").innerHTML = `<div class="h4">В цифрах</div><ul class="pl">${nums.map(x => `<li>${x}</li>`).join("")}</ul><div class="h4">Общее</div><ul class="pl">${c.common.map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="h4">Различия</div><ul class="pl">${c.diff.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  YLAST = { u, c, big };
+}
+function drawRM(u, both, near) {
+  const W = 520, H = 300, m = { l: 46, r: 14, t: 14, b: 38 }, sp = YC.r;
+  const xs = both.map(r => r.st).concat(u.st), ys = both.map(r => r.bm).concat(u.bm);
+  const xa = Math.min(...xs) - 5, xb = Math.max(...xs) + 5, ya = Math.min(...ys) - 4, yb = Math.max(...ys) + 4;
+  const sx = x => m.l + (x - xa) / (xb - xa) * (W - m.l - m.r), sy = y => m.t + (1 - (y - ya) / (yb - ya)) * (H - m.t - m.b);
+  const xt = niceTicks(xa, xb, 6), yt = niceTicks(ya, yb, 5);
+  let s = `<g class="grid">${yt.map(t => `<line x1="${m.l}" x2="${W - m.r}" y1="${sy(t)}" y2="${sy(t)}"/>`).join("")}</g><g class="ax">${yt.map(t => `<text x="${m.l - 8}" y="${sy(t) + 4}" text-anchor="end">${t}</text>`).join("")}${xt.map(t => `<text x="${sx(t)}" y="${H - m.b + 16}" text-anchor="middle">${t}</text>`).join("")}</g>`;
+  s += `<text class="axt" x="${(W + m.l) / 2}" y="${H - 4}" text-anchor="middle">рост, см</text><text class="axt" transform="translate(12 ${(H - m.b) / 2}) rotate(-90)" text-anchor="middle">масса, кг</text>`;
+  s += both.filter(r => r !== sp).map(r => `${mark(r.g, sx(r.st), sy(r.bm), near.includes(r) ? 5 : 3.5)} class="pt" fill="var(--s${r.g})" opacity="${near.includes(r) ? 1 : .45}"/>`).join("");
+  if (sp) s += `${mark(sp.g, sx(sp.st), sy(sp.bm), 6.5)} class="pt sel" fill="var(--s${sp.g})"/><text class="lbl" x="${sx(sp.st) + 11}" y="${sy(sp.bm) + (Math.hypot(sx(sp.st) - sx(u.st), sy(sp.bm) - sy(u.bm)) < 40 ? 20 : 4)}">${esc(YC.name.split(" ")[0])}</text>`;
+  s += `<circle cx="${sx(u.st)}" cy="${sy(u.bm)}" r="9" fill="none" stroke="var(--accent)" stroke-width="2.5"/><circle cx="${sx(u.st)}" cy="${sy(u.bm)}" r="3" fill="var(--accent)"/><text class="lbl" x="${sx(u.st) - 14}" y="${sy(u.bm) + 4}" text-anchor="end">Вы</text>`;
+  $("rm").innerHTML = s;
+}
+$("yShow").onclick = () => { const u = you(); LAST = { bm: { est: u.bm, lo: u.bm, hi: u.bm, who: "Вы" }, st: { est: u.st, lo: u.st, hi: u.st, who: "Вы" } }; drawAll(); $("tree").scrollIntoView({ behavior: "smooth" }); };
+$("yLink").onclick = async () => {
+  const u = you(), q = new URLSearchParams({ h: u.st, w: u.bm, c: YC.id }); if (u.sex) q.set("s", u.sex); if (u.ecvOwn) q.set("e", u.ecv);
+  const url = `${location.origin}${location.pathname}?${q}#you`; history.replaceState(null, "", url);
+  try { await navigator.clipboard.writeText(url); $("yLink").textContent = "Ссылка скопирована"; } catch { $("yLink").textContent = "Ссылка в адресной строке"; }
+  setTimeout(() => $("yLink").textContent = "Ссылка на сравнение", 2500);
+};
+$("yCard").onclick = async () => {
+  if (!YLAST) return; const { u, c, big } = YLAST;
+  const L = { bg: "#f7f5f0", text: "#0a0a0e", t2: "#3a3a4a", t3: "#7a7a8a", acc: "#4f3cc9", grid: "rgba(0,0,0,.08)" }, gcol = ["#a3a3ad", "#2a78d6", "#eb6834", "#1baf7a"][c.r.g];
+  try { await document.fonts.ready; } catch {}
+  const img = new Image(); img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(duoSVG(u, c, { acc: L.acc, sp: gcol, grid: L.grid, t2: L.t2, t3: L.t3 }, "Arial, sans-serif")); await img.decode();
+  const cv = document.createElement("canvas"); cv.width = 1200; cv.height = 630; const x = cv.getContext("2d");
+  x.fillStyle = L.bg; x.fillRect(0, 0, 1200, 630);
+  const gr = x.createLinearGradient(640, 0, 1160, 0); gr.addColorStop(0, "#4f3cc9"); gr.addColorStop(.5, "#8b3fa0"); gr.addColorStop(1, "#d63384");
+  x.fillStyle = gr; x.fillRect(0, 0, 1200, 8);
+  x.drawImage(img, 30, 60, 570, 503);
+  const SG = "'Space Grotesk', Arial, sans-serif", IN = "Inter, Arial, sans-serif";
+  x.fillStyle = L.acc; x.font = `500 18px ${SG}`; x.fillText("ПАЛЕОКАЛЬКУЛЯТОР", 640, 92);
+  x.fillStyle = gr; x.font = `500 60px ${SG}`; x.fillText(`Я и ${c.name.split(" ")[0]}`, 636, 158);
+  x.fillStyle = L.t2; x.font = `19px ${IN}`; x.fillText(`${c.r.specimen.replace(" (adult)", "")}, ${c.sub}`, 640, 194);
+  big.forEach(([a, b], i) => { const y = 272 + i * 92; x.fillStyle = L.acc; x.fillRect(640, y - 40, 3, 66); x.fillStyle = L.text; x.font = `500 38px ${SG}`; x.fillText(a, 660, y); x.fillStyle = L.t2; x.font = `18px ${IN}`; x.fillText(`${b}, чем у ${c.gen}`, 660, y + 24); });
+  x.fillStyle = L.t3; x.font = `15px ${IN}`; x.fillText("Данные: Will et al. 2017, CC BY. Формулы: Feldesman, Ruff.", 640, 578);
+  x.fillStyle = L.text; x.font = `500 20px ${SG}`; x.fillText("vladislavpopov.ru/paleocalc", 640, 608);
+  cv.toBlob(b => { const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `ya-i-${c.id}.png`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }, "image/png");
+};
+(() => { const q = new URLSearchParams(location.search); if (q.get("h")) $("y-st").value = q.get("h"); if (q.get("w")) $("y-bm").value = q.get("w"); if (q.get("e")) $("y-ecv").value = q.get("e");
+  if (["M", "F"].includes(q.get("s"))) YSEX = q.get("s"); const c = YS.find(y => y.id === q.get("c")); if (c) YC = c; })();
+
 // реестр
 $("reg").innerHTML = `<tr><th>Формула</th><th>Интервал</th><th>Источник</th><th>Сверка</th></tr>` +
   FORMULAS.map(fo => `<tr><td>${esc(fo.name)}<div class="mono">${esc(fo.formula)}</div></td><td>${esc(fo.interval.basis)}</td><td class="src">${srcLink(fo.src)}</td><td>${esc(fo.check)}</td></tr>`).join("") +
@@ -578,7 +803,7 @@ $("reg").innerHTML = `<tr><th>Формула</th><th>Интервал</th><th>И
   `<tr><td colspan="4">Вторичные источники сверки: <span class="src">${srcLink("ELLIOTT2015")}; ${srcLink("WILL2017")}</span></td></tr>`;
 
 $("st-f").textContent = FORMULAS.length + EQ_FORMULAS.length; $("st-d").textContent = DB.length;
-renderDb(); calc(); drawTaxa();
+renderDb(); calc(); drawTaxa(); drawYou();
 </script>
 </body>
 </html>
