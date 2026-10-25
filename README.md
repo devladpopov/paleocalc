@@ -4,7 +4,7 @@
 
 Open-source calculator of stature, body mass and brain mass of fossil hominins from skeletal measurements, using published equations. Every estimate shows its equation, primary source (DOI), interval and how the interval was derived.
 
-**Онлайн:** https://devladpopov.github.io/paleocalc/
+**Онлайн:** https://vladislavpopov.ru/paleocalc/
 
 ## Статус: v0.1, прототип модуля 1
 
@@ -18,7 +18,7 @@ Open-source calculator of stature, body mass and brain mass of fossil hominins f
 | Масса тела, головка бедра | Ruff et al. 1991 (оба пола, М, Ж), McHenry 1992, Grine et al. 1995, Ruff et al. 2012; среднее трёх по Auerbach & Ruff 2004 |
 | Масса тела, рост + ширина таза | Ruff 1994/1997/2000 (М, Ж), Ruff et al. 2005 (М, Ж) |
 | Мозг | масса мозга по ECV (Ruff et al. 1997), EQ по Martin/Ruff 1997 и Jerison 1973 |
-| База | 325 оценок размеров тела ископаемых гоминид с интервалами из Will, Pablos, Stock 2017 (R. Soc. Open Sci., CC BY) |
+| База | 311 оценок размеров тела ископаемых гоминид с интервалами из Will, Pablos, Stock 2017 (R. Soc. Open Sci., CC BY) |
 
 Интервалы: ±1.96·SEE, если источник даёт стандартную ошибку; иначе ±20% для массы (Ruff 2010) и ±10% для роста, как в базе Will et al. 2017.
 

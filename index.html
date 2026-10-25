@@ -1,155 +1,583 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Палеокалькулятор: рост, масса тела и мозг ископаемых гоминид</title>
+<title>Палеокалькулятор: рост, масса тела и мозг ископаемых гоминид | Владислав Попов</title>
+<meta name="description" content="Открытый калькулятор роста, массы тела и массы мозга ископаемых гоминид по обмерам костей: 17 опубликованных формул с источниками и интервалами, база из 311 находок (Will et al. 2017).">
+<link rel="canonical" href="https://vladislavpopov.ru/paleocalc/">
+<meta property="og:title" content="Палеокалькулятор: сколько весила Люси?">
+<meta property="og:description" content="Рост, масса и мозг ископаемых гоминид по обмерам костей. Опубликованные формулы, источники, интервалы, 311 находок.">
+<meta property="og:url" content="https://vladislavpopov.ru/paleocalc/">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="https://vladislavpopov.ru/favicon-light.svg">
+<link rel="stylesheet" href="https://vladislavpopov.ru/_vendor/fonts/ad1bcbf069.css">
+<script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;})();</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Палеокалькулятор","url":"https://vladislavpopov.ru/paleocalc/","applicationCategory":"ScientificApplication","operatingSystem":"Web","isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","codeRepository":"https://github.com/devladpopov/paleocalc","author":{"@type":"Person","name":"Vladislav Popov","url":"https://vladislavpopov.ru/"},"inLanguage":"ru"}</script>
 <style>
-  :root { --fg:#1d1d1f; --mut:#666; --line:#ddd; --acc:#7a4b1f; --bg:#fbfaf7; }
-  body { font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--fg); background:var(--bg); margin:0; }
-  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
-  h1 { font-size: 26px; margin: 0 0 4px; } h2 { font-size: 19px; margin-top: 32px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
-  .lead { color: var(--mut); margin: 0 0 16px; }
-  .warn { background:#fff4e0; border:1px solid #f0d090; padding:10px 14px; border-radius:6px; font-size:14px; }
-  form { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:10px 18px; margin: 12px 0; }
-  label { font-size: 13px; color: var(--mut); display:block; }
-  input, select { width:100%; box-sizing:border-box; padding:6px 8px; font-size:15px; border:1px solid #bbb; border-radius:4px; background:#fff; }
-  table { border-collapse: collapse; width:100%; font-size: 14px; margin-top: 8px; }
-  th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align:left; vertical-align: top; }
-  th { background:#f1ede4; position: sticky; top: 0; }
-  td.num { text-align:right; white-space:nowrap; font-variant-numeric: tabular-nums; }
-  .src { font-size: 12px; color: var(--mut); }
-  .f { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; }
-  details { font-size: 13px; color: var(--mut); } summary { cursor: pointer; }
-  .tabs button { font-size:15px; padding:6px 14px; border:1px solid #bbb; background:#fff; border-radius:4px; cursor:pointer; margin-right:6px; }
-  .tabs button.on { background: var(--acc); color:#fff; border-color: var(--acc); }
-  .scroll { max-height: 560px; overflow:auto; border:1px solid var(--line); }
-  a { color: var(--acc); }
-  footer { margin-top: 40px; font-size: 13px; color: var(--mut); }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+[data-theme="dark"]{--bg:#08080a;--surface:#111114;--surface-2:#17171b;--text:#f0f0f0;--text-2:#8a8a9a;--text-3:#5a5a6a;--accent:#c8b6ff;--accent-dim:rgba(200,182,255,.10);--accent-band:rgba(200,182,255,.16);--border:rgba(255,255,255,.07);--border-h:rgba(255,255,255,.14);--grad:linear-gradient(135deg,#c8b6ff,#ffc6ff,#ffb3c6);--nav-bg:rgba(8,8,10,.72);--bone:#3a3a46;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s0:#6a6a78;color-scheme:dark}
+[data-theme="light"]{--bg:#f7f5f0;--surface:#ffffff;--surface-2:#fbfaf7;--text:#0a0a0e;--text-2:#3a3a4a;--text-3:#7a7a8a;--accent:#4f3cc9;--accent-dim:rgba(79,60,201,.06);--accent-band:rgba(79,60,201,.10);--border:rgba(0,0,0,.08);--border-h:rgba(0,0,0,.18);--grad:linear-gradient(135deg,#4f3cc9,#8b3fa0,#d63384);--nav-bg:rgba(247,245,240,.82);--bone:#d9d5cb;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s0:#a3a3ad;color-scheme:light}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400}
+.container{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+h1,h2,h3,.ui{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px clamp(20px,4vw,48px);background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem}
+.nav-right{display:flex;align-items:center;gap:28px}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font-size:.85rem;color:var(--text-2);transition:color .25s}
+.nav-links a:hover,.nav-links a.on{color:var(--text)}
+.theme-btn{font:inherit;font-size:.8rem;padding:7px 15px;border:1px solid var(--border);border-radius:100px;background:transparent;color:var(--text-2);cursor:pointer}
+.theme-btn:hover{border-color:var(--border-h);color:var(--text)}
+[data-theme="dark"] .t-light,[data-theme="light"] .t-dark{display:none}
+@media(max-width:760px){.nav-links{display:none}}
+/* hero */
+.hero{padding-top:150px;padding-bottom:70px}
+.eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-2);margin-bottom:22px}
+.eyebrow b{color:var(--accent);font-weight:500}
+.hero h1{font-size:clamp(2.6rem,7vw,5.6rem);line-height:1;font-weight:500;letter-spacing:-.04em;max-width:13ch}
+.hero h1 em{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.08em}
+.hero-sub{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;margin-top:40px;align-items:end}
+.hero-sub p{font-size:1.1rem;color:var(--text-2);max-width:56ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{font-family:'Space Grotesk',sans-serif;font-size:.92rem;padding:12px 22px;border-radius:100px;border:1px solid var(--border-h);background:transparent;color:var(--text);cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn.primary:hover{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn.sm{padding:7px 14px;font-size:.82rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border)}
+.stat{padding:18px 0 0}
+.stat .n{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:500;letter-spacing:-.03em;line-height:1}
+.stat .l{font-size:.8rem;color:var(--text-2);margin-top:6px}
+@media(max-width:860px){.hero-sub{grid-template-columns:1fr;gap:28px}}
+.note{margin-top:34px;border:1px solid var(--border);border-left:2px solid var(--accent);background:var(--accent-dim);padding:14px 18px;border-radius:6px;font-size:.88rem;color:var(--text-2)}
+.note b{color:var(--text)}
+/* sections */
+section.block{padding-top:80px;padding-bottom:80px;border-top:1px solid var(--border)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.sec-num{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:var(--accent);letter-spacing:.1em;margin-bottom:10px}
+.sec-head h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:500;line-height:1.05;letter-spacing:-.03em}
+.sec-head p{color:var(--text-2);max-width:52ch;font-size:.95rem}
+/* calculator */
+.calc{display:grid;grid-template-columns:300px 1fr;gap:40px;align-items:start}
+@media(max-width:900px){.calc{grid-template-columns:1fr}.skel-wrap{max-width:280px;margin:0 auto}}
+.skel-wrap{position:sticky;top:96px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 14px 10px;text-align:center}
+.skel-wrap .cap{font-size:.78rem;color:var(--text-3);margin-top:4px}
+#skel .bone{fill:none;stroke:var(--bone);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+#skel .bone.fillable{fill:var(--bone);stroke:var(--surface);stroke-width:2}
+#skel .rest{fill:none;stroke:var(--bone);stroke-width:3;stroke-linecap:round;opacity:.75}
+#skel .hit{fill:none;stroke:transparent;stroke-width:22;cursor:pointer;pointer-events:stroke}
+#skel .hitf{fill:transparent;cursor:pointer}
+#skel g.part:hover .bone{stroke:var(--text-3)}
+#skel g.part:hover .bone.fillable{fill:var(--text-3);stroke:var(--surface)}
+#skel g.part.has .bone{stroke:var(--accent)}
+#skel g.part.has .bone.fillable{fill:var(--accent);stroke:var(--surface)}
+#skel g.part.focus .bone{stroke:var(--accent);filter:drop-shadow(0 0 6px var(--accent))}
+#skel g.part.focus .bone.fillable{fill:var(--accent);stroke:var(--surface)}
+.fields{display:grid;gap:22px}
+.fgroup{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.fgroup h3{font-size:.95rem;font-weight:500;margin-bottom:12px;display:flex;justify-content:space-between;gap:12px}
+.fgroup h3 span{font-family:'Inter';font-size:.78rem;color:var(--text-3);font-weight:400}
+.frow{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px 16px}
+.field label{display:block;font-size:.78rem;color:var(--text-2);margin-bottom:5px}
+.field .in{display:flex;align-items:center;border:1px solid var(--border-h);border-radius:8px;background:var(--surface-2);transition:border-color .2s,box-shadow .2s}
+.field .in:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+.field input{flex:1;min-width:0;border:0;background:transparent;color:var(--text);font:500 1rem 'Space Grotesk',sans-serif;padding:9px 10px;outline:none}
+.field .u{font-size:.78rem;color:var(--text-3);padding-right:10px}
+.field .hint{font-size:.72rem;color:var(--text-3);margin-top:4px}
+.seg{display:inline-flex;border:1px solid var(--border-h);border-radius:100px;padding:3px;gap:2px}
+.seg button{font:inherit;font-size:.82rem;border:0;background:transparent;color:var(--text-2);padding:6px 14px;border-radius:100px;cursor:pointer}
+.seg button.on{background:var(--text);color:var(--bg)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+/* results */
+.results{display:grid;gap:18px;margin-top:40px}
+.rcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 24px}
+.rtop{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:end;margin-bottom:12px}
+.rtitle{font-family:'Space Grotesk';font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-2)}
+.hero-n{font-family:'Space Grotesk';font-size:clamp(2.2rem,5vw,3.4rem);font-weight:500;letter-spacing:-.03em;line-height:1.05}
+.hero-n small{font-size:.4em;color:var(--text-2);font-weight:400;margin-left:6px}
+.rsub{font-size:.85rem;color:var(--text-2);max-width:60ch}
+.empty{color:var(--text-3);font-size:.9rem;padding:6px 0}
+.forest{margin-top:8px}
+.frow2{display:grid;grid-template-columns:minmax(150px,280px) 1fr 92px;gap:14px;align-items:center;padding:7px 0;border-top:1px solid var(--border);cursor:default}
+.frow2:hover{background:var(--accent-dim)}
+.frow2 .nm{font-size:.84rem;line-height:1.3}
+.frow2 .nm span{display:block;font-size:.72rem;color:var(--text-3)}
+.frow2 .val{font-family:'Space Grotesk';font-size:.95rem;text-align:right;white-space:nowrap}
+.frow2 .val span{display:block;font-size:.72rem;color:var(--text-3);font-family:'Inter'}
+.frow2 svg{width:100%;height:26px;display:block;overflow:visible}
+.axisrow{display:grid;grid-template-columns:minmax(150px,280px) 1fr 92px;gap:14px}
+.axisrow svg{width:100%;height:20px;display:block;overflow:visible}
+@media(max-width:640px){.frow2,.axisrow{grid-template-columns:1fr 70px}.frow2 svg,.axisrow svg{grid-column:1/-1;grid-row:2}.axisrow .sp{display:none}}
+details.more{margin-top:14px;font-size:.82rem;color:var(--text-2)}
+details.more summary{cursor:pointer;color:var(--accent);font-family:'Space Grotesk'}
+details.more table{margin-top:10px}
+table.t{border-collapse:collapse;width:100%;font-size:.82rem}
+table.t th,table.t td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--border)}
+table.t th{font-family:'Space Grotesk';font-weight:500;color:var(--text-2);background:var(--surface-2);position:sticky;top:0;z-index:1}
+table.t td.num{text-align:right;font-family:'Space Grotesk';white-space:nowrap}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:.78rem;color:var(--text-2)}
+.src a,.srcl{color:var(--text-2);border-bottom:1px solid var(--border-h)}
+.src a:hover{color:var(--accent)}
+.badge{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:100px;border:1px solid var(--border-h);color:var(--text-2);margin-left:6px;font-family:'Inter'}
+/* charts */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px}
+.chart-ctrl{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;margin-bottom:14px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.8rem;color:var(--text-2)}
+.legend .li{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
+.legend .li.off{opacity:.35}
+.legend svg{width:12px;height:12px}
+select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surface-2);border:1px solid var(--border-h);border-radius:100px;padding:6px 12px}
+#scatter,#taxa{width:100%;display:block}
+.hscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:700px){#scatter{min-width:720px}#taxa{min-width:640px}}
+.chart-foot{font-size:.75rem;color:var(--text-3);margin-top:8px}
+.ax text{fill:var(--text-3);font:11px 'Inter',sans-serif}
+.ax line,.ax path{stroke:var(--border-h)}
+.grid line{stroke:var(--border)}
+.axt{fill:var(--text-2);font:12px 'Space Grotesk',sans-serif}
+.lbl{fill:var(--text);font:500 12px "Space Grotesk",sans-serif;paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+.lbl2{fill:var(--text-2);font:11px 'Inter',sans-serif}
+.pt{stroke:var(--surface);stroke-width:2;transition:opacity .2s}
+.pt.dim{opacity:.12}
+.pt.sel{stroke:var(--text);stroke-width:2.5}
+.tip{position:fixed;z-index:200;pointer-events:none;background:var(--surface);color:var(--text);border:1px solid var(--border-h);border-radius:10px;padding:10px 12px;font-size:.78rem;line-height:1.45;max-width:300px;box-shadow:0 10px 30px rgba(0,0,0,.18);opacity:0;transition:opacity .12s}
+.tip b{font-family:'Space Grotesk';font-weight:500;font-size:.88rem}
+.tip .m{color:var(--text-2)}
+.two{display:grid;grid-template-columns:1fr;gap:18px}
+/* db */
+.dbbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.search{flex:1;min-width:220px;font:inherit;font-size:.9rem;color:var(--text);background:var(--surface);border:1px solid var(--border-h);border-radius:100px;padding:10px 16px;outline:none}
+.search:focus{border-color:var(--accent)}
+.scroll{max-height:520px;overflow:auto;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+.scroll tr{cursor:pointer}
+.scroll tr:hover td{background:var(--accent-dim)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:middle}
+/* methods */
+.acc details{border-top:1px solid var(--border);padding:14px 0}
+.acc summary{cursor:pointer;font-family:'Space Grotesk';font-size:1rem;display:flex;justify-content:space-between;gap:12px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:'+';color:var(--accent)}
+.acc details[open] summary::after{content:'–'}
+.acc .body{padding-top:12px;font-size:.88rem;color:var(--text-2)}
+.acc .body p+p{margin-top:8px}
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:40px}
+@media(max-width:860px){.about{grid-template-columns:1fr}}
+.about p{color:var(--text-2);margin-bottom:12px}
+.road{list-style:none;counter-reset:r}
+.road li{counter-increment:r;padding:14px 0 14px 44px;border-top:1px solid var(--border);position:relative;font-size:.92rem;color:var(--text-2)}
+.road li b{color:var(--text);font-family:'Space Grotesk';font-weight:500;display:block}
+.road li::before{content:'0' counter(r);position:absolute;left:0;top:14px;font-family:'Space Grotesk';color:var(--accent);font-size:.85rem}
+.road li.now::after{content:'сейчас';position:absolute;right:0;top:16px;font-size:.7rem;color:var(--accent);border:1px solid var(--accent);border-radius:100px;padding:1px 8px}
+footer{border-top:1px solid var(--border);padding:36px 0 50px;font-size:.82rem;color:var(--text-3)}
+footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:var(--text-2)}
+footer a:hover{color:var(--accent)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<main>
-  <h1>Палеокалькулятор <span style="font-weight:400;color:var(--mut)">v0.1, прототип модуля 1</span></h1>
-  <p class="lead">Оценка роста, массы тела и массы мозга по обмерам костей, по опубликованным формулам. У каждой оценки указаны источник, интервал и способ его расчёта. Открытый код (MIT), данные с указанием авторства (CC BY).</p>
-  <div class="warn"><b>Статус: черновик для научной проверки.</b> Коэффициенты сверены по вторичным источникам (отмечено у каждой формулы) и требуют сверки с оригинальными статьями. Интервалы приближённые: ±1.96·SEE там, где источник даёт стандартную ошибку, иначе конвенция ±20% (масса, Ruff 2010) или ±10% (рост), как в базе Will et al. 2017. Для ископаемых видов реальная неопределённость выше: все формулы построены на современных людях.</div>
+<nav class="nav">
+  <a href="https://vladislavpopov.ru/" class="nav-name">Vladislav Popov</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#calc">Калькулятор</a>
+      <a href="#tree">Находки</a>
+      <a href="#methods">Методика</a>
+      <a href="https://vladislavpopov.ru/blog/">Блог</a>
+    </div>
+    <button class="theme-btn" id="themeToggle" aria-label="Тема"><span class="t-dark">Dark</span><span class="t-light">Light</span></button>
+  </div>
+</nav>
 
-  <div class="tabs" style="margin-top:18px">
-    <button id="t-calc" class="on" onclick="tab('calc')">Калькулятор</button>
-    <button id="t-db" onclick="tab('db')">База находок (Will et al. 2017)</button>
-    <button id="t-src" onclick="tab('src')">Формулы и источники</button>
+<main>
+<header class="hero container">
+  <div class="eyebrow"><b>Палеокалькулятор</b> &middot; открытый научный инструмент &middot; v0.1</div>
+  <h1>Сколько весила <em>Люси</em>?</h1>
+  <div class="hero-sub">
+    <div>
+      <p>Введите обмеры кости, и калькулятор оценит рост, массу тела и массу мозга по опубликованным формулам палеоантропологии. У каждой оценки виден источник, интервал и то, как он посчитан. Результат сразу ложится на шкалу 4 миллионов лет эволюции человека.</p>
+      <div class="cta">
+        <a class="btn primary" href="#calc">Открыть калькулятор</a>
+        <button class="btn" id="lucyBtn" type="button">Где на шкале Люси</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="st-f">17</div><div class="l">формул с источниками</div></div>
+      <div class="stat"><div class="n" id="st-d">311</div><div class="l">находок в базе</div></div>
+      <div class="stat"><div class="n">4,4</div><div class="l">млн лет охвата</div></div>
+    </div>
+  </div>
+  <div class="note"><b>Черновик для научной проверки.</b> Коэффициенты сверены по вторичным источникам (у каждой формулы указано, где) и ждут сверки с оригинальными статьями. Все формулы построены на современных людях: для ископаемых видов реальная неопределённость выше показанных интервалов.</div>
+</header>
+
+<section class="block container" id="calc">
+  <div class="sec-head">
+    <div><div class="sec-num">01 / КАЛЬКУЛЯТОР</div><h2>Обмерьте кость, <em>получите</em> тело</h2></div>
+    <p>Нажмите на кость на схеме или заполните поле. Можно ввести один обмер, можно все: калькулятор применит каждую подходящую формулу и покажет, насколько они согласуются.</p>
+  </div>
+  <div class="calc">
+    <div class="skel-wrap">
+      <svg id="skel" viewBox="0 0 200 470" aria-label="Схема скелета: нажмите на кость, чтобы ввести обмер">
+        <!-- неинтерактивные части -->
+        <path class="rest" d="M100 82 V232"/>
+        <path class="rest" d="M78 112 Q100 104 122 112 M74 128 Q100 120 126 128 M74 144 Q100 136 126 144 M76 160 Q100 152 124 160 M80 175 Q100 168 120 175"/>
+        <path class="rest" d="M66 96 Q100 86 134 96"/>
+        <path class="rest" d="M48 204 L38 290 M54 205 L46 290 M152 204 L162 290 M146 205 L154 290"/>
+        <path class="rest" d="M79 378 L74 448 M121 378 L126 448"/>
+        <path class="rest" d="M80 456 L62 462 M120 456 L138 462"/>
+        <!-- интерактивные -->
+        <g class="part" data-k="ecv"><title>Череп: объём эндокрана</title>
+          <ellipse class="bone fillable" cx="100" cy="42" rx="24" ry="30"/><ellipse class="hitf" cx="100" cy="42" rx="30" ry="36"/></g>
+        <g class="part" data-k="humerus"><title>Плечевая кость</title>
+          <path class="bone" d="M64 100 L52 198"/><path class="bone" d="M136 100 L148 198"/><path class="hit" d="M64 100 L52 198 M136 100 L148 198"/></g>
+        <g class="part" data-k="lbib"><title>Таз: бедренно-подвздошная ширина</title>
+          <path class="bone fillable" d="M70 226 Q66 206 84 210 Q100 222 116 210 Q134 206 130 226 Q126 252 108 258 L100 252 L92 258 Q74 252 70 226Z"/><path class="hitf" d="M62 204 H138 V262 H62Z"/></g>
+        <g class="part" data-k="fh"><title>Головка бедренной кости</title>
+          <circle class="bone fillable" cx="80" cy="250" r="7"/><circle class="bone fillable" cx="120" cy="250" r="7"/><circle class="hitf" cx="80" cy="250" r="12"/><circle class="hitf" cx="120" cy="250" r="12"/></g>
+        <g class="part" data-k="femur"><title>Бедренная кость</title>
+          <path class="bone" d="M82 262 L78 366"/><path class="bone" d="M118 262 L122 366"/><path class="hit" d="M82 262 L78 366 M118 262 L122 366"/></g>
+        <g class="part" data-k="tibia"><title>Большеберцовая кость</title>
+          <path class="bone" d="M78 380 L80 452"/><path class="bone" d="M122 380 L120 452"/><path class="hit" d="M78 380 L80 452 M122 380 L120 452"/></g>
+      </svg>
+      <div class="cap">Подсвечены кости, по которым есть обмер</div>
+    </div>
+
+    <div>
+      <div class="toolbar" style="margin-bottom:18px">
+        <div class="seg" id="sexSeg" role="group" aria-label="Пол">
+          <button type="button" data-v="" class="on">Пол неизвестен</button><button type="button" data-v="M">Мужской</button><button type="button" data-v="F">Женский</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn sm" type="button" id="demoBtn">Пример: современный человек</button>
+          <button class="btn sm" type="button" id="clearBtn">Очистить</button>
+        </div>
+      </div>
+      <div class="fields" id="fields"></div>
+    </div>
   </div>
 
-  <section id="calc">
-    <h2>Обмеры</h2>
-    <form id="f"></form>
-    <div><label style="display:inline">Пример ввода:</label>
-      <button type="button" onclick="example()">заполнить демонстрационными значениями</button>
-      <button type="button" onclick="clearAll()">очистить</button></div>
-    <h2>Рост</h2><div id="r-stature" class="src">Введите длину бедренной, большеберцовой или плечевой кости.</div>
-    <h2>Масса тела</h2><div id="r-mass" class="src">Введите диаметр головки бедра или рост с шириной таза.</div>
-    <h2>Мозг и энцефализация</h2><div id="r-brain" class="src">Введите объём эндокрана.</div>
-  </section>
+  <div class="results" id="results">
+    <div class="rcard" id="c-stature"></div>
+    <div class="rcard" id="c-mass"></div>
+    <div class="rcard" id="c-brain"></div>
+  </div>
+</section>
 
-  <section id="db" hidden>
-    <h2>База оценок размеров тела ископаемых гоминид</h2>
-    <p class="src">Источник: Will, Pablos, Stock 2017, R. Soc. Open Sci. 4: 171339, дополнительные материалы (figshare, CC BY). Оценки и интервалы взяты из базы как есть; интервалы с пометкой «b» в оригинале посчитаны как ±20% (масса) и ±10% (рост).</p>
-    <form style="grid-template-columns: 2fr 1fr">
-      <div><label>Поиск по образцу, таксону, стране</label><input id="q" oninput="renderDb()" placeholder="например, AL 288, neanderthalensis, Kenya"></div>
-      <div><label>Таксон</label><select id="tx" onchange="renderDb()"><option value="">все</option></select></div>
-    </form>
-    <div id="dbcount" class="src"></div>
-    <div class="scroll"><table id="dbt"></table></div>
-  </section>
+<section class="block container" id="tree">
+  <div class="sec-head">
+    <div><div class="sec-num">02 / ШКАЛА ЭВОЛЮЦИИ</div><h2>311 находок <em>и ваша</em> оценка</h2></div>
+    <p>Каждая точка: опубликованная оценка для конкретной находки из базы Will, Pablos, Stock 2017. Полоса: ваш результат с интервалом. Наведите на точку, чтобы увидеть образец, метод и источник.</p>
+  </div>
+  <div class="chart-card">
+    <div class="chart-ctrl">
+      <div class="seg" id="metricSeg"><button type="button" data-v="bm" class="on">Масса тела</button><button type="button" data-v="st">Рост</button></div>
+      <select class="sel" id="taxSel" aria-label="Выделить таксон"><option value="">Выделить таксон: все</option></select>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="hscroll"><svg id="scatter" viewBox="0 0 960 440" role="img" aria-label="Диаграмма рассеяния: возраст находки и оценка массы тела или роста"></svg></div>
+    <div class="chart-foot">Шкала времени нелинейная (квадратный корень), чтобы последние 300 тысяч лет с самыми многочисленными находками не слиплись. Табличный вид тех же данных ниже, в разделе «База».</div>
+  </div>
+  <div class="chart-card" style="margin-top:18px">
+    <div class="chart-ctrl"><div class="rtitle" id="taxaTitle">Разброс по таксонам</div></div>
+    <div class="hscroll"><svg id="taxa" viewBox="0 0 960 520" role="img" aria-label="Медиана и размах оценок по таксонам"></svg></div>
+    <div class="chart-foot">Точка: медиана оценок по находкам таксона, линия: от минимума до максимума, n: число находок. Таксоны упорядочены по средней датировке, сверху самые древние.</div>
+  </div>
+</section>
 
-  <section id="src" hidden>
-    <h2>Реестр формул</h2>
-    <div id="srclist"></div>
-  </section>
+<section class="block container" id="db">
+  <div class="sec-head">
+    <div><div class="sec-num">03 / БАЗА</div><h2>Открытые <em>данные</em></h2></div>
+    <p>Will M., Pablos A., Stock J.T. (2017), Royal Society Open Science, дополнительные материалы под лицензией CC BY. Интервалы с пометкой «b» в оригинале посчитаны как ±20% (масса) и ±10% (рост). Нажмите на строку, чтобы найти находку на шкале.</p>
+  </div>
+  <div class="dbbar"><input class="search" id="q" placeholder="Поиск: AL 288, Neanderthal, Kenya, Feldesman..." aria-label="Поиск по базе"><span class="rsub" id="dbcount"></span>
+    <a class="btn sm" href="data/will2017.json" download>Скачать JSON</a></div>
+  <div class="scroll"><table class="t" id="dbt"></table></div>
+</section>
 
-  <footer>
-    Прототип: <a href="https://github.com/devladpopov/paleocalc">github.com/devladpopov/paleocalc</a>. Автор прототипа: Vladislav Popov (PhD, University of York). Научное руководство: открыто к обсуждению.
-    Ошибку в формуле или источнике можно прислать через issue в репозитории.
-  </footer>
+<section class="block container" id="methods">
+  <div class="sec-head">
+    <div><div class="sec-num">04 / МЕТОДИКА</div><h2>Откуда <em>цифры</em></h2></div>
+    <p>Калькулятор ничего не придумывает: только опубликованные уравнения, ссылки на первоисточники с DOI и явная пометка, где коэффициенты сверены.</p>
+  </div>
+  <div class="acc">
+    <details open><summary>Как считаются интервалы</summary><div class="body">
+      <p>Если источник даёт стандартную ошибку оценки (SEE), интервал равен ±1.96·SEE: это приближённый 95% интервал предсказания (так у Trotter и Gleser).</p>
+      <p>Если не даёт, применяется конвенция ±20% для массы тела (Ruff 2010) и ±10% для роста, как в базе Will et al. 2017. Это ориентир, а не статистически выведенный интервал.</p>
+      <p>Независимая проверка на 253 британцах с известной массой (Elliott et al. 2015) показала среднюю абсолютную ошибку уравнений по головке бедра 17-20%, то есть ±20% честно отражает порядок ошибки даже для современных людей.</p></div></details>
+    <details><summary>Какие формулы выбирать для ископаемых</summary><div class="body">
+      <p>McHenry 1992 построена на небольших людях (включая койсан и пигмеев) и подходит для мелких гоминид вроде австралопитеков. Grine et al. 1995 подходит для крупных поздних Homo. Для средних размеров Auerbach и Ruff (2004) советуют среднее трёх уравнений: Ruff 1991, McHenry 1992 и Grine 1995.</p>
+      <p>Отношение бедро/рост (Feldesman et al. 1990) не зависит от пола и популяции и стандартно применяется к ископаемым. Уравнения Trotter и Gleser выведены на американцах середины XX века и годятся как ориентир для поздних Homo.</p></div></details>
+    <details><summary>Открытые вопросы для научной сверки</summary><div class="body">
+      <p>Поправка ×0.90 к уравнениям Ruff 1991 (избыток жира в референсной выборке США) встречается в части литературы и в прототипе не применена.</p>
+      <p>Многомерные уравнения Grabowski et al. 2015 (основа оценки Люси в базе) пока не включены: нужны коэффициенты из оригинала.</p>
+      <p>Длина большеберцовой у Trotter измерялась без медиальной лодыжки (Jantz et al. 1995).</p></div></details>
+    <details><summary>Реестр всех формул</summary><div class="body"><div style="overflow:auto"><table class="t" id="reg"></table></div></div></details>
+  </div>
+</section>
+
+<section class="block container" id="about">
+  <div class="sec-head">
+    <div><div class="sec-num">05 / О ПРОЕКТЕ</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
+  </div>
+  <div class="about">
+    <div>
+      <p>Формулы оценки размеров тела ископаемых гоминид разбросаны по десяткам статей, а у студента, преподавателя или журналиста нет одного места, где можно ввести обмер и получить оценку с источником. Палеокалькулятор собирает их в один прозрачный инструмент.</p>
+      <p>Проект некоммерческий. Код под лицензией MIT, данные с указанием авторства. Ищем научного руководителя-антрополога, который определит, какие формулы уместны для каких таксонов.</p>
+      <div class="cta"><a class="btn primary" href="https://github.com/devladpopov/paleocalc" target="_blank" rel="noopener">Код на GitHub</a>
+        <a class="btn" href="https://github.com/devladpopov/paleocalc/issues" target="_blank" rel="noopener">Сообщить об ошибке</a></div>
+    </div>
+    <ol class="road">
+      <li class="now"><b>Калькулятор по формулам</b>Рост, масса, мозг; источники и интервалы; база Will et al. 2017.</li>
+      <li><b>Сверка и расширение</b>Сверка с оригиналами, Grabowski 2015, формулы по стопе и другим элементам.</li>
+      <li><b>Открытая база обмеров</b>Сырые обмеры находок с привязкой к первоисточникам, CC BY.</li>
+      <li><b>3D-достраивание фрагментов</b>Исследовательский модуль с оценкой неопределённости.</li>
+    </ol>
+  </div>
+</section>
 </main>
+
+<footer class="container">
+  <div class="row">
+    <div>Палеокалькулятор v0.1 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
+    <div>Данные: <a class="srcl" href="https://doi.org/10.1098/rsos.171339" target="_blank" rel="noopener">Will, Pablos, Stock 2017</a>, CC BY &middot; код MIT</div>
+  </div>
+</footer>
+<div class="tip" id="tip"></div>
+
 <script src="formulas.js"></script>
 <script src="data/will2017.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const fmt = (x, d = 1) => (x == null || !isFinite(x)) ? "" : x.toFixed(d);
-function srcLink(k) { const s = SOURCES[k]; return s.doi ? `<a href="https://doi.org/${s.doi}" target="_blank">${s.cite}</a>` : s.cite; }
-function tab(t) { for (const x of ["calc", "db", "src"]) { $(x).hidden = x !== t; $("t-" + x).classList.toggle("on", x === t); } }
+const fmt = (x, d = 1) => (x == null || !isFinite(x)) ? "–" : x.toFixed(d).replace(".", ",");
+const NS = "http://www.w3.org/2000/svg";
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function srcLink(k) { const s = SOURCES[k]; return s.doi ? `<a href="https://doi.org/${s.doi}" target="_blank" rel="noopener">${esc(s.cite)}</a>` : esc(s.cite); }
+function shortSrc(k) { const s = SOURCES[k].cite; const m = s.match(/^([^,(]+?)(?:,| et al| \()/); const y = s.match(/\((\d{4})\)/); return (m ? m[1].replace(/ [A-Z]\..*$/, "") : "") + (s.includes(" et al") || (s.match(/,/g) || []).length > 2 ? " et al." : "") + (y ? " " + y[1] : ""); }
 
-// форма
-const f = $("f");
-f.insertAdjacentHTML("beforeend", `<div><label>Пол (для пол-специфичных формул)</label><select id="sex" onchange="calc()"><option value="">не определён: показать все</option><option value="M">мужской</option><option value="F">женский</option></select></div>`);
-for (const [k, v] of Object.entries(INPUTS)) f.insertAdjacentHTML("beforeend", `<div><label for="${k}">${v.label}, ${v.unit}</label><input id="${k}" type="number" step="any" min="0" oninput="calc()"></div>`);
-function val() { const o = {}; for (const k of Object.keys(INPUTS)) { const x = parseFloat($(k).value); o[k] = isFinite(x) && x > 0 ? x : null; } return o; }
-function example() { const ex = { femur: 432, tibia: 352, humerus: 310, fh: 46, stature: 165, lbib: 28, ecv: 1350 }; for (const k in ex) $(k).value = ex[k]; calc(); }
-function clearAll() { for (const k of Object.keys(INPUTS)) $(k).value = ""; calc(); }
+// тема
+$("themeToggle").onclick = () => { const h = document.documentElement, n = h.dataset.theme === "dark" ? "light" : "dark"; h.dataset.theme = n; localStorage.setItem("theme", n); drawAll(); };
 
-function rows(group, v, sex) {
+// tooltip
+const tip = $("tip");
+function showTip(html, e) { tip.innerHTML = html; tip.style.opacity = 1; moveTip(e); }
+function moveTip(e) { const w = tip.offsetWidth, h = tip.offsetHeight; let x = e.clientX + 14, y = e.clientY + 14; if (x + w > innerWidth - 8) x = e.clientX - w - 14; if (y + h > innerHeight - 8) y = e.clientY - h - 14; tip.style.left = x + "px"; tip.style.top = y + "px"; }
+function hideTip() { tip.style.opacity = 0; }
+
+// ---------- поля ----------
+const GROUPS = [
+  { t: "Длинные кости", h: "для роста", keys: ["femur", "tibia", "humerus"] },
+  { t: "Бедро и таз", h: "для массы тела", keys: ["fh", "lbib", "stature"] },
+  { t: "Череп", h: "для мозга и энцефализации", keys: ["ecv", "bm"] },
+];
+const HINT = { femur: "максимальная длина", fh: "FHD, вертикальный диаметр", stature: "пусто: возьмём оценку по бедру", lbib: "прижизненная, не скелетная", bm: "пусто: возьмём оценку по головке бедра", ecv: "объём мозговой полости" };
+const LABEL = { femur: "Бедренная кость", tibia: "Большеберцовая", humerus: "Плечевая кость", fh: "Головка бедра", stature: "Рост", lbib: "Ширина таза (LBIB)", ecv: "Объём эндокрана", bm: "Масса тела для EQ" };
+$("fields").innerHTML = GROUPS.map(g => `<div class="fgroup"><h3>${g.t}<span>${g.h}</span></h3><div class="frow">` +
+  g.keys.map(k => `<div class="field"><label for="${k}">${LABEL[k]}</label><div class="in"><input id="${k}" type="number" inputmode="decimal" step="any" min="0" placeholder="–"><span class="u">${INPUTS[k].unit}</span></div><div class="hint">${HINT[k] || "&nbsp;"}</div></div>`).join("") + `</div></div>`).join("");
+let SEX = "";
+$("sexSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; SEX = b.dataset.v; for (const x of $("sexSeg").children) x.classList.toggle("on", x === b); calc(); };
+for (const k of Object.keys(INPUTS)) { const el = $(k); el.addEventListener("input", calc); el.addEventListener("focus", () => focusPart(k)); el.addEventListener("blur", () => focusPart(null)); }
+document.querySelectorAll("#skel g.part").forEach(g => g.addEventListener("click", () => { const el = $(g.dataset.k); el.focus(); el.scrollIntoView({ block: "center", behavior: "smooth" }); }));
+function focusPart(k) { document.querySelectorAll("#skel g.part").forEach(g => g.classList.toggle("focus", g.dataset.k === k)); }
+$("demoBtn").onclick = () => { const ex = { femur: 452, tibia: 370, humerus: 325, fh: 47, stature: "", lbib: 28, ecv: 1350, bm: "" }; for (const k in ex) $(k).value = ex[k]; calc(); $("c-stature").scrollIntoView({ behavior: "smooth", block: "start" }); };
+$("clearBtn").onclick = () => { for (const k of Object.keys(INPUTS)) $(k).value = ""; calc(); };
+function val() { const o = {}; for (const k of Object.keys(INPUTS)) { const x = parseFloat(String($(k).value).replace(",", ".")); o[k] = isFinite(x) && x > 0 ? x : null; } return o; }
+
+// ---------- расчёт ----------
+let LAST = { bm: null, st: null };
+function rows(group, v) {
   const out = [];
   for (const fo of FORMULAS.filter(x => x.group === group)) {
     if (!fo.inputs.every(k => v[k] != null)) continue;
-    if (sex && fo.sex && fo.sex !== sex) continue;
-    const est = fo.fn(v), ci = intervalOf(fo, est);
-    out.push({ fo, est, ci });
+    if (SEX && fo.sex && fo.sex !== SEX) continue;
+    const est = fo.fn(v); out.push({ fo, est, ci: intervalOf(fo, est) });
   }
   return out;
 }
-function table(rs, unit) {
-  if (!rs.length) return null;
-  return `<table><tr><th>Формула</th><th>Оценка, ${unit}</th><th>Интервал</th><th>Основание интервала и примечания</th></tr>` +
-    rs.map(({ fo, est, ci }) => `<tr><td>${fo.name}<div class="f">${fo.formula}</div><div class="src">${srcLink(fo.src)}</div></td>
-      <td class="num"><b>${fmt(est)}</b></td><td class="num">${ci ? fmt(ci[0]) + " – " + fmt(ci[1]) : "не указан"}</td>
-      <td class="src">${fo.interval.basis}.<br>${fo.note || ""}<details><summary>сверка</summary>${fo.check}</details></td></tr>`).join("") + `</table>`;
+function forest(rs, unit, d = 1) {
+  const lo = Math.min(...rs.map(r => r.ci ? r.ci[0] : r.est)), hi = Math.max(...rs.map(r => r.ci ? r.ci[1] : r.est));
+  const pad = (hi - lo) * 0.08 || 1, a = lo - pad, b = hi + pad, X = x => ((x - a) / (b - a)) * 100;
+  const ticks = niceTicks(a, b, 5);
+  const grid = ticks.map(t => `<line x1="${X(t)}%" x2="${X(t)}%" y1="0" y2="26" stroke="var(--border)"/>`).join("");
+  const body = rs.map((r, i) => {
+    const ci = r.ci ? `<line x1="${X(r.ci[0])}%" x2="${X(r.ci[1])}%" y1="13" y2="13" stroke="var(--accent)" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>` : "";
+    return `<div class="frow2" data-i="${i}"><div class="nm">${esc(r.fo.name.split(",")[0])}<span>${esc(r.fo.name.split(",").slice(1).join(",").trim())}</span></div>
+      <svg>${grid}${ci}<circle cx="${X(r.est)}%" cy="13" r="5" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"/></svg>
+      <div class="val">${fmt(r.est, d)} ${unit}<span>${r.ci ? fmt(r.ci[0], d) + "–" + fmt(r.ci[1], d) : "без интервала"}</span></div></div>`;
+  }).join("");
+  const axis = `<div class="axisrow"><div class="sp"></div><svg class="ax">${ticks.map(t => `<text x="${X(t)}%" y="14" text-anchor="middle">${fmt(t, Math.abs(b - a) < 5 ? 1 : 0)}</text>`).join("")}</svg><div class="sp"></div></div>`;
+  return `<div class="forest">${body}${axis}</div>`;
 }
+function detailTable(rs, unit) {
+  return `<details class="more"><summary>Формулы, источники и сверка</summary><div style="overflow:auto"><table class="t"><tr><th>Формула</th><th>Оценка</th><th>Интервал и примечания</th></tr>` +
+    rs.map(({ fo, est, ci }) => `<tr><td>${esc(fo.name)}<div class="mono">${esc(fo.formula)}</div><div class="src">${srcLink(fo.src)}</div></td><td class="num">${fmt(est)} ${unit}<br><span class="mono">${ci ? fmt(ci[0]) + "–" + fmt(ci[1]) : "без интервала"}</span></td><td>${esc(fo.interval.basis)}. ${esc(fo.note || "")}<div class="mono" style="margin-top:4px">Сверка: ${esc(fo.check)}</div></td></tr>`).join("") + `</table></div></details>`;
+}
+function hookForest(card, rs) {
+  card.querySelectorAll(".frow2").forEach(row => {
+    const r = rs[+row.dataset.i];
+    row.onmousemove = e => showTip(`<b>${esc(r.fo.name)}</b><div class="mono">${esc(r.fo.formula)}</div><div class="m" style="margin-top:4px">${esc(r.fo.interval.basis)}</div><div class="m" style="margin-top:4px">${esc(shortSrc(r.fo.src))}</div>`, e);
+    row.onmouseleave = hideTip;
+  });
+}
+function card(id, title, headline, sub, inner) { $(id).innerHTML = `<div class="rtop"><div><div class="rtitle">${title}</div>${headline}</div><div class="rsub">${sub}</div></div>${inner}`; }
+
 function calc() {
-  const v = val(), sex = $("sex").value;
-  const st = rows("stature", v, sex), ms = rows("mass", v, sex), br = rows("brain", v, sex);
-  $("r-stature").innerHTML = table(st, "см") || "Введите длину бедренной, большеберцовой или плечевой кости.";
-  let mh = table(ms, "кг");
-  const fhr = ms.filter(r => r.fo.inputs.includes("fh") && ["ruff91-c", "mch92", "grine95"].includes(r.fo.id));
-  let fhMean = null;
-  if (fhr.length === 3) { fhMean = fhr.reduce((a, r) => a + r.est, 0) / 3;
-    mh += `<p>Среднее Ruff 1991 (оба пола), McHenry 1992 и Grine 1995, как рекомендуют Auerbach & Ruff 2004: <b>${fmt(fhMean)} кг</b> (${fmt(fhMean * 0.8)} – ${fmt(fhMean * 1.2)}, ±20%).</p>`; }
-  $("r-mass").innerHTML = mh || "Введите диаметр головки бедра или рост с шириной таза.";
-  if (!br.length) { $("r-brain").innerHTML = "Введите объём эндокрана."; return; }
-  let bh = table(br, "г");
-  const brain = br[0].est, bm = v.bm || fhMean;
-  if (bm) {
-    const bmSrc = v.bm ? "введённая масса" : "среднее трёх уравнений по головке бедра, интервал по ±20% массы";
-    const lo = v.bm ? bm : bm * 0.8, hi = v.bm ? bm : bm * 1.2;
-    bh += `<table><tr><th>Индекс энцефализации</th><th>EQ</th><th>Диапазон по интервалу массы</th><th>Масса тела</th></tr>` +
-      EQ_FORMULAS.map(e => `<tr><td>${e.name}<div class="f">${e.formula}</div><div class="src">${srcLink(e.src)}</div></td>
-        <td class="num"><b>${fmt(e.fn(brain, bm), 2)}</b></td><td class="num">${v.bm ? "масса задана точно" : fmt(e.fn(brain, hi), 2) + " – " + fmt(e.fn(brain, lo), 2)}</td>
-        <td class="src">${fmt(bm)} кг, ${bmSrc}</td></tr>`).join("") + `</table>`;
-  } else bh += `<p class="src">Для EQ введите массу тела или диаметр головки бедра.</p>`;
-  $("r-brain").innerHTML = bh;
+  const v = val();
+  document.querySelectorAll("#skel g.part").forEach(g => g.classList.toggle("has", v[g.dataset.k] != null));
+  // рост
+  const st = rows("stature", v);
+  let stEst = null;
+  if (st.length) {
+    const main = st.find(r => r.fo.id === "feld-ratio") || st[0]; stEst = main;
+    const lo = Math.min(...st.map(r => r.est)), hi = Math.max(...st.map(r => r.est));
+    card("c-stature", "Рост", `<div class="hero-n">${fmt(main.est, 0)}<small>см</small></div>`,
+      `Основная оценка: ${esc(main.fo.name.split(",")[0])}, интервал ${fmt(main.ci[0], 0)}–${fmt(main.ci[1], 0)} см. ${st.length > 1 ? `Разные формулы дают ${fmt(lo, 0)}–${fmt(hi, 0)} см.` : ""}`,
+      forest(st, "см") + detailTable(st, "см"));
+    hookForest($("c-stature"), st);
+  } else card("c-stature", "Рост", "", "", `<div class="empty">Введите длину бедренной, большеберцовой или плечевой кости.</div>`);
+  // масса: рост для морфометрических уравнений можно взять из оценки по бедру
+  const v2 = { ...v }; let stFrom = null;
+  if (v2.stature == null && v2.lbib != null && stEst) { v2.stature = stEst.est; stFrom = stEst.fo.name.split(",")[0]; }
+  const ms = rows("mass", v2);
+  const three = ms.filter(r => ["ruff91-c", "mch92", "grine95"].includes(r.fo.id));
+  const fhMean = three.length === 3 ? three.reduce((a, r) => a + r.est, 0) / 3 : null;
+  const sb = ms.filter(r => r.fo.inputs.includes("lbib"));
+  const sbM = sb.find(r => r.fo.id === "ruff00-m"), sbF = sb.find(r => r.fo.id === "ruff00-f");
+  const sbMean = sbM && sbF ? (sbM.est + sbF.est) / 2 : sbM ? sbM.est : sbF ? sbF.est : null;
+  let bmMain = fhMean ?? sbMean;
+  if (ms.length) {
+    const how = fhMean != null ? "среднее Ruff 1991, McHenry 1992 и Grine 1995 по головке бедра (Auerbach и Ruff 2004)" : "среднее мужского и женского уравнений Ruff 2000 по росту и ширине таза";
+    card("c-mass", "Масса тела", `<div class="hero-n">${fmt(bmMain, 0)}<small>кг</small></div>`,
+      `Основная оценка: ${how}, интервал ±20%: ${fmt(bmMain * .8, 0)}–${fmt(bmMain * 1.2, 0)} кг.${stFrom ? ` Рост для уравнений с тазом взят из оценки ${esc(stFrom)}.` : ""}`,
+      forest(ms, "кг") + detailTable(ms, "кг"));
+    hookForest($("c-mass"), ms);
+  } else card("c-mass", "Масса тела", "", "", `<div class="empty">Введите диаметр головки бедра или ширину таза вместе с ростом.</div>`);
+  // мозг
+  const br = rows("brain", v);
+  if (br.length) {
+    const brain = br[0].est, bm = v.bm || bmMain;
+    let eq = "";
+    if (bm) {
+      const exact = !!v.bm, lo = exact ? bm : bm * .8, hi = exact ? bm : bm * 1.2;
+      eq = `<div class="forest">` + EQ_FORMULAS.map(e => `<div class="frow2"><div class="nm">${esc(e.name)}<span class="mono">${esc(e.formula)}</span></div>
+        <div class="rsub">${exact ? "масса тела задана" : `при массе ${fmt(lo, 0)}–${fmt(hi, 0)} кг: EQ ${fmt(e.fn(brain, hi), 2)}–${fmt(e.fn(brain, lo), 2)}`}. ${shortSrc(e.src)}</div>
+        <div class="val">EQ ${fmt(e.fn(brain, bm), 2)}</div></div>`).join("") + `</div>`;
+    }
+    card("c-brain", "Мозг", `<div class="hero-n">${fmt(brain, 0)}<small>г</small></div>`,
+      `Масса мозга по объёму эндокрана (Ruff et al. 1997). ${bm ? `Энцефализация при массе тела ${fmt(bm, 0)} кг${v.bm ? "" : " (из оценки выше)"}. Для сравнения: у современного человека EQ по Martin около 5.` : "Для EQ нужна масса тела: введите её или диаметр головки бедра."}`,
+      eq + detailTable(br, "г"));
+  } else card("c-brain", "Мозг", "", "", `<div class="empty">Введите объём эндокрана, чтобы оценить массу мозга и энцефализацию.</div>`);
+  LAST = { bm: bmMain ? { est: bmMain, lo: bmMain * .8, hi: bmMain * 1.2 } : null, st: stEst ? { est: stEst.est, lo: stEst.ci[0], hi: stEst.ci[1] } : null };
+  drawScatter();
 }
+
+// ---------- данные и группы ----------
+const DB = (window.WILL2017 || []).filter(r => r.specimen);
+const GRP = t => !t || t === "?" ? 0 : /^(Au\.|P\.|Ar\.)/i.test(t) ? 1 : /sapiens|UP modern/i.test(t) ? 3 : 2;
+const GNAME = ["Таксон не указан", "Австралопитеки, парантропы, ардипитеки", "Ранние и архаичные Homo", "Homo sapiens"];
+const SHAPE = ["circle", "triangle", "square", "circle"];
+DB.forEach(r => r.g = GRP(r.taxon));
+const OFF = new Set();
+function css(v) { return getComputedStyle(document.body).getPropertyValue(v).trim(); }
+function mark(g, x, y, s = 4.5) {
+  if (SHAPE[g] === "square") return `<rect x="${x - s}" y="${y - s}" width="${2 * s}" height="${2 * s}" rx="1.5"`;
+  if (SHAPE[g] === "triangle") return `<path d="M${x} ${y - s * 1.25} L${x + s * 1.15} ${y + s * .85} L${x - s * 1.15} ${y + s * .85}Z"`;
+  return `<circle cx="${x}" cy="${y}" r="${s}"`;
+}
+function niceTicks(a, b, n) { const span = b - a, step0 = span / n, p = Math.pow(10, Math.floor(Math.log10(step0))), m = step0 / p, step = (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p; const out = []; for (let t = Math.ceil(a / step) * step; t <= b + 1e-9; t += step) out.push(+t.toFixed(10)); return out; }
+let METRIC = "bm", SELTAX = "", SELSPEC = null;
+const taxa = [...new Set(DB.map(r => r.taxon).filter(t => t && t !== "?"))].sort();
+$("taxSel").insertAdjacentHTML("beforeend", taxa.map(t => `<option>${esc(t)}</option>`).join(""));
+$("taxSel").onchange = e => { SELTAX = e.target.value; drawScatter(); };
+$("metricSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; METRIC = b.dataset.v; for (const x of $("metricSeg").children) x.classList.toggle("on", x === b); drawAll(); };
+function drawLegend() {
+  const cnt = [0, 1, 2, 3].map(g => DB.filter(r => r.g === g && r[METRIC] && r.mya != null).length);
+  $("legend").innerHTML = [1, 2, 3, 0].filter(g => cnt[g]).map(g => `<span class="li ${OFF.has(g) ? "off" : ""}" data-g="${g}"><svg viewBox="-6 -6 12 12">${mark(g, 0, 0, 4.5)} fill="var(--s${g})"/></svg>${GNAME[g]} (${cnt[g]})</span>`).join("");
+  $("legend").querySelectorAll(".li").forEach(el => el.onclick = () => { const g = +el.dataset.g; OFF.has(g) ? OFF.delete(g) : OFF.add(g); drawScatter(); });
+}
+function drawScatter() {
+  drawLegend();
+  const svg = $("scatter"), W = 960, H = 440, m = { l: 58, r: 24, t: 18, b: 48 };
+  const pts = DB.filter(r => r[METRIC] && r.mya != null && !OFF.has(r.g));
+  const all = DB.filter(r => r[METRIC] && r.mya != null);
+  const tmax = 4.5, sx = t => m.l + (1 - Math.sqrt(t / tmax)) * (W - m.l - m.r);
+  const me = LAST[METRIC];
+  let ylo = Math.min(...all.map(r => r[METRIC])), yhi = Math.max(...all.map(r => r[METRIC]));
+  if (me) { ylo = Math.min(ylo, me.lo); yhi = Math.max(yhi, me.hi); }
+  const yp = (yhi - ylo) * .06; ylo -= yp; yhi += yp;
+  const sy = y => m.t + (1 - (y - ylo) / (yhi - ylo)) * (H - m.t - m.b);
+  const xt = [4, 3, 2, 1, 0.5, 0.2, 0.05, 0];
+  let s = `<g class="grid">${niceTicks(ylo, yhi, 6).map(t => `<line x1="${m.l}" x2="${W - m.r}" y1="${sy(t)}" y2="${sy(t)}"/>`).join("")}</g>`;
+  s += `<g class="ax">${niceTicks(ylo, yhi, 6).map(t => `<text x="${m.l - 10}" y="${sy(t) + 4}" text-anchor="end">${t}</text>`).join("")}${xt.map(t => `<line x1="${sx(t)}" x2="${sx(t)}" y1="${H - m.b}" y2="${H - m.b + 5}"/><text x="${sx(t)}" y="${H - m.b + 19}" text-anchor="middle">${String(t).replace(".", ",")}</text>`).join("")}<line x1="${m.l}" x2="${W - m.r}" y1="${H - m.b}" y2="${H - m.b}"/></g>`;
+  s += `<text class="axt" x="${(W + m.l) / 2}" y="${H - 6}" text-anchor="middle">миллионов лет назад</text><text class="axt" transform="translate(14 ${(H - m.b) / 2}) rotate(-90)" text-anchor="middle">${METRIC === "bm" ? "масса тела, кг" : "рост, см"}</text>`;
+  if (me) {
+    s += `<rect x="${m.l}" width="${W - m.l - m.r}" y="${sy(me.hi)}" height="${sy(me.lo) - sy(me.hi)}" fill="var(--accent-band)"/><line x1="${m.l}" x2="${W - m.r}" y1="${sy(me.est)}" y2="${sy(me.est)}" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>`;
+    s += `<text class="lbl" x="${W - m.r - 6}" y="${sy(me.hi) - 6}" text-anchor="end">Ваша оценка: ${fmt(me.est, 0)} ${METRIC === "bm" ? "кг" : "см"} (${fmt(me.lo, 0)}–${fmt(me.hi, 0)})</text>`;
+  }
+  s += pts.map(r => { const i = DB.indexOf(r), dim = (SELTAX && r.taxon !== SELTAX) ? " dim" : "", sel = SELSPEC === i ? " sel" : "";
+    return `${mark(r.g, sx(r.mya), sy(r[METRIC]), SELSPEC === i ? 7 : 4.5)} class="pt${dim}${sel}" fill="var(--s${r.g})" data-i="${i}"/>`; }).join("");
+  if (SELSPEC != null && DB[SELSPEC][METRIC] && DB[SELSPEC].mya != null) { const r = DB[SELSPEC];
+    s += `<text class="lbl" x="${sx(r.mya) + 10}" y="${sy(r[METRIC]) - 10}">${esc(r.specimen)}</text>`; }
+  s += pts.map(r => `<circle cx="${sx(r.mya)}" cy="${sy(r[METRIC])}" r="10" fill="transparent" data-h="${DB.indexOf(r)}" style="cursor:pointer"/>`).join("");
+  svg.innerHTML = s;
+  svg.querySelectorAll("[data-h]").forEach(c => { const r = DB[+c.dataset.h];
+    c.onmousemove = e => showTip(specTip(r), e); c.onmouseleave = hideTip;
+    c.onclick = () => { SELSPEC = +c.dataset.h; drawScatter(); }; });
+}
+function specTip(r) {
+  const bm = r.bm ? `${fmt(r.bm)} кг${r.bm_lo ? ` (${fmt(r.bm_lo)}–${fmt(r.bm_hi)})` : ""}` : "–", st = r.st ? `${fmt(r.st)} см${r.st_lo ? ` (${fmt(r.st_lo)}–${fmt(r.st_hi)})` : ""}` : "–";
+  return `<b>${esc(r.specimen)}</b><div class="m">${esc(r.taxon || "таксон не указан")} &middot; ${r.mya != null ? String(r.mya).replace(".", ",") + " млн лет" : ""} ${r.sex ? "&middot; " + r.sex : ""}</div><div style="margin-top:6px">Масса: ${bm}<br>Рост: ${st}</div><div class="m" style="margin-top:6px">${esc(METRIC === "bm" ? (r.bm_method || "") : (r.st_method || ""))}</div>`;
+}
+function drawTaxa() {
+  const W = 960, m = { l: 190, r: 70, t: 10, b: 40 };
+  const by = {}; DB.filter(r => r[METRIC] && r.taxon && r.taxon !== "?").forEach(r => { const k = r.taxon.replace(/^Au\. Africanus$/, "Au. africanus"); (by[k] = by[k] || []).push(r); });
+  const list = Object.entries(by).filter(([, a]) => a.length >= 2).map(([k, a]) => { const v = a.map(r => r[METRIC]).sort((x, y) => x - y); const ages = a.map(r => r.mya).filter(x => x != null);
+    return { k, n: a.length, g: a[0].g, min: v[0], max: v[v.length - 1], med: v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2, age: ages.reduce((s, x) => s + x, 0) / (ages.length || 1) }; })
+    .sort((a, b) => b.age - a.age);
+  const rowH = 30, H = m.t + m.b + list.length * rowH, svg = $("taxa"); svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const lo = Math.min(...list.map(d => d.min)), hi = Math.max(...list.map(d => d.max)), p = (hi - lo) * .05, a = lo - p, b = hi + p;
+  const sx = x => m.l + (x - a) / (b - a) * (W - m.l - m.r), ticks = niceTicks(a, b, 6);
+  const me = LAST[METRIC];
+  let s = `<g class="grid">${ticks.map(t => `<line x1="${sx(t)}" x2="${sx(t)}" y1="${m.t}" y2="${H - m.b}"/>`).join("")}</g>`;
+  if (me) s += `<rect x="${sx(Math.max(a, me.lo))}" width="${sx(Math.min(b, me.hi)) - sx(Math.max(a, me.lo))}" y="${m.t}" height="${H - m.b - m.t}" fill="var(--accent-band)"/><line x1="${sx(me.est)}" x2="${sx(me.est)}" y1="${m.t}" y2="${H - m.b}" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>`;
+  s += list.map((d, i) => { const y = m.t + i * rowH + rowH / 2;
+    return `<g data-k="${esc(d.k)}" style="cursor:pointer"><rect x="0" y="${y - rowH / 2}" width="${W}" height="${rowH}" fill="transparent"/><text class="lbl2" x="${m.l - 14}" y="${y + 4}" text-anchor="end">${esc(d.k)}</text>
+      <line x1="${sx(d.min)}" x2="${sx(d.max)}" y1="${y}" y2="${y}" stroke="var(--s${d.g})" stroke-width="2" stroke-linecap="round"/>${mark(d.g, sx(d.med), y, 5.5)} fill="var(--s${d.g})" class="pt"/>
+      <text class="lbl2" x="${sx(d.max) + 10}" y="${y + 4}">n=${d.n}</text></g>`; }).join("");
+  s += `<g class="ax">${ticks.map(t => `<text x="${sx(t)}" y="${H - m.b + 18}" text-anchor="middle">${t}</text>`).join("")}</g><text class="axt" x="${(W + m.l) / 2}" y="${H - 4}" text-anchor="middle">${METRIC === "bm" ? "масса тела, кг" : "рост, см"}</text>`;
+  svg.innerHTML = s; $("taxaTitle").textContent = METRIC === "bm" ? "Масса тела по таксонам" : "Рост по таксонам";
+  svg.querySelectorAll("g[data-k]").forEach(g => { const d = list.find(x => x.k === g.dataset.k);
+    g.onmousemove = e => showTip(`<b>${esc(d.k)}</b><div class="m">${d.n} находок, средняя датировка ${fmt(d.age, 2)} млн лет</div><div style="margin-top:6px">Медиана ${fmt(d.med)} ${METRIC === "bm" ? "кг" : "см"}<br>Размах ${fmt(d.min)}–${fmt(d.max)}</div><div class="m" style="margin-top:6px">Нажмите, чтобы выделить на шкале</div>`, e);
+    g.onmouseleave = hideTip; g.onclick = () => { const t = DB.find(r => r.taxon && r.taxon.replace(/^Au\. Africanus$/, "Au. africanus") === d.k).taxon; SELTAX = t; $("taxSel").value = t; drawScatter(); $("tree").scrollIntoView({ behavior: "smooth" }); }; });
+}
+function drawAll() { drawScatter(); drawTaxa(); }
+
+// ---------- база ----------
+function renderDb() {
+  const q = $("q").value.toLowerCase().trim();
+  const rs = DB.filter(r => !q || [r.specimen, r.taxon, r.country, r.bm_method, r.st_method].join(" ").toLowerCase().includes(q));
+  $("dbcount").textContent = `${rs.length} из ${DB.length}`;
+  $("dbt").innerHTML = `<tr><th>Находка</th><th>Таксон</th><th>Млн лет</th><th>Пол</th><th>Масса, кг</th><th>Рост, см</th><th>Метод</th></tr>` +
+    rs.map(r => `<tr data-i="${DB.indexOf(r)}"><td><span class="dot" style="background:var(--s${r.g})"></span>${esc(r.specimen)}</td><td>${esc(r.taxon || "")}</td><td class="num">${r.mya != null ? String(r.mya).replace(".", ",") : ""}</td><td>${esc(r.sex || "")}</td>
+      <td class="num">${r.bm ? fmt(r.bm) : ""}${r.bm_lo ? `<br><span class="mono">${fmt(r.bm_lo)}–${fmt(r.bm_hi)}</span>` : ""}</td><td class="num">${r.st ? fmt(r.st) : ""}${r.st_lo ? `<br><span class="mono">${fmt(r.st_lo)}–${fmt(r.st_hi)}</span>` : ""}</td>
+      <td class="mono">${esc([r.bm_method, r.st_method].filter(Boolean).join(" / "))}</td></tr>`).join("");
+  $("dbt").querySelectorAll("tr[data-i]").forEach(tr => tr.onclick = () => locate(+tr.dataset.i));
+}
+function locate(i) { const r = DB[i]; SELSPEC = i; SELTAX = ""; $("taxSel").value = ""; if (!r[METRIC] && r[METRIC === "bm" ? "st" : "bm"]) $("metricSeg").querySelector(`[data-v="${METRIC === "bm" ? "st" : "bm"}"]`).click(); else drawScatter(); $("tree").scrollIntoView({ behavior: "smooth" }); }
+$("q").addEventListener("input", renderDb);
+$("lucyBtn").onclick = () => locate(DB.findIndex(r => r.specimen === "AL 288-1"));
 
 // реестр
-$("srclist").innerHTML = `<table><tr><th>Формула</th><th>Вход</th><th>Интервал</th><th>Источник</th><th>Сверка</th></tr>` +
-  FORMULAS.map(fo => `<tr><td>${fo.name}<div class="f">${fo.formula}</div></td><td class="src">${fo.inputs.map(k => INPUTS[k].label + ", " + INPUTS[k].unit).join("; ")}</td>
-  <td class="src">${fo.interval.basis}</td><td class="src">${srcLink(fo.src)}</td><td class="src">${fo.check}</td></tr>`).join("") +
-  EQ_FORMULAS.map(e => `<tr><td>${e.name}<div class="f">${e.formula}</div></td><td class="src">масса мозга, масса тела</td><td class="src">по интервалу массы тела</td><td class="src">${srcLink(e.src)}</td><td class="src">${e.check}</td></tr>`).join("") +
-  `</table><p class="src">Вторичные источники для сверки: ${srcLink("ELLIOTT2015")}; ${srcLink("WILL2017")}; ${srcLink("RUFF2010")}.</p>`;
+$("reg").innerHTML = `<tr><th>Формула</th><th>Интервал</th><th>Источник</th><th>Сверка</th></tr>` +
+  FORMULAS.map(fo => `<tr><td>${esc(fo.name)}<div class="mono">${esc(fo.formula)}</div></td><td>${esc(fo.interval.basis)}</td><td class="src">${srcLink(fo.src)}</td><td>${esc(fo.check)}</td></tr>`).join("") +
+  EQ_FORMULAS.map(e => `<tr><td>${esc(e.name)}<div class="mono">${esc(e.formula)}</div></td><td>по интервалу массы тела</td><td class="src">${srcLink(e.src)}</td><td>${esc(e.check)}</td></tr>`).join("") +
+  `<tr><td colspan="4">Вторичные источники сверки: <span class="src">${srcLink("ELLIOTT2015")}; ${srcLink("WILL2017")}</span></td></tr>`;
 
-// база
-const DB = window.WILL2017 || [];
-const taxa = [...new Set(DB.map(r => r.taxon).filter(Boolean))].sort();
-$("tx").insertAdjacentHTML("beforeend", taxa.map(t => `<option>${t}</option>`).join(""));
-function renderDb() {
-  const q = $("q").value.toLowerCase(), tx = $("tx").value;
-  const rs = DB.filter(r => (!tx || r.taxon === tx) && (!q || [r.specimen, r.taxon, r.country].join(" ").toLowerCase().includes(q)));
-  $("dbcount").textContent = `Записей: ${rs.length} из ${DB.length}`;
-  $("dbt").innerHTML = `<tr><th>Образец</th><th>Таксон</th><th>Млн лет</th><th>Пол</th><th>Масса, кг (интервал)</th><th>Элемент / метод массы</th><th>Рост, см (интервал)</th><th>Метод роста</th></tr>` +
-    rs.map(r => `<tr><td>${r.specimen}</td><td>${r.taxon || ""}</td><td class="num">${r.mya ?? ""}</td><td>${r.sex || ""}</td>
-      <td class="num">${fmt(r.bm)}${r.bm_lo ? ` (${fmt(r.bm_lo)}–${fmt(r.bm_hi)})` : ""}</td><td class="src">${r.bm_el || ""}${r.bm_method ? "; " + r.bm_method : ""}</td>
-      <td class="num">${fmt(r.st)}${r.st_lo ? ` (${fmt(r.st_lo)}–${fmt(r.st_hi)})` : ""}</td><td class="src">${r.st_method || ""}</td></tr>`).join("");
-}
-renderDb();
+$("st-f").textContent = FORMULAS.length + EQ_FORMULAS.length; $("st-d").textContent = DB.length;
+renderDb(); calc(); drawTaxa();
 </script>
 </body>
 </html>
