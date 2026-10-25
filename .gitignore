@@ -11,3 +11,4 @@ letter*.md
 .playwright-mcp/
 recent-messages.jsonl
 img/raw/
+img/ref/

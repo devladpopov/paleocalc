@@ -2,7 +2,8 @@
 from pathlib import Path
 from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
-for src in sorted((ROOT / "img" / "raw").glob("*.png")):
+import sys
+for src in [ROOT / "img" / "raw" / f"{k}.png" for k in sys.argv[1:]] or sorted((ROOT / "img" / "raw").glob("*.png")):
     im = Image.open(src).convert("RGBA")
     a = im.getchannel("A").point(lambda v: 255 if v > 24 else 0)
     im = im.crop(a.getbbox())

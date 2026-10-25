@@ -663,7 +663,7 @@ $("q").addEventListener("input", renderDb);
 $("lucyBtn").onclick = () => locate(DB.findIndex(r => r.specimen === "AL 288-1"));
 
 // ---------- Вы и Люси ----------
-const SKIMG = { lucy: 376 / 900, turkana: 331 / 900, ferrassie: 340 / 900, hobbit: 362 / 900, "modern-short": 284 / 900, "modern-mid": 285 / 900, "modern-tall": 281 / 900 };
+const SKIMG = { lucy: 270 / 900, turkana: 331 / 900, ferrassie: 340 / 900, hobbit: 362 / 900, "modern-short": 284 / 900, "modern-mid": 285 / 900, "modern-tall": 281 / 900 };
 const SKHREF = {};
 const modernImg = u => u.sex === "F" ? (u.st > 178 ? "modern-mid" : "modern-short") : u.sex === "M" ? (u.st < 165 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid") : (u.st < 163 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid");
 const YS = [
