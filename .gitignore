@@ -9,3 +9,4 @@ letter*.md
 .shot*.jpg
 .work-shot*
 .playwright-mcp/
+recent-messages.jsonl
