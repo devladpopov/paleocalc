@@ -41,4 +41,8 @@ require("../data/sites.js"); require("../data/world.js");
 const sites = window.SITES.map(s => ({ ...s, re: new RegExp(s.m) }));
 for (const r of db) { const m = sites.filter(s => s.re.test(r.specimen)); assert.strictEqual(m.length, 1, "site for " + r.specimen + ": " + m.length); }
 for (const s of sites) { assert(s.lon >= window.WORLD.lon0 && s.lat <= window.WORLD.lat1 && s.lat >= -40 && s.lon <= 135, "site in frame " + s.n); }
+// страница: все встроенные скрипты index.html синтаксически целы (25.10: комментарий // съел return и сломал сайт)
+{ const html = require("fs").readFileSync(require("path").join(__dirname, "../index.html"), "utf8"); let n = 0;
+  for (const m of html.matchAll(/<script(?![^>]*src=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)) { n++; try { new Function(m[1]); } catch (e) { assert.fail("index.html inline script #" + n + ": " + e.message); } }
+  assert(n >= 2, "inline scripts found: " + n); }
 console.log(`OK: ${FORMULAS.length + EQ_FORMULAS.length} формул, ${db.length} записей базы, ${sites.length} местонахождений. EQ Martin=${eqm.toFixed(2)}, Jerison=${eqj.toFixed(2)}`);
