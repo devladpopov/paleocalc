@@ -126,6 +126,12 @@ function intervalOf(f, est) {
 // обращений трёх уравнений Auerbach & Ruff 2004; обращение регрессии смещено, поэтому только ориентир.
 const REVERSE = {
   femurFromStature: st => st / 3.7456 * 10, // мм
+  // Большеберцовая и плечевая: обращение Trotter & Gleser 1952 (белые мужчины), как в калькуляторе
+  tibiaFromStature: st => (st - 78.62) / 2.52 * 10, // мм
+  humerusFromStature: st => (st - 70.45) / 3.08 * 10, // мм
+  // Ширина таза LBIB по росту и массе: обращение Ruff 2000 (по полу, без пола среднее мужского и женского)
+  lbibFromMass: (st, bm, sex) => sex === "M" ? (bm - 0.37 * st + 82.5) / 3.03 : sex === "F" ? (bm - 0.52 * st + 75.5) / 1.81
+    : (bm - 0.445 * st + 79) / 2.42, // см
   fhFromMass: bm => ((bm + 24.8) / 2.160 + (bm + 39.9) / 2.239 + (bm + 36.5) / 2.268) / 3, // мм
   brainFromEcv: ecv => 1.147 * Math.pow(ecv, 0.976), // г, Ruff et al. 1997
   eqMartin: (ecv, bm) => EQ_FORMULAS[0].fn(1.147 * Math.pow(ecv, 0.976), bm),

@@ -25,6 +25,17 @@ near(REVERSE.femurFromStature(105), 280.3, 0.1, "femur from stature");
 near(REVERSE.fhFromMass(26), 26.8, 0.1, "FH from mass");
 for (const bm of [26, 50, 70, 90]) { const fh = REVERSE.fhFromMass(bm), m3 = ["ruff91-c", "mch92", "grine95"].reduce((s, id) => s + by(id).fn({ fh }), 0) / 3; near(m3, bm, 1, "FH roundtrip " + bm); }
 near(REVERSE.bmi(172, 72), 24.34, 0.01, "BMI");
+// обратный пересчёт для калькулятора (режим «ваш рост и вес»): формулы возвращают исходные рост и массу
+for (const st of [105, 160, 190]) {
+  near(by("tg-tib-wm").fn({ tibia: REVERSE.tibiaFromStature(st) }), st, 1e-9, "tibia roundtrip " + st);
+  near(by("tg-hum-wm").fn({ humerus: REVERSE.humerusFromStature(st) }), st, 1e-9, "humerus roundtrip " + st);
+}
+for (const [st, bm] of [[172, 72], [150, 45], [190, 95]]) {
+  near(by("ruff00-m").fn({ stature: st, lbib: REVERSE.lbibFromMass(st, bm, "M") }), bm, 1e-9, "LBIB M");
+  near(by("ruff00-f").fn({ stature: st, lbib: REVERSE.lbibFromMass(st, bm, "F") }), bm, 1e-9, "LBIB F");
+  const lb = REVERSE.lbibFromMass(st, bm, ""); near((by("ruff00-m").fn({ stature: st, lbib: lb }) + by("ruff00-f").fn({ stature: st, lbib: lb })) / 2, bm, 1e-9, "LBIB mean");
+}
+near(REVERSE.lbibFromMass(172, 72, ""), 30.8, 0.1, "LBIB 172/72");
 // карта: у каждой находки ровно одно местонахождение, координаты в рамке карты
 require("../data/sites.js"); require("../data/world.js");
 const sites = window.SITES.map(s => ({ ...s, re: new RegExp(s.m) }));

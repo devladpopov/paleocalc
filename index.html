@@ -504,6 +504,14 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
 .sk-mark.est{border-top-style:dashed;border-color:var(--text-3)}.sk-mark.est span{color:var(--text-3);top:2px}
 .st-cmp{font-size:.84rem;color:var(--text-2);border-left:3px solid var(--accent);padding:6px 10px;margin:10px 0;background:var(--accent-dim)}
 .st-cmp.off{border-left-color:#b5462f}
+.mode{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:14px}
+.mode .rsub{font-size:.82rem;max-width:46ch}
+.youbox{border-color:var(--accent)}
+.youbox[hidden]{display:none}
+.field input[readonly]{color:var(--text-2);cursor:default}
+.field.model .in{border-style:dashed;background:transparent}
+.field.model .hint{color:var(--accent)}
+@media (max-width:640px){.mode .seg{width:100%;display:grid;grid-template-columns:1fr 1fr}.mode .seg button{padding:8px 4px}}
 @media(max-width:640px){
   .skel-wrap{grid-template-columns:150px minmax(0,1fr)}
   .sk-scale{height:300px;grid-row:span 2;padding-left:26px}
@@ -685,6 +693,17 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
     </div>
 
     <div>
+      <div class="mode">
+        <div class="seg" id="modeSeg" role="group" aria-label="Что вводить"><button type="button" data-v="bones" class="on">По костям</button><button type="button" data-v="you">Ваш рост и вес</button></div>
+        <div class="rsub" id="modeHint">Введите обмеры: калькулятор оценит рост, массу тела и мозг.</div>
+      </div>
+      <div class="fgroup youbox" id="youBox" hidden>
+        <h3><b class="h3t"><svg class="ic" aria-hidden="true"><use href="#i-anthro"/></svg>Вы</b><span>кости рассчитаем по модели</span></h3>
+        <div class="frow">
+          <div class="field"><label for="c-st">Ваш рост</label><div class="in"><input id="c-st" type="number" inputmode="decimal" step="any" min="50" max="250" placeholder="172"><span class="u">см</span></div><div class="hint">&nbsp;</div></div>
+          <div class="field"><label for="c-bm">Ваш вес</label><div class="in"><input id="c-bm" type="number" inputmode="decimal" step="any" min="15" max="300" placeholder="72"><span class="u">кг</span></div><div class="hint">&nbsp;</div></div>
+        </div>
+      </div>
       <div class="toolbar" style="margin-bottom:18px">
         <div class="seg" id="sexSeg" role="group" aria-label="Пол">
           <button type="button" data-v="" class="on">Пол неизвестен</button><button type="button" data-v="M">Мужской</button><button type="button" data-v="F">Женский</button>
@@ -791,7 +810,7 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
   </div>
 </div>
 
-<script src="formulas.js"></script>
+<script src="formulas.js?v=0.10"></script>
 <script src="data/will2017.js"></script>
 <script src="data/sites.js"></script>
 <script src="data/world.js"></script>
@@ -851,12 +870,43 @@ const mir = pts => pts.split(" ").map(p => { const [x, y] = p.split(","); return
   $("bones").onclick = e => { const b = e.target.closest("button"); if (b) { const el = $(b.dataset.k); el.focus(); el.scrollIntoView({ block: "center", behavior: "smooth" }); } };
 })();
 let SEX = "";
-$("sexSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; SEX = b.dataset.v; for (const x of $("sexSeg").children) x.classList.toggle("on", x === b); calc(); };
+$("sexSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; SEX = b.dataset.v; for (const x of $("sexSeg").children) x.classList.toggle("on", x === b); MODE === "you" ? fromYou() : calc(); };
 for (const k of Object.keys(INPUTS)) { const el = $(k); el.addEventListener("input", calc); el.addEventListener("focus", () => focusPart(k)); el.addEventListener("blur", () => focusPart(null)); }
 document.querySelectorAll("#skel g.part").forEach(g => g.addEventListener("click", () => { const el = $(g.dataset.k); el.focus(); el.scrollIntoView({ block: "center", behavior: "smooth" }); }));
 function focusPart(k) { document.querySelectorAll("#skel g.part").forEach(g => g.classList.toggle("focus", g.dataset.k === k)); }
-$("demoBtn").onclick = () => { const ex = { femur: 452, tibia: 370, humerus: 325, fh: 47, stature: "", lbib: 28, ecv: 1350, bm: "" }; for (const k in ex) $(k).value = ex[k]; calc(); $("c-stature").scrollIntoView({ behavior: "smooth", block: "start" }); };
-$("clearBtn").onclick = () => { for (const k of Object.keys(INPUTS)) $(k).value = ""; calc(); };
+$("demoBtn").onclick = () => { if (MODE === "you") setMode("bones"); const ex = { femur: 452, tibia: 370, humerus: 325, fh: 47, stature: "", lbib: 28, ecv: 1350, bm: "" }; for (const k in ex) $(k).value = ex[k]; calc(); $("c-stature").scrollIntoView({ behavior: "smooth", block: "start" }); };
+$("clearBtn").onclick = () => { for (const k of Object.keys(INPUTS)) $(k).value = ""; if (MODE === "you") { $("c-st").value = $("c-bm").value = ""; fromYou(); } else calc(); };
+// режим «ваш рост и вес»: кости и таз восстанавливаются обратным пересчётом формул (REVERSE в formulas.js), потом идут в обычный расчёт
+let MODE = "bones";
+const MODEL_H = { femur: "по росту: Feldesman 1990", tibia: "по росту: Trotter & Gleser 1952", humerus: "по росту: Trotter & Gleser 1952", fh: "по весу: Ruff, McHenry, Grine", lbib: "по росту и весу: Ruff 2000", stature: "ваш рост", bm: "ваш вес", ecv: "типичный объём, можно изменить" };
+document.querySelectorAll("#fields .field").forEach(f => { const h = f.querySelector(".hint"); h.dataset.h = h.innerHTML; });
+const cIn = (id, lo, hi, def) => { const x = parseFloat(String($(id).value).replace(",", ".")); return isFinite(x) && x >= lo && x <= hi ? x : def; };
+function setModel(k, x, ro) { const el = $(k), f = el.closest(".field"); el.value = x == null ? "" : +x.toFixed(k === "lbib" || k === "fh" ? 1 : 0); el.readOnly = ro; f.classList.add("model"); f.querySelector(".hint").textContent = MODEL_H[k]; }
+function fromYou() {
+  const st = cIn("c-st", 50, 250, 172), bm = cIn("c-bm", 15, 300, 72), R = REVERSE;
+  setModel("stature", st, true); setModel("bm", bm, true);
+  setModel("femur", R.femurFromStature(st), true); setModel("tibia", R.tibiaFromStature(st), true); setModel("humerus", R.humerusFromStature(st), true);
+  setModel("fh", R.fhFromMass(bm), true); setModel("lbib", Math.max(R.lbibFromMass(st, bm, SEX), 15), true);
+  const ecv = $("ecv"); if (!ecv.value || ecv.dataset.auto) { setModel("ecv", R.ecvDefault(SEX), false); ecv.dataset.auto = 1; }
+  calc();
+}
+$("ecv").addEventListener("input", () => { delete $("ecv").dataset.auto; });
+["c-st", "c-bm"].forEach(id => $(id).addEventListener("input", fromYou));
+function setMode(m) {
+  MODE = m; for (const x of $("modeSeg").children) x.classList.toggle("on", x.dataset.v === m);
+  $("youBox").hidden = m !== "you";
+  $("modeHint").textContent = m === "you" ? "Введите свои рост и вес: обмеры костей подставятся по моделям, а формулы покажут, что по ним увидел бы антрополог." : "Введите обмеры: калькулятор оценит рост, массу тела и мозг.";
+  if (m === "you") {
+    // рост и вес из Зала I, если вы их уже вводили
+    if (!$("c-st").value && $("y-st").value) $("c-st").value = $("y-st").value;
+    if (!$("c-bm").value && $("y-bm").value) $("c-bm").value = $("y-bm").value;
+    fromYou();
+  } else {
+    document.querySelectorAll("#fields .field.model").forEach(f => { f.classList.remove("model"); f.querySelector("input").readOnly = false; const h = f.querySelector(".hint"); h.innerHTML = h.dataset.h; });
+    delete $("ecv").dataset.auto; calc();
+  }
+}
+$("modeSeg").onclick = e => { const b = e.target.closest("button"); if (b) setMode(b.dataset.v); };
 function val() { const o = {}; for (const k of Object.keys(INPUTS)) { const x = parseFloat(String($(k).value).replace(",", ".")); o[k] = isFinite(x) && x > 0 ? x : null; } return o; }
 
 // ---------- расчёт ----------
@@ -922,7 +972,7 @@ function calc() {
     v.stature ? "" : `<div class="empty">Введите длину бедренной, большеберцовой или плечевой кости.</div>`);
   // введённый рост: сравнить с оценкой по костям
   if (v.stature && stEst) { const d = v.stature - stEst.est, inCi = v.stature >= stEst.ci[0] && v.stature <= stEst.ci[1];
-    $("c-stature").querySelector(".rtop").insertAdjacentHTML("afterend", `<div class="st-cmp${inCi ? "" : " off"}">Вы ввели <b>${fmt(v.stature, 0)} см</b>: ${d > 0 ? "на " + fmt(d, 0) + " см выше" : d < 0 ? "на " + fmt(-d, 0) + " см ниже" : "столько же, сколько"} оценки по костям, ${inCi ? "в пределах её интервала." : "за пределами её интервала: проверьте обмеры."} Введённый рост идёт в уравнения массы по ширине таза.</div>`); }
+    $("c-stature").querySelector(".rtop").insertAdjacentHTML("afterend", MODE === "you" ? `<div class="st-cmp">Кости рассчитаны по вашему росту <b>${fmt(v.stature, 0)} см</b>, поэтому основная формула возвращает его обратно. Разброс между формулами показывает, насколько они расходятся на одних и тех же костях.</div>` : `<div class="st-cmp${inCi ? "" : " off"}">Вы ввели <b>${fmt(v.stature, 0)} см</b>: ${d > 0 ? "на " + fmt(d, 0) + " см выше" : d < 0 ? "на " + fmt(-d, 0) + " см ниже" : "столько же, сколько"} оценки по костям, ${inCi ? "в пределах её интервала." : "за пределами её интервала: проверьте обмеры."} Введённый рост идёт в уравнения массы по ширине таза.</div>`); }
   $("stature").placeholder = stEst ? `${fmt(stEst.est, 0)} по костям` : "–";
   skelScale(v.stature, stEst);
   // масса: рост для морфометрических уравнений можно взять из оценки по бедру
@@ -938,9 +988,10 @@ function calc() {
   if (ms.length) {
     const how = fhMean != null ? "среднее Ruff 1991, McHenry 1992 и Grine 1995 по головке бедра (Auerbach и Ruff 2004)" : "среднее мужского и женского уравнений Ruff 2000 по росту и ширине таза";
     card("c-mass", "Масса тела", `<div class="hero-n">${fmt(bmMain, 0)}<small>кг</small></div>`,
-      `Основная оценка: ${how}, интервал ±20%: ${fmt(bmMain * .8, 0)}–${fmt(bmMain * 1.2, 0)} кг.${stFrom ? ` Рост для уравнений с тазом взят из оценки ${esc(stFrom)}.` : ""}${v.stature && fhMean != null ? ` Введённый рост меняет только уравнения по ширине таза (в списке ниже), основная оценка идёт по головке бедра.` : ""}`,
+      `Основная оценка: ${how}, интервал ±20%: ${fmt(bmMain * .8, 0)}–${fmt(bmMain * 1.2, 0)} кг.${stFrom ? ` Рост для уравнений с тазом взят из оценки ${esc(stFrom)}.` : ""}${v.stature && fhMean != null && MODE !== "you" ? ` Введённый рост меняет только уравнения по ширине таза (в списке ниже), основная оценка идёт по головке бедра.` : ""}`,
       forest(ms, "кг") + detailTable(ms, "кг"));
     hookForest($("c-mass"), ms);
+    if (MODE === "you" && v.bm) $("c-mass").querySelector(".rtop").insertAdjacentHTML("afterend", `<div class="st-cmp">Ваш вес <b>${fmt(v.bm, 0)} кг</b>. Головка бедра ${fmt(v.fh, 1)} мм и ширина таза ${fmt(v.lbib, 1)} см рассчитаны по нему обращением уравнений, это ориентир: обращённая регрессия даёт смещённую оценку. Формулы по костям дают ${fmt(bmMain, 0)} кг${Math.abs(bmMain - v.bm) >= 1 ? `, на ${fmt(Math.abs(bmMain - v.bm), 0)} кг ${bmMain > v.bm ? "больше" : "меньше"}` : ""}.</div>`);
   } else card("c-mass", "Масса тела", "", "", `<div class="empty">Введите диаметр головки бедра или ширину таза вместе с ростом.</div>`);
   // мозг
   const br = rows("brain", v);
