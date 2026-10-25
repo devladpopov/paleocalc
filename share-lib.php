@@ -4,7 +4,7 @@
 // Код ссылки: <рост>-<вес>-<m|f|x>[-e<объём мозга>]-<lucy|turkana|ferrassie|hobbit|n<номер в will2017.json>>
 
 const BASE = 'https://vladislavpopov.ru/paleocalc/';
-const OGV = 6; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
+const OGV = 7; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
 
 const FAMOUS = [
   'lucy' => ['spec' => 'AL 288-1', 'name' => 'Люси', 'gen' => 'Люси', 'ins' => 'Люси', 'sub' => 'Au. afarensis, Эфиопия', 'ecv' => 450],
@@ -87,4 +87,37 @@ function targetUrl($p) {
   if ($u['sex']) $q['s'] = $u['sex']; if ($u['ecvOwn']) $q['e'] = (int)$u['ecv'];
   $q['c'] = $p['c']['id'];
   return BASE . '?' . http_build_query($q) . '#you';
+}
+
+// Опись костей находки, как BONEMAP.invOf() в bonemap.js: уровень 2 из data/inventory.json, иначе кость оценки из базы
+function invOf($r) {
+  static $inv = null; $inv ??= is_file(__DIR__ . '/data/inventory.json') ? json_decode(file_get_contents(__DIR__ . '/data/inventory.json'), true) : [];
+  if (isset($inv[$r['specimen']])) return ['lvl' => 2] + $inv[$r['specimen']];
+  $map = [['/^FHD|Femur|Femoral|femur length/i', ['fem']], ['/Multivariate \(Lower limb\)|Lower limb \(Long bone\)/i', ['fem', 'tib']],
+    ['/Lower and upper limb/i', ['fem', 'tib', 'hum']], ['/Upper limb \(Long ?bone\)/i', ['hum', 'rad', 'uln']], ['/Ulna/i', ['uln']], ['/hand/i', ['hand']],
+    ['/clavicle/i', ['clav']], ['/Vertebral/i', ['thor', 'lumb']], ['/Pelvis/i', ['coxa']], ['/Foot|Talus|Calcaneus|Mt|Trochlear/i', ['foot']]];
+  $mid = ['cran', 'mand', 'cerv', 'thor', 'lumb', 'sacr', 'ribs']; $z = [];
+  foreach ([$r['bm_el'] ?? null, $r['st_el'] ?? null] as $el) { if (!$el) continue;
+    foreach ($map as [$re, $ks]) if (preg_match($re, $el)) { foreach ($ks as $k) $z[$k . (in_array($k, $mid) ? '' : '_x')] = 'm'; break; } }
+  return ['lvl' => 1, 'zones' => $z];
+}
+// схема скелета на картинке GD; многоугольники в координатах 200×470 из data/bonemap-poly.json
+function drawBones($im, $inv, $cx, $ground, $ppc, $st, $wf, $arm, $rgb) {
+  static $poly = null; $poly ??= json_decode(file_get_contents(__DIR__ . '/data/bonemap-poly.json'), true);
+  $z = $inv['zones'] ?? []; $k = $st * $ppc / 452; $x0 = $cx - 100 * $k * $wf; $y0 = $ground - 467 * $k;
+  $full = imagecolorallocate($im, ...$rgb); $part = imagecolorallocatealpha($im, $rgb[0], $rgb[1], $rgb[2], 70); $side = imagecolorallocatealpha($im, $rgb[0], $rgb[1], $rgb[2], 55);
+  $bg = imagecolorallocate($im, 233, 229, 219); $line = imagecolorallocate($im, 196, 190, 176); $white = imagecolorallocate($im, 255, 255, 255);
+  imagesetthickness($im, 1);
+  foreach ($poly as $p) {
+    $key = $p['z']; $st0 = $z[$key] ?? null;
+    if (!$st0 && preg_match('/^(.+)_[rl]$/', $key, $m) && isset($z[$m[1] . '_x'])) $st0 = 'x';
+    $isArm = preg_match('/^(hum|rad|uln|hand)_/', $key); $pts = [];
+    for ($i = 0; $i < count($p['pts']); $i += 2) { $y = $p['pts'][$i + 1]; if ($isArm) $y = 108 + ($y - 108) * $arm; $pts[] = (int)round($x0 + $p['pts'][$i] * $k * $wf); $pts[] = (int)round($y0 + $y * $k); }
+    if (count($pts) < 6) continue;
+    if ($p['hole']) { imagefilledpolygon($im, $pts, $white); continue; }
+    if ($st0 === 'c' || $st0 === 'm') { imagefilledpolygon($im, $pts, $full); }
+    elseif ($st0 === 'p') { imagefilledpolygon($im, $pts, $part); imagepolygon($im, $pts, $full); }
+    elseif ($st0 === 'x') { imagefilledpolygon($im, $pts, $side); }
+    else { imagefilledpolygon($im, $pts, $bg); imagepolygon($im, $pts, $line); }
+  }
 }

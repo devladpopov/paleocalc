@@ -47,7 +47,8 @@ function render($p) {
   };
   $me = modernImg($u['st'], $u['sex']);
   $pic($me, 215, $u['st'], modernWf($u['st'], $u['bm']), false);
-  $pic($c['img'], 430, $r['st'], str_starts_with($c['img'], 'modern') ? modernWf($r['st'], $r['bm']) : 1, $c['proxy']);
+  if ($c['proxy']) { $hex = ['#a3a3ad', '#2a78d6', '#eb6834', '#1baf7a'][grp($r['taxon'] ?? '')]; drawBones($im, invOf($r), 430, $ground, $ppc, $r['st'], modernWf($r['st'], $r['bm']), grp($r['taxon'] ?? '') === 1 ? 1.1 : 1, [hexdec(substr($hex, 1, 2)), hexdec(substr($hex, 3, 2)), hexdec(substr($hex, 5, 2))]); }
+  else $pic($c['img'], 430, $r['st'], 1, false);
   $short = $c['proxy'] ? $c['name'] : explode(' ', $c['name'])[0];
   $txt('Я', 215, $ground - $u['st'] * $ppc - 14, 17, $SB, $acc, 'c');
   $txt($short, 430, $ground - $r['st'] * $ppc - 14, 15, $SB, $gcol, 'c');
@@ -72,6 +73,6 @@ function render($p) {
   imageline($im, $x0, 528, $W - 42, 528, $grid);
   $txt('Кто из предков ваш двойник?', $x0, 563, 19, $SB, $text);
   $txt('vladislavpopov.ru/paleocalc', $x0, 595, 17, $RG, $acc);
-  $txt($c['proxy'] ? 'Скелет условный: рисунок по типу группы' : 'Коричневые кости найдены, белые восстановлены', 78, 614, 11, $RG, $t3);
+  $txt($c['proxy'] ? (invOf($r)['lvl'] === 2 ? 'Цветом найденные кости, серым то, чего нет' : 'Цветом кость, по которой сделана оценка; полной описи пока нет') : 'Коричневые кости найдены, белые восстановлены', 78, 614, 11, $RG, $t3);
   return $im;
 }
