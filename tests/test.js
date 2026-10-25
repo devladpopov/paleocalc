@@ -25,4 +25,9 @@ near(REVERSE.femurFromStature(105), 280.3, 0.1, "femur from stature");
 near(REVERSE.fhFromMass(26), 26.8, 0.1, "FH from mass");
 for (const bm of [26, 50, 70, 90]) { const fh = REVERSE.fhFromMass(bm), m3 = ["ruff91-c", "mch92", "grine95"].reduce((s, id) => s + by(id).fn({ fh }), 0) / 3; near(m3, bm, 1, "FH roundtrip " + bm); }
 near(REVERSE.bmi(172, 72), 24.34, 0.01, "BMI");
-console.log(`OK: ${FORMULAS.length + EQ_FORMULAS.length} формул, ${db.length} записей базы. EQ Martin=${eqm.toFixed(2)}, Jerison=${eqj.toFixed(2)}`);
+// карта: у каждой находки ровно одно местонахождение, координаты в рамке карты
+require("../data/sites.js"); require("../data/world.js");
+const sites = window.SITES.map(s => ({ ...s, re: new RegExp(s.m) }));
+for (const r of db) { const m = sites.filter(s => s.re.test(r.specimen)); assert.strictEqual(m.length, 1, "site for " + r.specimen + ": " + m.length); }
+for (const s of sites) { assert(s.lon >= window.WORLD.lon0 && s.lat <= window.WORLD.lat1 && s.lat >= -40 && s.lon <= 135, "site in frame " + s.n); }
+console.log(`OK: ${FORMULAS.length + EQ_FORMULAS.length} формул, ${db.length} записей базы, ${sites.length} местонахождений. EQ Martin=${eqm.toFixed(2)}, Jerison=${eqj.toFixed(2)}`);

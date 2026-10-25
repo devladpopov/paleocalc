@@ -10,14 +10,18 @@
 <meta property="og:description" content="Сравните свой рост, вес и мозг с Люси, неандертальцем и хоббитом. Рост, масса и мозг ископаемых гоминид по опубликованным формулам, 311 находок.">
 <meta property="og:url" content="https://vladislavpopov.ru/paleocalc/">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://vladislavpopov.ru/paleocalc/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="https://vladislavpopov.ru/favicon-light.svg">
 <link rel="stylesheet" href="https://vladislavpopov.ru/_vendor/fonts/ad1bcbf069.css">
 <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t;})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Палеокалькулятор","url":"https://vladislavpopov.ru/paleocalc/","applicationCategory":"ScientificApplication","operatingSystem":"Web","isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","codeRepository":"https://github.com/devladpopov/paleocalc","author":{"@type":"Person","name":"Vladislav Popov","url":"https://vladislavpopov.ru/"},"inLanguage":"ru"}</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-[data-theme="dark"]{--bg:#08080a;--surface:#111114;--surface-2:#17171b;--text:#f0f0f0;--text-2:#8a8a9a;--text-3:#5a5a6a;--accent:#c8b6ff;--accent-dim:rgba(200,182,255,.10);--accent-band:rgba(200,182,255,.16);--border:rgba(255,255,255,.07);--border-h:rgba(255,255,255,.14);--grad:linear-gradient(135deg,#c8b6ff,#ffc6ff,#ffb3c6);--nav-bg:rgba(8,8,10,.72);--bone:#3a3a46;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s0:#6a6a78;color-scheme:dark}
-[data-theme="light"]{--bg:#f7f5f0;--surface:#ffffff;--surface-2:#fbfaf7;--text:#0a0a0e;--text-2:#3a3a4a;--text-3:#7a7a8a;--accent:#4f3cc9;--accent-dim:rgba(79,60,201,.06);--accent-band:rgba(79,60,201,.10);--border:rgba(0,0,0,.08);--border-h:rgba(0,0,0,.18);--grad:linear-gradient(135deg,#4f3cc9,#8b3fa0,#d63384);--nav-bg:rgba(247,245,240,.82);--bone:#d9d5cb;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s0:#a3a3ad;color-scheme:light}
+[data-theme="dark"]{--bg:#08080a;--surface:#111114;--surface-2:#17171b;--text:#f0f0f0;--text-2:#8a8a9a;--text-3:#5a5a6a;--accent:#c8b6ff;--accent-dim:rgba(200,182,255,.10);--accent-band:rgba(200,182,255,.16);--border:rgba(255,255,255,.07);--border-h:rgba(255,255,255,.14);--grad:linear-gradient(135deg,#c8b6ff,#ffc6ff,#ffb3c6);--nav-bg:rgba(8,8,10,.72);--bone:#3a3a46;--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s0:#6a6a78;--land:#1d1d23;color-scheme:dark}
+[data-theme="light"]{--bg:#f7f5f0;--surface:#ffffff;--surface-2:#fbfaf7;--text:#0a0a0e;--text-2:#3a3a4a;--text-3:#7a7a8a;--accent:#4f3cc9;--accent-dim:rgba(79,60,201,.06);--accent-band:rgba(79,60,201,.10);--border:rgba(0,0,0,.08);--border-h:rgba(0,0,0,.18);--grad:linear-gradient(135deg,#4f3cc9,#8b3fa0,#d63384);--nav-bg:rgba(247,245,240,.82);--bone:#d9d5cb;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s0:#a3a3ad;--land:#ebe8e0;color-scheme:light}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
 a{color:inherit;text-decoration:none}
 em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400}
@@ -67,17 +71,16 @@ section.block{padding-top:80px;padding-bottom:80px;border-top:1px solid var(--bo
 @media(max-width:900px){.calc{grid-template-columns:1fr}.skel-wrap{max-width:280px;margin:0 auto}}
 .skel-wrap{position:sticky;top:96px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 14px 10px;text-align:center}
 .skel-wrap .cap{font-size:.78rem;color:var(--text-3);margin-top:4px}
-#skel .bone{fill:none;stroke:var(--bone);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
-#skel .bone.fillable{fill:var(--bone);stroke:var(--surface);stroke-width:2}
-#skel .rest{fill:none;stroke:var(--bone);stroke-width:3;stroke-linecap:round;opacity:.75}
-#skel .hit{fill:none;stroke:transparent;stroke-width:22;cursor:pointer;pointer-events:stroke}
+#skel{display:block;margin:0 auto;height:min(66vh,620px);width:auto;max-width:100%;aspect-ratio:297/912}
+#skel feFlood{flood-color:var(--accent)}
+#skel .hl{opacity:0;transition:opacity .2s;pointer-events:none}
 #skel .hitf{fill:transparent;cursor:pointer}
-#skel g.part:hover .bone{stroke:var(--text-3)}
-#skel g.part:hover .bone.fillable{fill:var(--text-3);stroke:var(--surface)}
-#skel g.part.has .bone{stroke:var(--accent)}
-#skel g.part.has .bone.fillable{fill:var(--accent);stroke:var(--surface)}
-#skel g.part.focus .bone{stroke:var(--accent);filter:drop-shadow(0 0 6px var(--accent))}
-#skel g.part.focus .bone.fillable{fill:var(--accent);stroke:var(--surface)}
+#skel g.part:hover .hl{opacity:.55}
+#skel g.part.has .hl{opacity:.72}
+#skel g.part.focus .hl{opacity:1;filter:url(#tint) drop-shadow(0 0 5px var(--accent))}
+.bones{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:8px}
+.bones button{font:inherit;font-size:.72rem;border:1px solid var(--border-h);background:transparent;color:var(--text-2);padding:3px 9px;border-radius:100px;cursor:pointer}
+.bones button.has{border-color:var(--accent);color:var(--accent)}
 .fields{display:grid;gap:22px}
 .fgroup{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
 .fgroup h3{font-size:.95rem;font-weight:500;margin-bottom:12px;display:flex;justify-content:space-between;gap:12px}
@@ -190,7 +193,7 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 .lb{position:fixed;inset:0;z-index:300;background:rgba(8,8,10,.95);display:none;align-items:center;justify-content:center;gap:4vw;padding:4vh 4vw;cursor:zoom-out}
 .lb.on{display:flex}
 .lb figure{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
-.lb img{max-width:42vw;object-fit:contain}
+.lb img{max-width:42vw;width:auto;object-fit:fill}
 .lb figcaption{color:#f0f0f0;font:500 .95rem "Space Grotesk",sans-serif;margin-top:10px;text-align:center}
 #duo .bn{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .cmpt{width:100%;border-collapse:collapse;font-size:.85rem}
@@ -215,6 +218,35 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 .pl li{margin:5px 0}
 .h4{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:500;margin:12px 0 4px}
 #rm{width:100%;display:block}
+/* рассказ о находке */
+.story{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px}
+@media(max-width:900px){.story{grid-template-columns:1fr}}
+.story h3{font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:500;letter-spacing:-.02em;line-height:1.15;margin:6px 0 12px}
+.story p{font-size:.92rem;color:var(--text-2);margin-bottom:10px;max-width:68ch}
+.story p b{color:var(--text);font-weight:500}
+.facts{font-size:.84rem;margin-top:10px}
+.facts div{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:7px 0;border-top:1px solid var(--border)}
+.facts dt{color:var(--text-3)}
+.minimap{width:100%;display:block;border-radius:10px;background:var(--surface-2)}
+/* карта */
+#wmap{width:100%;display:block}
+@media(max-width:700px){#wmap{min-width:680px}}
+.land{fill:var(--land);stroke:none}
+.site{stroke:var(--surface);stroke-width:1.5;cursor:pointer;fill-opacity:.85}
+.site:hover{stroke:var(--text);stroke-width:2}
+.site.dim{opacity:.15}
+.ring{fill:none;stroke:var(--accent);stroke-width:2.5}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;border:1px solid var(--accent);color:var(--accent);border-radius:100px;padding:4px 10px;cursor:pointer;background:var(--accent-dim)}
+/* поделиться */
+.sh{position:fixed;inset:0;z-index:300;background:rgba(8,8,10,.6);display:none;align-items:center;justify-content:center;padding:3vh 3vw}
+.sh.on{display:flex}
+.sh-box{background:var(--surface);color:var(--text);border-radius:16px;max-width:1040px;width:100%;max-height:94vh;overflow:auto;padding:22px;position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+@media(max-width:800px){.sh-box{grid-template-columns:1fr}}
+.sh-x{position:absolute;top:10px;right:12px;font:inherit;font-size:1.4rem;line-height:1;border:0;background:transparent;color:var(--text-2);cursor:pointer;padding:6px 10px}
+.sh-prev img{width:100%;display:block;border:1px solid var(--border);border-radius:8px;background:#fff}
+.sh-side{display:grid;gap:12px;align-content:start}
+.sh-btns{display:flex;flex-wrap:wrap;gap:8px}
+.sh textarea{width:100%;font:inherit;font-size:.85rem;line-height:1.5;color:var(--text);background:var(--surface-2);border:1px solid var(--border-h);border-radius:8px;padding:10px;resize:vertical}
 .fine{font-size:.74rem;color:var(--text-3);margin-top:10px}
 footer{border-top:1px solid var(--border);padding:36px 0 50px;font-size:.82rem;color:var(--text-3)}
 footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -230,7 +262,8 @@ footer a:hover{color:var(--accent)}
     <div class="nav-links">
       <a href="#you">Вы и Люси</a>
       <a href="#calc">Калькулятор</a>
-      <a href="#tree">Находки</a>
+      <a href="#tree">Шкала</a>
+      <a href="#map">Карта</a>
       <a href="#methods">Методика</a>
       <a href="https://vladislavpopov.ru/blog/">Блог</a>
     </div>
@@ -240,7 +273,7 @@ footer a:hover{color:var(--accent)}
 
 <main>
 <header class="hero container">
-  <div class="eyebrow"><b>Палеокалькулятор</b> &middot; открытый научный инструмент &middot; v0.3</div>
+  <div class="eyebrow"><b>Палеокалькулятор</b> &middot; открытый научный инструмент &middot; v0.4</div>
   <h1>Сколько весила <em>Люси</em>?</h1>
   <div class="hero-sub">
     <div>
@@ -275,7 +308,7 @@ footer a:hover{color:var(--accent)}
       <div class="field"><label for="y-ecv">Объём мозга, если знаете (по МРТ)</label><div class="in"><input id="y-ecv" type="number" inputmode="decimal" step="any" min="500" max="2200" placeholder="пусто: типичный"><span class="u">см³</span></div><div class="hint" id="y-ecv-h">&nbsp;</div></div>
       <div><div class="rtitle" style="margin-bottom:8px">С кем сравнить</div><div class="cmp" id="yCmp"></div></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn sm primary" type="button" id="yCard">Скачать карточку</button>
+        <button class="btn sm primary" type="button" id="yShare">Поделиться</button>
         <button class="btn sm" type="button" id="yLink">Ссылка на сравнение</button>
         <button class="btn sm" type="button" id="yShow">Я на шкале эволюции</button>
       </div>
@@ -289,6 +322,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </div>
   </div>
+  <div class="you-out story" id="yStory"></div>
   <div class="you-grid">
     <div class="you-out">
       <div class="rtitle">На кого вы похожи</div>
@@ -312,29 +346,9 @@ footer a:hover{color:var(--accent)}
   </div>
   <div class="calc">
     <div class="skel-wrap">
-      <svg id="skel" viewBox="0 0 200 470" aria-label="Схема скелета: нажмите на кость, чтобы ввести обмер">
-        <!-- неинтерактивные части -->
-        <path class="rest" d="M100 82 V232"/>
-        <path class="rest" d="M78 112 Q100 104 122 112 M74 128 Q100 120 126 128 M74 144 Q100 136 126 144 M76 160 Q100 152 124 160 M80 175 Q100 168 120 175"/>
-        <path class="rest" d="M66 96 Q100 86 134 96"/>
-        <path class="rest" d="M48 204 L38 290 M54 205 L46 290 M152 204 L162 290 M146 205 L154 290"/>
-        <path class="rest" d="M79 378 L74 448 M121 378 L126 448"/>
-        <path class="rest" d="M80 456 L62 462 M120 456 L138 462"/>
-        <!-- интерактивные -->
-        <g class="part" data-k="ecv"><title>Череп: объём эндокрана</title>
-          <ellipse class="bone fillable" cx="100" cy="42" rx="24" ry="30"/><ellipse class="hitf" cx="100" cy="42" rx="30" ry="36"/></g>
-        <g class="part" data-k="humerus"><title>Плечевая кость</title>
-          <path class="bone" d="M64 100 L52 198"/><path class="bone" d="M136 100 L148 198"/><path class="hit" d="M64 100 L52 198 M136 100 L148 198"/></g>
-        <g class="part" data-k="lbib"><title>Таз: бедренно-подвздошная ширина</title>
-          <path class="bone fillable" d="M70 226 Q66 206 84 210 Q100 222 116 210 Q134 206 130 226 Q126 252 108 258 L100 252 L92 258 Q74 252 70 226Z"/><path class="hitf" d="M62 204 H138 V262 H62Z"/></g>
-        <g class="part" data-k="fh"><title>Головка бедренной кости</title>
-          <circle class="bone fillable" cx="80" cy="250" r="7"/><circle class="bone fillable" cx="120" cy="250" r="7"/><circle class="hitf" cx="80" cy="250" r="12"/><circle class="hitf" cx="120" cy="250" r="12"/></g>
-        <g class="part" data-k="femur"><title>Бедренная кость</title>
-          <path class="bone" d="M82 262 L78 366"/><path class="bone" d="M118 262 L122 366"/><path class="hit" d="M82 262 L78 366 M118 262 L122 366"/></g>
-        <g class="part" data-k="tibia"><title>Большеберцовая кость</title>
-          <path class="bone" d="M78 380 L80 452"/><path class="bone" d="M122 380 L120 452"/><path class="hit" d="M78 380 L80 452 M122 380 L120 452"/></g>
-      </svg>
-      <div class="cap">Подсвечены кости, по которым есть обмер</div>
+      <svg id="skel" viewBox="-6 -6 297 912" role="group" aria-label="Скелет современного человека: нажмите на кость, чтобы ввести обмер"></svg>
+      <div class="bones" id="bones"></div>
+      <div class="cap">Нажмите на кость. Подсвечены кости, по которым есть обмер.</div>
     </div>
 
     <div>
@@ -379,19 +393,34 @@ footer a:hover{color:var(--accent)}
   </div>
 </section>
 
+<section class="block container" id="map">
+  <div class="sec-head">
+    <div><div class="sec-num">04 / КАРТА</div><h2>Где нашли <em>предков</em></h2></div>
+    <p>Каждая точка: местонахождение, где найдены кости из базы. Чем крупнее точка, тем больше там находок. Наведите на точку, чтобы увидеть находки, нажмите, чтобы открыть их в таблице.</p>
+  </div>
+  <div class="chart-card">
+    <div class="chart-ctrl">
+      <div class="seg" id="mapAge"><button type="button" data-v="all" class="on">Все</button><button type="button" data-v="old">4,4–1 млн лет</button><button type="button" data-v="mid">1 млн–100 тыс.</button><button type="button" data-v="new">100 тыс. лет и ближе</button></div>
+      <div class="legend" id="mapLegend"></div>
+    </div>
+    <div class="hscroll"><svg id="wmap" viewBox="0 0 960 632" role="img" aria-label="Карта местонахождений ископаемых гоминид"></svg></div>
+    <div class="chart-foot" id="mapFoot"></div>
+  </div>
+</section>
+
 <section class="block container" id="db">
   <div class="sec-head">
-    <div><div class="sec-num">04 / БАЗА</div><h2>Открытые <em>данные</em></h2></div>
+    <div><div class="sec-num">05 / БАЗА</div><h2>Открытые <em>данные</em></h2></div>
     <p>Will M., Pablos A., Stock J.T. (2017), Royal Society Open Science, дополнительные материалы под лицензией CC BY. Интервалы с пометкой «b» в оригинале посчитаны как ±20% (масса) и ±10% (рост). Нажмите на строку, чтобы найти находку на шкале.</p>
   </div>
-  <div class="dbbar"><input class="search" id="q" placeholder="Поиск: AL 288, Neanderthal, Kenya, Feldesman..." aria-label="Поиск по базе"><span class="rsub" id="dbcount"></span>
+  <div class="dbbar"><span id="siteChip"></span><input class="search" id="q" placeholder="Поиск: AL 288, Neanderthal, Kenya, Feldesman..." aria-label="Поиск по базе"><span class="rsub" id="dbcount"></span>
     <a class="btn sm" href="data/will2017.json" download>Скачать JSON</a></div>
   <div class="scroll"><table class="t" id="dbt"></table></div>
 </section>
 
 <section class="block container" id="methods">
   <div class="sec-head">
-    <div><div class="sec-num">05 / МЕТОДИКА</div><h2>Откуда <em>цифры</em></h2></div>
+    <div><div class="sec-num">06 / МЕТОДИКА</div><h2>Откуда <em>цифры</em></h2></div>
     <p>Калькулятор ничего не придумывает: только опубликованные уравнения, ссылки на первоисточники с DOI и явная пометка, где коэффициенты сверены.</p>
   </div>
   <div class="acc">
@@ -412,7 +441,7 @@ footer a:hover{color:var(--accent)}
 
 <section class="block container" id="about">
   <div class="sec-head">
-    <div><div class="sec-num">06 / О ПРОЕКТЕ</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
+    <div><div class="sec-num">07 / О ПРОЕКТЕ</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
   </div>
   <div class="about">
     <div>
@@ -433,15 +462,34 @@ footer a:hover{color:var(--accent)}
 
 <footer class="container">
   <div class="row">
-    <div>Палеокалькулятор v0.3 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
+    <div>Палеокалькулятор v0.4 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
     <div>Данные: <a class="srcl" href="https://doi.org/10.1098/rsos.171339" target="_blank" rel="noopener">Will, Pablos, Stock 2017</a>, CC BY &middot; код MIT</div>
   </div>
 </footer>
 <div class="tip" id="tip"></div>
 <div class="lb" id="lb" role="dialog" aria-label="Скелеты крупно"></div>
+<div class="sh" id="sh" role="dialog" aria-label="Поделиться сравнением">
+  <div class="sh-box">
+    <button class="sh-x" id="shX" type="button" aria-label="Закрыть">&times;</button>
+    <div class="sh-prev"><img id="shImg" alt="Картинка для поста"></div>
+    <div class="sh-side">
+      <div class="rtitle">Поделиться сравнением</div>
+      <div class="seg" id="shFmt"><button type="button" data-v="post" class="on">Пост 4:5</button><button type="button" data-v="wide">Широкая 1,91:1</button></div>
+      <div class="sh-btns"><button class="btn sm primary" type="button" id="shNative">Поделиться…</button><button class="btn sm" type="button" id="shDl">Скачать картинку</button><button class="btn sm" type="button" id="shCopyImg">Копировать картинку</button></div>
+      <div class="h4" style="margin:4px 0 0">Текст поста</div>
+      <textarea id="shText" rows="10" aria-label="Текст поста"></textarea>
+      <div class="sh-btns"><button class="btn sm" type="button" id="shCopyTxt">Копировать текст</button></div>
+      <div class="h4" style="margin:4px 0 0">Отправить ссылку</div>
+      <div class="sh-btns"><a class="btn sm" id="shTg" target="_blank" rel="noopener">Telegram</a><a class="btn sm" id="shVk" target="_blank" rel="noopener">ВКонтакте</a><a class="btn sm" id="shWa" target="_blank" rel="noopener">WhatsApp</a><a class="btn sm" id="shX2" target="_blank" rel="noopener">X</a></div>
+      <div class="fine">По ссылке соцсети покажут общую обложку сайта. Чтобы в посте была ваша картинка, скачайте или скопируйте её и прикрепите вручную. На телефоне кнопка «Поделиться…» отправит картинку и текст сразу.</div>
+    </div>
+  </div>
+</div>
 
 <script src="formulas.js"></script>
 <script src="data/will2017.js"></script>
+<script src="data/sites.js"></script>
+<script src="data/world.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const fmt = (x, d = 1) => (x == null || !isFinite(x)) ? "–" : x.toFixed(d).replace(".", ",");
@@ -469,6 +517,29 @@ const HINT = { femur: "максимальная длина", fh: "FHD, верт�
 const LABEL = { femur: "Бедренная кость", tibia: "Большеберцовая", humerus: "Плечевая кость", fh: "Головка бедра", stature: "Рост", lbib: "Ширина таза (LBIB)", ecv: "Объём эндокрана", bm: "Масса тела для EQ" };
 $("fields").innerHTML = GROUPS.map(g => `<div class="fgroup"><h3>${g.t}<span>${g.h}</span></h3><div class="frow">` +
   g.keys.map(k => `<div class="field"><label for="${k}">${LABEL[k]}</label><div class="in"><input id="${k}" type="number" inputmode="decimal" step="any" min="0" placeholder="–"><span class="u">${INPUTS[k].unit}</span></div><div class="hint">${HINT[k] || "&nbsp;"}</div></div>`).join("") + `</div></div>`).join("");
+// скелет: фото-иллюстрация 285×900, кость подсвечивается копией картинки, обрезанной по грубому контуру и тонированной
+// (фон картинки прозрачный, поэтому цвет ложится только на кость). Контуры для левой стороны, правая зеркальная.
+const BONES = [
+  { k: "ecv", t: "Череп", polys: ["86,-2 199,-2 202,70 190,118 160,134 125,134 95,118 83,70"], mirror: false },
+  { k: "humerus", t: "Плечевая", polys: ["2,160 56,160 54,240 46,334 6,334 8,240"] },
+  { k: "lbib", t: "Таз", polys: ["56,352 228,352 240,400 234,452 212,482 72,482 50,452 44,400"], mirror: false },
+  { k: "femur", t: "Бедренная", polys: ["50,428 104,428 104,468 96,520 116,600 119,650 64,650 66,560 58,470"] },
+  { k: "tibia", t: "Большеберцовая", polys: ["60,650 120,650 110,700 106,802 78,802 76,700"] },
+  { k: "fh", t: "Головка бедра", circ: [82, 437, 13] },
+];
+const mir = pts => pts.split(" ").map(p => { const [x, y] = p.split(","); return `${284 - x},${y}`; }).join(" ");
+(() => {
+  let defs = `<filter id="tint" color-interpolation-filters="sRGB"><feColorMatrix in="SourceGraphic" type="saturate" values="0" result="g"/><feFlood result="f"/><feBlend in="g" in2="f" mode="multiply" result="m"/><feComposite in="m" in2="SourceAlpha" operator="in"/></filter>`, body = "";
+  for (const b of BONES) {
+    const shapes = b.circ ? [`<circle cx="${b.circ[0]}" cy="${b.circ[1]}" r="${b.circ[2]}"/>`, `<circle cx="${284 - b.circ[0]}" cy="${b.circ[1]}" r="${b.circ[2]}"/>`]
+      : b.polys.flatMap(p => b.mirror === false ? [`<polygon points="${p}"/>`] : [`<polygon points="${p}"/>`, `<polygon points="${mir(p)}"/>`]);
+    defs += `<clipPath id="cp-${b.k}">${shapes.join("")}</clipPath>`;
+    body += `<g class="part" data-k="${b.k}"><title>${b.t}</title><image class="hl" href="img/modern-mid.webp" width="285" height="900" clip-path="url(#cp-${b.k})" filter="url(#tint)"/>${shapes.map(x => x.replace(/\/>$/, ' class="hitf"/>')).join("")}</g>`;
+  }
+  $("skel").innerHTML = `<defs>${defs}</defs><image href="img/modern-mid.webp" width="285" height="900"/>${body}`;
+  $("bones").innerHTML = BONES.map(b => `<button type="button" data-k="${b.k}">${b.t}</button>`).join("");
+  $("bones").onclick = e => { const b = e.target.closest("button"); if (b) { const el = $(b.dataset.k); el.focus(); el.scrollIntoView({ block: "center", behavior: "smooth" }); } };
+})();
 let SEX = "";
 $("sexSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; SEX = b.dataset.v; for (const x of $("sexSeg").children) x.classList.toggle("on", x === b); calc(); };
 for (const k of Object.keys(INPUTS)) { const el = $(k); el.addEventListener("input", calc); el.addEventListener("focus", () => focusPart(k)); el.addEventListener("blur", () => focusPart(null)); }
@@ -518,7 +589,7 @@ function card(id, title, headline, sub, inner) { $(id).innerHTML = `<div class="
 
 function calc() {
   const v = val();
-  document.querySelectorAll("#skel g.part").forEach(g => g.classList.toggle("has", v[g.dataset.k] != null));
+  document.querySelectorAll("#skel g.part, #bones button").forEach(g => g.classList.toggle("has", v[g.dataset.k] != null));
   // рост
   const st = rows("stature", v);
   let stEst = null;
@@ -650,8 +721,10 @@ function drawAll() { drawScatter(); drawTaxa(); if (typeof YC !== "undefined") d
 // ---------- база ----------
 function renderDb() {
   const q = $("q").value.toLowerCase().trim();
-  const rs = DB.filter(r => !q || [r.specimen, r.taxon, r.country, r.bm_method, r.st_method].join(" ").toLowerCase().includes(q));
+  const rs = DB.filter(r => (!SITEF || SITEF.has(r.site)) && (!q || [r.specimen, r.taxon, r.country, r.site && r.site.n, r.bm_method, r.st_method].join(" ").toLowerCase().includes(q)));
   $("dbcount").textContent = `${rs.length} из ${DB.length}`;
+  $("siteChip").innerHTML = SITEF ? `<span class="chip" title="Сбросить">${esc([...SITEF].map(s => s.n).join(", "))} &times;</span>` : "";
+  if (SITEF) $("siteChip").firstChild.onclick = () => { SITEF = null; renderDb(); };
   $("dbt").innerHTML = `<tr><th>Находка</th><th>Таксон</th><th>Млн лет</th><th>Пол</th><th>Масса, кг</th><th>Рост, см</th><th>Метод</th></tr>` +
     rs.map(r => `<tr data-i="${DB.indexOf(r)}"><td><span class="dot" style="background:var(--s${r.g})"></span>${esc(r.specimen)}</td><td>${esc(r.taxon || "")}</td><td class="num">${r.mya != null ? String(r.mya).replace(".", ",") : ""}</td><td>${esc(r.sex || "")}</td>
       <td class="num">${r.bm ? fmt(r.bm) : ""}${r.bm_lo ? `<br><span class="mono">${fmt(r.bm_lo)}–${fmt(r.bm_hi)}</span>` : ""}</td><td class="num">${r.st ? fmt(r.st) : ""}${r.st_lo ? `<br><span class="mono">${fmt(r.st_lo)}–${fmt(r.st_hi)}</span>` : ""}</td>
@@ -659,12 +732,13 @@ function renderDb() {
   $("dbt").querySelectorAll("tr[data-i]").forEach(tr => tr.onclick = () => locate(+tr.dataset.i));
 }
 function locate(i) { const r = DB[i]; SELSPEC = i; SELTAX = ""; $("taxSel").value = ""; if (!r[METRIC] && r[METRIC === "bm" ? "st" : "bm"]) $("metricSeg").querySelector(`[data-v="${METRIC === "bm" ? "st" : "bm"}"]`).click(); else drawScatter(); $("tree").scrollIntoView({ behavior: "smooth" }); }
-$("q").addEventListener("input", renderDb);
+$("q").addEventListener("input", () => { SITEF = null; renderDb(); });
 $("lucyBtn").onclick = () => locate(DB.findIndex(r => r.specimen === "AL 288-1"));
 
 // ---------- Вы и Люси ----------
 const SKIMG = { lucy: 270 / 900, turkana: 331 / 900, ferrassie: 340 / 900, hobbit: 362 / 900, "modern-short": 284 / 900, "modern-mid": 285 / 900, "modern-tall": 281 / 900 };
 const SKHREF = {};
+const modernWf = u => Math.min(1.15, Math.max(.9, Math.sqrt(REVERSE.bmi(u.st, u.bm) / 22)));
 const modernImg = u => u.sex === "F" ? (u.st > 178 ? "modern-mid" : "modern-short") : u.sex === "M" ? (u.st < 165 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid") : (u.st < 163 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid");
 const YS = [
   { id: "lucy", spec: "AL 288-1", name: "Люси", gen: "Люси", ins: "Люси", sub: "Au. afarensis, Эфиопия", ecv: 450, ecvNote: "черепа нет, среднее Au. afarensis", arm: 1.12, found: "около 40% скелета: нижняя челюсть и обломки черепа, обе плечевые кости, правые лучевая и локтевая, обломки рёбер, несколько позвонков, крестец, левая тазовая и левая бедренная кости, концы правой большеберцовой, таранная кость.",
@@ -709,7 +783,7 @@ function duoSVG(u, c, C, font, attrs = "") {
   let s = "";
   for (let t = 50; t <= maxH; t += 50) { const y = ground - t * ppc; s += `<line x1="34" x2="330" y1="${y}" y2="${y}" stroke="${C.grid}" stroke-width="1"/><text x="28" y="${y + 4}" text-anchor="end" font-size="10" fill="${C.t3}" font-family="${font}">${t}</text>`; }
   s += `<line x1="34" x2="330" y1="${ground}" y2="${ground}" stroke="${C.t3}" stroke-width="1"/><text x="28" y="${ground + 4}" text-anchor="end" font-size="10" fill="${C.t3}" font-family="${font}">0 см</text>`;
-  const pic = (id, cx, st, bm) => { const h = st * ppc, wf = id.startsWith("modern") ? Math.min(1.15, Math.max(.9, Math.sqrt(REVERSE.bmi(st, bm) / 22))) : 1, w = h * SKIMG[id] * wf;
+  const pic = (id, cx, st, bm) => { const h = st * ppc, wf = id.startsWith("modern") ? modernWf({ st, bm }) : 1, w = h * SKIMG[id] * wf;
     return `<image href="${(C.hrefs || {})[id] || `img/${id}.webp`}" x="${cx - w / 2}" y="${ground - h}" width="${w}" height="${h}" preserveAspectRatio="none"/>`; };
   if (C.schematic) { s += skel(130, ground, ppc, u.st, u.bm, u.ecv, 1, C.acc); s += skel(255, ground, ppc, sp.st, sp.bm, c.ecv, c.arm, C.sp); }
   else { s += pic(modernImg(u), 130, u.st, u.bm); s += pic(c.id, 255, sp.st, sp.bm); }
@@ -765,8 +839,9 @@ function drawYou() {
   $("yDiffT").textContent = `Что у вас общего с ${c.ins}`;
   $("yDiff").innerHTML = `<div class="h4">В цифрах</div><ul class="pl">${nums.map(x => `<li>${x}</li>`).join("")}</ul><div class="h4">Общее</div><ul class="pl">${c.common.map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="h4">Различия</div><ul class="pl">${c.diff.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
   $("duoCap").innerHTML = `<b style="color:#a0663c">Коричневые</b> кости найдены, <b>белые</b> восстановлены. Иллюстрации сгенерированы ИИ (OpenAI) по описи костей и показывают её приблизительно; точная опись: ${esc(c.found)} Ваш скелет: типичный современный человек вашего роста. Нажмите на рисунок, чтобы увеличить.`;
-  $("duo").onclick = () => { const m = modernImg(u); $("lb").innerHTML = `<figure><img src="img/${m}.webp" alt="Скелет современного человека" style="height:calc((100% - 40px) * ${u.st / Math.max(u.st, sp.st)})"><figcaption>Вы, ${fmt(u.st, 0)} см</figcaption></figure><figure><img src="img/${c.id}.webp" alt="${esc(c.name)}" style="height:calc((100% - 40px) * ${sp.st / Math.max(u.st, sp.st)})"><figcaption>${esc(c.name)}, ${fmt(sp.st, 0)} см</figcaption></figure>`; $("lb").classList.add("on"); };
+  $("duo").onclick = () => { const m = modernImg(u); $("lb").innerHTML = `<figure><img src="img/${m}.webp" alt="Скелет современного человека" style="height:calc((100% - 40px) * ${u.st / Math.max(u.st, sp.st)});aspect-ratio:${(SKIMG[m] * modernWf(u)).toFixed(4)}"><figcaption>Вы, ${fmt(u.st, 0)} см</figcaption></figure><figure><img src="img/${c.id}.webp" alt="${esc(c.name)}" style="height:calc((100% - 40px) * ${sp.st / Math.max(u.st, sp.st)});aspect-ratio:${SKIMG[c.id]}"><figcaption>${esc(c.name)}, ${fmt(sp.st, 0)} см</figcaption></figure>`; $("lb").classList.add("on"); };
   YLAST = { u, c, big };
+  drawStory(c); drawMap();
 }
 function drawRM(u, both, near) {
   const W = 520, H = 300, m = { l: 46, r: 14, t: 14, b: 38 }, sp = YC.r;
@@ -785,32 +860,160 @@ $("lb").onclick = () => $("lb").classList.remove("on");
 addEventListener("keydown", e => { if (e.key === "Escape") $("lb").classList.remove("on"); });
 $("yShow").onclick = () => { const u = you(); LAST = { bm: { est: u.bm, lo: u.bm, hi: u.bm, who: "Вы" }, st: { est: u.st, lo: u.st, hi: u.st, who: "Вы" } }; drawAll(); $("tree").scrollIntoView({ behavior: "smooth" }); };
 $("yLink").onclick = async () => {
-  const u = you(), q = new URLSearchParams({ h: u.st, w: u.bm, c: YC.id }); if (u.sex) q.set("s", u.sex); if (u.ecvOwn) q.set("e", u.ecv);
-  const url = `${location.origin}${location.pathname}?${q}#you`; history.replaceState(null, "", url);
+  const url = cmpUrl(); history.replaceState(null, "", cmpQuery());
   try { await navigator.clipboard.writeText(url); $("yLink").textContent = "Ссылка скопирована"; } catch { $("yLink").textContent = "Ссылка в адресной строке"; }
   setTimeout(() => $("yLink").textContent = "Ссылка на сравнение", 2500);
 };
-$("yCard").onclick = async () => {
-  if (!YLAST) return; const { u, c, big } = YLAST;
-  const L = { bg: "#f7f5f0", text: "#0a0a0e", t2: "#3a3a4a", t3: "#7a7a8a", acc: "#4f3cc9", grid: "rgba(0,0,0,.08)" }, gcol = ["#a3a3ad", "#2a78d6", "#eb6834", "#1baf7a"][c.r.g];
-  try { await document.fonts.ready; } catch {}
-  const hrefs = {};
-  for (const id of [modernImg(u), c.id]) hrefs[id] = SKHREF[id] || (SKHREF[id] = await fetch(`img/${id}.webp`).then(r => r.blob()).then(b => new Promise(res => { const f = new FileReader(); f.onload = () => res(f.result); f.readAsDataURL(b); })));
-  const img = new Image(); img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(duoSVG(u, c, { acc: L.acc, sp: gcol, grid: L.grid, t2: L.t2, t3: L.t3, hrefs }, "Arial, sans-serif")); await img.decode();
-  const cv = document.createElement("canvas"); cv.width = 1200; cv.height = 630; const x = cv.getContext("2d");
-  x.fillStyle = L.bg; x.fillRect(0, 0, 1200, 630);
-  const gr = x.createLinearGradient(640, 0, 1160, 0); gr.addColorStop(0, "#4f3cc9"); gr.addColorStop(.5, "#8b3fa0"); gr.addColorStop(1, "#d63384");
-  x.fillStyle = gr; x.fillRect(0, 0, 1200, 8);
-  x.drawImage(img, 40, 40, 520, 566);
-  const SG = "'Space Grotesk', Arial, sans-serif", IN = "Inter, Arial, sans-serif";
-  x.fillStyle = L.acc; x.font = `500 18px ${SG}`; x.fillText("ПАЛЕОКАЛЬКУЛЯТОР", 640, 92);
-  x.fillStyle = gr; x.font = `500 60px ${SG}`; x.fillText(`Я и ${c.name.split(" ")[0]}`, 636, 158);
-  x.fillStyle = L.t2; x.font = `19px ${IN}`; x.fillText(`${c.r.specimen.replace(" (adult)", "")}, ${c.sub}`, 640, 194);
-  big.forEach(([a, b], i) => { const y = 272 + i * 92; x.fillStyle = L.acc; x.fillRect(640, y - 40, 3, 66); x.fillStyle = L.text; x.font = `500 38px ${SG}`; x.fillText(a, 660, y); x.fillStyle = L.t2; x.font = `18px ${IN}`; x.fillText(`${b}, чем у ${c.gen}`, 660, y + 24); });
-  x.fillStyle = L.t3; x.font = `15px ${IN}`; x.fillText("Данные: Will et al. 2017, CC BY. Формулы: Feldesman, Ruff.", 640, 578);
-  x.fillStyle = L.text; x.font = `500 20px ${SG}`; x.fillText("vladislavpopov.ru/paleocalc", 640, 608);
-  cv.toBlob(b => { const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `ya-i-${c.id}.png`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }, "image/png");
+// ---------- рассказы о находках ----------
+const STORY = {
+  lucy: { title: "Кто такая Люси и почему она важна", q: "Кто такая Люси?", place: "Хадар, регион Афар, Эфиопия", found: "24 ноября 1974 года, Дональд Джохансон и Том Грей", keep: "Национальный музей Эфиопии, Аддис-Абеба",
+    p: ["Люси нашли в 1974 году в пустыне Афар на северо-востоке Эфиопии. Палеоантрополог Дональд Джохансон и его аспирант Том Грей заметили на склоне оврага обломок кости руки, а за следующие недели экспедиция собрала несколько сотен фрагментов одного скелета. Вечером в лагере звучала песня The Beatles «Lucy in the Sky with Diamonds», отсюда имя. В Эфиопии её зовут Динкинеш, по-амхарски «ты прекрасна».",
+      "<b>Почему это важно.</b> Настолько полных скелетов такой древности тогда не знали. Таз и коленный сустав Люси показали, что она ходила на двух ногах, хотя мозг у неё был размером с мозг шимпанзе. Так стало ясно, что прямохождение появилось раньше большого мозга, а не наоборот. По Люси и другим находкам из Хадара в 1978 году описали новый вид, <i>Australopithecus afarensis</i>."],
+    hook: "Люси жила 3,2 млн лет назад на территории нынешней Эфиопии. Она уже ходила на двух ногах, но мозг у неё был размером с мозг шимпанзе: прямохождение появилось раньше большого мозга." },
+  turkana: { title: "Кто такой Мальчик из Турканы и почему он важен", q: "Кто такой Мальчик из Турканы?", place: "Нариокотоме, западный берег озера Туркана, Кения", found: "1984 год, Камойя Кимеу из экспедиции Ричарда Лики и Алана Уокера", keep: "Национальные музеи Кении, Найроби",
+    p: ["В 1984 году Камойя Кимеу, один из самых удачливых охотников за ископаемыми, заметил небольшой обломок черепа у пересохшего русла Нариокотоме на западном берегу озера Туркана. Экспедиция Ричарда Лики и Алана Уокера раскапывала это место несколько сезонов и собрала почти полный скелет подростка, умершего около 1,5 млн лет назад. Раньше его возраст оценивали в 11-12 лет, но по зубам ему было около восьми: <i>Homo erectus</i> взрослели быстрее нас.",
+      "<b>Почему это важно.</b> До этой находки о телах ранних Homo судили по разрозненным костям. Мальчик из Турканы показал, что уже 1,5 млн лет назад у наших предков были длинные ноги, узкий таз и пропорции, как у современных жителей жаркой саванны: тело для долгой ходьбы и бега по открытой местности. Каким высоким он стал бы взрослым, спорят до сих пор: оценки от 1,6 до 1,85 м."],
+    hook: "Мальчик из Турканы жил 1,5 млн лет назад на территории нынешней Кении. Это самый полный скелет раннего Homo: длинные ноги и узкий таз, как у современных жителей саванны, а мозг около двух третей нашего." },
+  ferrassie: { title: "Кто такой неандерталец из Ла Ферраси и почему он важен", q: "Кто такой неандерталец из Ла Ферраси?", place: "скальный навес Ла Ферраси, Дордонь, Франция", found: "1909 год, Дени Пейрони и Луи Капитан",
+    p: ["Скелет мужчины лет сорока-пятидесяти нашли в 1909 году в скальном навесе Ла Ферраси на юго-западе Франции, недалеко от Ле-Эзи: в долине Везера десятки стоянок каменного века. В следующие годы там же нашли ещё несколько неандертальцев, включая детей. Многие исследователи считают, что их положили в землю намеренно, то есть это одни из ранних погребений.",
+      "<b>Почему это важно.</b> Ла Ферраси 1 входит в число самых полных и крупных скелетов неандертальцев, и по нему изучают, как было устроено их тело: массивное, с широкой грудной клеткой, короткими голенями и предплечьями, как у народов холодного климата. Объём его мозга около 1640 см³, больше среднего у современного человека."],
+    hook: "Неандерталец из Ла Ферраси жил около 45-50 тыс. лет назад на территории нынешней Франции. Мозг у него был больше среднего современного, а тело массивнее, с короткими голенями, как у народов холодного климата." },
+  hobbit: { title: "Кто такой хоббит с острова Флорес и почему он важен", q: "Кто такой хоббит с Флореса?", place: "пещера Лианг-Буа, остров Флорес, Индонезия", found: "2003 год, индонезийско-австралийская экспедиция", keep: "Национальный исследовательский центр археологии, Джакарта",
+    p: ["Скелет взрослой женщины ростом чуть больше метра нашли в 2003 году в известняковой пещере Лианг-Буа на острове Флорес. В 2004 году его описали как новый вид, <i>Homo floresiensis</i>, а журналисты прозвали его хоббитом. Сначала возраст оценили в 18 тыс. лет, но в 2016 году пересчитали: кости около 60-100 тыс. лет, а каменные орудия этого вида до 50 тыс. лет.",
+      "<b>Почему это важно.</b> Хоббит показал, что род Homo был разнообразнее, чем думали, и что существо с мозгом размером с мозг шимпанзе делало каменные орудия. Скорее всего, его предки попали на остров и измельчали, как другие островные животные: на Флоресе жили и карликовые слоны стегодоны. Долго спорили, не больной ли это современный человек, но кости похожих маленьких людей возрастом 700 тыс. лет из Мата-Менге на том же острове говорят в пользу отдельного вида."],
+    hook: "Хоббит с острова Флорес жил 60-100 тыс. лет назад, когда наш вид уже существовал. Ростом около метра и с мозгом размером с мозг шимпанзе, он всё же делал каменные орудия." },
 };
+const ageOf = r => r.mya < .1 ? `${fmt(r.mya * 1000, 0)} тыс. лет назад` : `${fmt(r.mya, 1)} млн лет назад`;
+function drawStory(c) {
+  const s = STORY[c.id], r = c.r;
+  const facts = [["Найдена", s.found], ["Где", s.place], ["Возраст", `${ageOf(r)} (по базе)`], ["Образец", `${r.specimen.replace(" (adult)", "")}, ${r.taxon}`], s.keep && ["Хранится", s.keep],
+    [c.id === "turkana" ? "Оценки для взрослого" : "Оценки", `рост ${fmt(r.st, 0)} см, масса ${fmt(r.bm, 0)} кг`]].filter(Boolean);
+  $("yStory").innerHTML = `<div><div class="rtitle">О находке</div><h3>${esc(s.title)}</h3>${s.p.map(x => `<p>${x}</p>`).join("")}<div class="fine">Краткий научно-популярный пересказ, ждёт проверки научным руководителем.</div></div>
+    <div><svg class="minimap" id="yMini" viewBox="0 0 960 632" role="img" aria-label="Где найдена ${esc(c.name)}"></svg><dl class="facts">${facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl>
+    <a class="btn sm" href="#map" style="margin-top:12px">Все находки на карте</a></div>`;
+  const st = r.site; if (!st) return; const [x, y] = PX(st.lon, st.lat);
+  let h = `<path class="land" d="${WM.d}"/>`;
+  YS.forEach(o => { const t = o.r && o.r.site; if (t && o !== c) { const [a, b] = PX(t.lon, t.lat); h += `<circle cx="${a}" cy="${b}" r="8" fill="var(--text-3)" opacity=".55"/>`; } });
+  h += `<circle cx="${x}" cy="${y}" r="24" fill="none" stroke="var(--accent)" stroke-width="5"/><circle cx="${x}" cy="${y}" r="10" fill="var(--accent)"/>`;
+  h += `<text class="lbl" x="${x + (x > 700 ? -36 : 36)}" y="${y + 10}" text-anchor="${x > 700 ? "end" : "start"}" style="font-size:30px;stroke-width:8px">${esc(st.n)}</text>`;
+  $("yMini").innerHTML = h;
+}
+
+// ---------- карта ----------
+const WM = window.WORLD, SITEL = (window.SITES || []).map(s => ({ ...s, re: new RegExp(s.m) }));
+const PX = (lon, lat) => [+((lon - WM.lon0) * WM.k).toFixed(1), +((WM.lat1 - lat) * WM.k).toFixed(1)];
+DB.forEach(r => r.site = SITEL.find(s => s.re.test(r.specimen)) || null);
+const nFind = n => n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? "находки" : n % 10 === 1 && n % 100 !== 11 ? "находка" : "находок";
+const MAPLBL = { lucy: ["Люси", 14, 5], turkana: ["Мальчик из Турканы", -14, 5], ferrassie: ["Ла Ферраси 1", -14, -6], hobbit: ["Хоббит (LB1)", 12, 20] };
+const AGEF = { all: () => true, old: m => m >= 1, mid: m => m < 1 && m >= .1, new: m => m < .1 };
+let MAPAGE = "all", SITEF = null; const MOFF = new Set();
+$("mapAge").onclick = e => { const b = e.target.closest("button"); if (!b) return; MAPAGE = b.dataset.v; for (const x of $("mapAge").children) x.classList.toggle("on", x === b); drawMap(); };
+function drawMap() {
+  const all = DB.filter(r => r.site), rs = all.filter(r => !MOFF.has(r.g) && (MAPAGE === "all" || (r.mya != null && AGEF[MAPAGE](r.mya))));
+  const cnt = [0, 1, 2, 3].map(g => all.filter(r => r.g === g).length);
+  $("mapLegend").innerHTML = [1, 2, 3, 0].filter(g => cnt[g]).map(g => `<span class="li ${MOFF.has(g) ? "off" : ""}" data-g="${g}"><svg viewBox="-6 -6 12 12"><circle r="4.5" fill="var(--s${g})"/></svg>${GNAME[g]}</span>`).join("");
+  $("mapLegend").querySelectorAll(".li").forEach(el => el.onclick = () => { const g = +el.dataset.g; MOFF.has(g) ? MOFF.delete(g) : MOFF.add(g); drawMap(); });
+  // по местонахождениям, затем близкие на экране точки сливаются в одну
+  const by = new Map(); rs.forEach(r => { if (!by.has(r.site)) by.set(r.site, []); by.get(r.site).push(r); });
+  const cl = [];
+  for (const [s, a] of [...by].sort((p, q) => q[1].length - p[1].length)) {
+    const [x, y] = PX(s.lon, s.lat), near = cl.find(c => Math.hypot(c.x - x, c.y - y) < 9);
+    if (near) { near.sites.push(s); near.rs.push(...a); } else cl.push({ x, y, sites: [s], rs: [...a] });
+  }
+  let h = `<path class="land" d="${WM.d}"/>`;
+  h += cl.map((c, i) => { const n = [0, 0, 0, 0]; c.rs.forEach(r => n[r.g]++); const g = n.indexOf(Math.max(...n));
+    return `<circle class="site" data-c="${i}" cx="${c.x}" cy="${c.y}" r="${(3.5 + 2.1 * Math.sqrt(c.rs.length)).toFixed(1)}" fill="var(--s${g})"/>`; }).join("");
+  YS.forEach(y => { const s = y.r && y.r.site, L = MAPLBL[y.id]; if (!s || !L) return; const [x, yy] = PX(s.lon, s.lat);
+    if (y === YC) h += `<circle class="ring" cx="${x}" cy="${yy}" r="${(3.5 + 2.1 * Math.sqrt((by.get(s) || []).length || 1)) + 5}" style="pointer-events:none"/>`;
+    h += `<text class="lbl" x="${x + L[1]}" y="${yy + L[2]}" text-anchor="${L[1] < 0 ? "end" : "start"}" style="pointer-events:none">${L[0]}</text>`; });
+  $("wmap").innerHTML = h;
+  $("wmap").querySelectorAll(".site").forEach(el => { const c = cl[+el.dataset.c], ages = c.rs.map(r => r.mya).filter(x => x != null), lo = Math.min(...ages), hi = Math.max(...ages);
+    el.onmousemove = e => showTip(`<b>${c.sites.map(s => esc(s.n)).join(", ")}</b><div class="m">${esc([...new Set(c.sites.map(s => s.c))].join(", "))}${c.sites.some(s => s.approx) ? ", координаты примерные" : ""}</div>
+      <div style="margin-top:6px">${c.rs.length} ${nFind(c.rs.length)}${ages.length ? `, ${lo === hi ? ageOf({ mya: lo }) : `${ageOf({ mya: hi }).replace(" назад", "")} – ${ageOf({ mya: lo })}`}` : ""}</div>
+      <div class="m" style="margin-top:6px">${c.rs.slice(0, 8).map(r => `${esc(r.specimen)} <span style="color:var(--text-3)">${esc(r.taxon || "")}</span>`).join("<br>")}${c.rs.length > 8 ? `<br>и ещё ${c.rs.length - 8}` : ""}</div><div class="m" style="margin-top:6px">Нажмите, чтобы открыть в таблице</div>`, e);
+    el.onmouseleave = hideTip;
+    el.onclick = () => { hideTip(); SITEF = new Set(c.sites); $("q").value = ""; renderDb(); $("db").scrollIntoView({ behavior: "smooth" }); }; });
+  const ns = new Set(rs.map(r => r.site)).size;
+  $("mapFoot").innerHTML = `На карте ${rs.length} ${nFind(rs.length)} из ${DB.length} в ${ns} местонахождениях. Координаты приблизительные (до ~10 км), по общедоступным справочникам, и ждут сверки. Контуры суши: Natural Earth.`;
+}
+
+// ---------- поделиться ----------
+const cap1 = s => s.charAt(0).toUpperCase() + s.slice(1);
+function cmpQuery() { const u = you(), q = new URLSearchParams({ h: u.st, w: u.bm, c: YC.id }); if (u.sex) q.set("s", u.sex); if (u.ecvOwn) q.set("e", u.ecv); return `?${q}#you`; }
+const cmpUrl = () => `https://vladislavpopov.ru/paleocalc/${cmpQuery()}`;
+const dataHref = async id => SKHREF[id] || (SKHREF[id] = await fetch(`img/${id}.webp`).then(r => r.blob()).then(b => new Promise(res => { const f = new FileReader(); f.onload = () => res(f.result); f.readAsDataURL(b); })));
+function postText() {
+  const { c, big } = YLAST, lab = ["Рост", "Масса", "Объём мозга"];
+  return `Я и ${c.name} в одном масштабе.\n\n${big.map(([a], i) => `${lab[i]}: ${a}.`).join("\n")}\n\n${STORY[c.id].hook}\n\nСравните себя с предками: ${cmpUrl()}\n\n#палеокалькулятор #антропогенез #эволюциячеловека`;
+}
+async function postImage(kind) {
+  const { u, c, big } = YLAST, r = c.r, wide = kind === "wide", W = wide ? 1200 : 1080, H = wide ? 630 : 1350;
+  const L = { text: "#0a0a0e", t2: "#3a3a4a", t3: "#7a7a8a", acc: "#4f3cc9", grid: "rgba(0,0,0,.09)" }, gcol = ["#a3a3ad", "#2a78d6", "#eb6834", "#1baf7a"][r.g];
+  try { await document.fonts.ready; } catch {}
+  const hrefs = {}; for (const id of [modernImg(u), c.id]) hrefs[id] = await dataHref(id);
+  const img = new Image(); img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(duoSVG(u, c, { acc: L.acc, sp: gcol, grid: L.grid, t2: L.t2, t3: L.t3, hrefs }, "Arial, sans-serif")); await img.decode();
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H; const x = cv.getContext("2d");
+  x.fillStyle = "#ffffff"; x.fillRect(0, 0, W, H);
+  const gr = x.createLinearGradient(0, 0, W, 0); gr.addColorStop(0, "#4f3cc9"); gr.addColorStop(.5, "#8b3fa0"); gr.addColorStop(1, "#d63384");
+  x.fillStyle = gr; x.fillRect(0, 0, W, 10);
+  const SG = "'Space Grotesk', Arial, sans-serif", IN = "Inter, Arial, sans-serif";
+  const fit = (t, max, size, w, fam) => { let s = size; do x.font = `${w} ${s}px ${fam}`; while (x.measureText(t).width > max && --s > 12); };
+  const wrap = (t, x0, y0, max, lh, lines) => { let line = "", n = 0; for (const w of t.split(" ")) { const tt = line ? line + " " + w : w;
+      if (x.measureText(tt).width > max && line) { if (n === lines - 1) { x.fillText(line + "…", x0, y0 + n * lh); return lines; } x.fillText(line, x0, y0 + n * lh); n++; line = w; } else line = tt; }
+    if (line) { x.fillText(line, x0, y0 + n * lh); n++; } return n; };
+  const legend = (x0, y0, fs) => { x.font = `${fs}px ${IN}`; x.fillStyle = "#8a5a36"; x.fillRect(x0, y0 - fs + 3, fs, fs); x.fillStyle = L.t2; x.fillText("найденные кости", x0 + fs + 10, y0);
+    const x1 = x0 + fs + 22 + x.measureText("найденные кости").width; x.fillStyle = "#f1ece0"; x.fillRect(x1, y0 - fs + 3, fs, fs); x.strokeStyle = "#b9b2a3"; x.lineWidth = 1; x.strokeRect(x1 + .5, y0 - fs + 3.5, fs - 1, fs - 1);
+    x.fillStyle = L.t2; x.fillText("восстановленные", x1 + fs + 10, y0); };
+  const title = `Я и ${c.name}`, sub = `${r.specimen.replace(" (adult)", "")} · ${c.sub} · ${ageOf(r)}`;
+  if (!wide) {
+    x.fillStyle = L.acc; x.font = `500 24px ${SG}`; x.fillText("ПАЛЕОКАЛЬКУЛЯТОР", 64, 78);
+    fit(title, 952, 76, 500, SG); x.fillStyle = gr; x.fillText(title, 60, 158);
+    x.fillStyle = L.t2; fit(sub, 952, 24, 400, IN); x.fillText(sub, 64, 202);
+    x.drawImage(img, 20, 236, 580, 631);
+    big.forEach(([a, b], i) => { const y = 340 + i * 150; x.fillStyle = L.acc; x.fillRect(632, y - 44, 4, 92); x.fillStyle = L.text; fit(cap1(a), 390, 46, 500, SG); x.fillText(cap1(a), 652, y);
+      x.fillStyle = L.t2; x.font = `21px ${IN}`; wrap(`${b}, чем у ${c.gen}`, 652, y + 34, 390, 27, 2); });
+    legend(652, 812, 19);
+    x.fillStyle = L.t3; x.font = `17px ${IN}`; x.fillText("Ваш скелет: типичный для вашего роста", 652, 846);
+    x.fillStyle = "rgba(0,0,0,.1)"; x.fillRect(64, 900, 952, 1);
+    x.fillStyle = L.text; x.font = `500 34px ${SG}`; x.fillText(STORY[c.id].q, 64, 958);
+    x.fillStyle = L.t2; x.font = `29px ${IN}`; const hl = wrap(STORY[c.id].hook, 64, 1010, 952, 42, 4);
+    x.fillStyle = L.t3; x.font = `22px ${IN}`; wrap(`Найдена: ${STORY[c.id].found}. Место: ${STORY[c.id].place}.`, 64, 1010 + hl * 42 + 22, 952, 31, 2);
+    x.fillStyle = L.text; x.font = `500 30px ${SG}`; x.fillText("Сравните себя: vladislavpopov.ru/paleocalc", 64, 1274);
+    x.fillStyle = L.t3; x.font = `17px ${IN}`; x.fillText("Данные: Will et al. 2017 (CC BY). Формулы: Feldesman 1990, Ruff 1991. Скелеты нарисованы ИИ.", 64, 1312);
+  } else {
+    x.drawImage(img, 40, 40, 520, 566);
+    x.fillStyle = L.acc; x.font = `500 18px ${SG}`; x.fillText("ПАЛЕОКАЛЬКУЛЯТОР", 640, 84);
+    const t2 = `Я и ${c.name.split(" ")[0]}`; fit(t2, 520, 60, 500, SG); x.fillStyle = gr; x.fillText(t2, 636, 148);
+    x.fillStyle = L.t2; fit(sub, 520, 19, 400, IN); x.fillText(sub, 640, 182);
+    big.forEach(([a, b], i) => { const y = 256 + i * 88; x.fillStyle = L.acc; x.fillRect(640, y - 38, 3, 64); x.fillStyle = L.text; fit(cap1(a), 500, 36, 500, SG); x.fillText(cap1(a), 660, y); x.fillStyle = L.t2; x.font = `18px ${IN}`; x.fillText(`${b}, чем у ${c.gen}`, 660, y + 24); });
+    legend(640, 532, 16);
+    x.fillStyle = L.t3; x.font = `15px ${IN}`; x.fillText("Данные: Will et al. 2017, CC BY. Формулы: Feldesman, Ruff.", 640, 572);
+    x.fillStyle = L.text; x.font = `500 20px ${SG}`; x.fillText("vladislavpopov.ru/paleocalc", 640, 604);
+  }
+  return new Promise(res => cv.toBlob(res, "image/png"));
+}
+let SHBLOB = null, SHFMT = "post";
+async function shRender() { $("shImg").style.opacity = .4; SHBLOB = await postImage(SHFMT); const old = $("shImg").src; $("shImg").src = URL.createObjectURL(SHBLOB); if (old.startsWith("blob:")) URL.revokeObjectURL(old); $("shImg").style.opacity = 1; }
+$("yShare").onclick = async () => {
+  if (!YLAST) return; history.replaceState(null, "", cmpQuery());
+  const url = cmpUrl(), e = encodeURIComponent, short = `Я и ${YLAST.c.name} в одном масштабе. Сравните себя с предками:`;
+  $("shText").value = postText();
+  $("shTg").href = `https://t.me/share/url?url=${e(url)}&text=${e(short)}`; $("shVk").href = `https://vk.com/share.php?url=${e(url)}&title=${e(short)}`;
+  $("shWa").href = `https://wa.me/?text=${e(short + " " + url)}`; $("shX2").href = `https://twitter.com/intent/tweet?text=${e(short)}&url=${e(url)}`;
+  $("shNative").style.display = navigator.share ? "" : "none"; $("shCopyImg").style.display = window.ClipboardItem && navigator.clipboard && navigator.clipboard.write ? "" : "none";
+  $("sh").classList.add("on"); await shRender();
+};
+$("shFmt").onclick = e => { const b = e.target.closest("button"); if (!b) return; SHFMT = b.dataset.v; for (const x of $("shFmt").children) x.classList.toggle("on", x === b); shRender(); };
+const shName = () => `ya-i-${YLAST.c.id}${SHFMT === "wide" ? "-wide" : ""}.png`;
+$("shDl").onclick = () => { const a = document.createElement("a"); a.href = $("shImg").src; a.download = shName(); a.click(); };
+$("shNative").onclick = async () => { const f = new File([SHBLOB], shName(), { type: "image/png" }), text = $("shText").value;
+  try { if (navigator.canShare && navigator.canShare({ files: [f] })) await navigator.share({ files: [f], text }); else await navigator.share({ text, url: cmpUrl() }); } catch {} };
+const flash = (id, t) => { const b = $(id); b.dataset.t = b.dataset.t || b.textContent; b.textContent = t; setTimeout(() => b.textContent = b.dataset.t, 2000); };
+$("shCopyImg").onclick = async () => { try { await navigator.clipboard.write([new ClipboardItem({ "image/png": SHBLOB })]); flash("shCopyImg", "Картинка скопирована"); } catch { flash("shCopyImg", "Не вышло, скачайте"); } };
+$("shCopyTxt").onclick = async () => { try { await navigator.clipboard.writeText($("shText").value); flash("shCopyTxt", "Текст скопирован"); } catch { $("shText").select(); } };
+const shClose = () => $("sh").classList.remove("on");
+$("shX").onclick = shClose; $("sh").onclick = e => { if (e.target === $("sh")) shClose(); };
+addEventListener("keydown", e => { if (e.key === "Escape") shClose(); });
 (() => { const q = new URLSearchParams(location.search); if (q.get("h")) $("y-st").value = q.get("h"); if (q.get("w")) $("y-bm").value = q.get("w"); if (q.get("e")) $("y-ecv").value = q.get("e");
   if (["M", "F"].includes(q.get("s"))) YSEX = q.get("s"); const c = YS.find(y => y.id === q.get("c")); if (c) YC = c; })();
 
