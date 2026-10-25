@@ -425,9 +425,65 @@ details.note p{margin-top:8px}
   .scroll{max-height:60vh}#dbt{min-width:760px}#dbt td{white-space:nowrap}
   .dbbar{flex-wrap:wrap}
 }
+/* залы музея (v0.8): цвет стен, свет при входе, таблички, этикетки, инструменты */
+[data-theme="red"]{--bg:#5c1b21;--surface:#681f26;--surface-2:#6f262d;--text:#f6ede1;--text-2:#e6d3c4;--text-3:#c7a898;--accent:#ecc98f;--accent-dim:rgba(236,201,143,.10);--border:rgba(255,240,220,.14);--border-h:rgba(255,240,220,.28);--wall-base:#3f1116;color-scheme:dark}
+[data-theme="navy"]{--bg:#1d2836;--surface:#232f3f;--surface-2:#283546;--text:#eef0f2;--text-2:#c9d0d8;--text-3:#94a0ae;--accent:#ecc98f;--accent-dim:rgba(236,201,143,.10);--border:rgba(230,240,255,.12);--border-h:rgba(230,240,255,.25);--wall-base:#121a24;color-scheme:dark}
+.wall{position:relative;overflow:hidden;border-bottom:14px solid var(--wall-base);box-shadow:inset 0 1px 0 rgba(236,201,143,.35);
+  background:radial-gradient(38% 300px at 18% 0,rgba(255,236,205,.13),transparent 72%),radial-gradient(38% 300px at 82% 0,rgba(255,236,205,.09),transparent 72%),var(--bg)}
+.wall:before{content:"";position:absolute;left:0;right:0;top:0;height:70px;background:linear-gradient(rgba(0,0,0,.32),transparent);pointer-events:none}
+.wall section.block{border-top:0;position:relative}
+.wall .engr{position:absolute;right:-60px;top:70px;width:min(560px,70vw);height:min(560px,70vw);color:var(--text);opacity:.13;transform:rotate(-12deg);pointer-events:none}
+.wall[data-theme="navy"] .engr{right:auto;left:-120px;top:120px;transform:rotate(8deg)}
+.js .wall:after{content:"";position:absolute;inset:0;background:#08080a;opacity:.55;pointer-events:none;transition:opacity 1.3s ease .1s}
+.js .wall.lit:after{opacity:0}
+.js .wall .sec-head{opacity:0;transform:translateY(14px);transition:opacity .9s ease .35s,transform .9s ease .35s}
+.js .wall.lit .sec-head{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.js .wall:after{display:none}.js .wall .sec-head{opacity:1;transform:none}}
+.wall .note{background:rgba(0,0,0,.18)}
+/* табличка зала */
+.sec-num{display:flex;align-items:center;gap:10px}
+.sec-num .ic{width:26px;height:26px;flex:none}
+.wall .sec-num{display:inline-flex;padding:6px 14px 6px 10px;border:1px solid var(--border-h);background:rgba(0,0,0,.14);border-radius:2px}
+/* иконки-инструменты */
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;vertical-align:-4px;overflow:visible}
+.ic .fill,.engr .fill{fill:currentColor;stroke:none}
+.engr{fill:none;stroke:currentColor;stroke-width:.07}
+
+.field label .ic{width:17px;height:17px;margin-right:6px;color:var(--accent);vertical-align:-3px}
+.h3t{font-weight:inherit;display:inline-flex;align-items:center;gap:8px}
+.h3t .ic{color:var(--accent);width:24px;height:24px}
+.rtitle .ic{color:var(--accent);margin-right:7px}
+/* линейка с делениями вместо простой линии между разделами */
+section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(--border-h) 0 1px,transparent 1px 10px),repeating-linear-gradient(90deg,var(--text-3) 0 1px,transparent 1px 100px),linear-gradient(var(--border-h),var(--border-h));
+  background-size:100% 5px,100% 11px,100% 1px;background-repeat:no-repeat;background-position:0 0}
+.wall section.block{background-image:none}
+/* этикетки на карточках: шифр, название, вид, датировка */
+.card .thumb{background:linear-gradient(#ece6da,#f6f2ea);margin:-30px -12px 0;padding-top:30px;height:154px;border-bottom:3px solid #5c1b21}
+.card .lab{display:flex;flex-direction:column;gap:1px;padding-top:9px}
+.card .ino{font-size:.68rem;color:var(--text-3);font-variant-numeric:tabular-nums}
+.card .sp{font:italic .82rem/1.25 var(--fh);color:var(--text-2)}
+.card .tag{z-index:1}
+@media(max-width:640px){
+  .wall .engr{width:300px;height:300px;right:-90px;top:40px}
+  .wall .sec-num{padding:5px 10px 5px 8px;font-size:.95rem}
+  .card .thumb{margin:-28px -10px 0;padding-top:28px;height:124px}
+  .wall{border-bottom-width:10px}
+}
 </style>
 </head>
 <body>
+<script>document.documentElement.classList.add("js")</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<!-- инструменты антрополога: антропометр Мартина, штангенциркуль, толстотный циркуль, остеометрическая доска, весы, масштабная линейка, картотека, угольник -->
+<symbol id="i-anthro" viewBox="0 0 24 24"><path d="M7 2.5v19M4.5 21.5h5M7 4.5h1.4M7 13h1.4M7 15.5h2M7 18h1.4M8.8 8h11.5l1.7.9-1.7.9H8.8"/><path d="M5.2 6h3.6v5.5H5.2z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><path d="M2.5 5h19v3h-19zM4 8v10.5l2.2-3V8M13 4v6h4V4zM14 10v8.5l2-3V10M7 5v1.4M9 5v1.4M11 5v1.4M18.5 5v1.4M20.5 5v1.4"/></symbol>
+<symbol id="i-spread" viewBox="0 0 24 24"><circle cx="12" cy="3.5" r="1.3"/><path d="M11 4.6C4.5 8 3.6 15.5 9.6 20.5M13 4.6c6.5 3.4 7.4 10.9 1.4 15.9M6.4 13.5h11.2M9 13.5v1.3M12 13.5v1.6M15 13.5v1.3"/></symbol>
+<symbol id="i-board" viewBox="0 0 24 24"><path d="M2.5 15.5h19v4h-19zM2.5 15.5V8h2v7.5M17 10.5h3v5h-3zM6 19.5v-1.3M9 19.5v-1.3M12 19.5v-1.3M15 19.5v-1.3M18 19.5v-1.3M5.3 14.1c0-1.3 1.7-1.6 2.3-.6h6.6c.6-1 2.3-.7 2.3.6s-1.7 1.6-2.3.6H7.6c-.6 1-2.3.7-2.3-.6z"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><circle cx="12" cy="4" r="1"/><path d="M12 5v14.5M8 19.5h8M4 7h16M4 7l-2.2 6M4 7l2.2 6M20 7l-2.2 6M20 7l2.2 6M1.8 13a2.2 2.2 0 0 0 4.4 0zM17.8 13a2.2 2.2 0 0 0 4.4 0z"/></symbol>
+<symbol id="i-ruler" viewBox="0 0 24 24"><path d="M2 9h20v6H2zM6 9v6M10 9v6M14 9v6M18 9v6"/><path class="fill" d="M2 9h4v6H2zM10 9h4v6h-4zM18 9h4v6h-4z"/></symbol>
+<symbol id="i-drawer" viewBox="0 0 24 24"><path d="M3 4.5h18v16H3zM3 12.5h18M9 6.6h6v2.4H9zM9 14.6h6v2.4H9zM11 10.6h2M11 18.6h2"/></symbol>
+<symbol id="i-square" viewBox="0 0 24 24"><path d="M3 3v18h18zM6.5 11.5v6h6zM3 7h1.5M3 10h1.5M3 13h1.5M3 16h1.5M7 21v-1.5M10 21v-1.5M13 21v-1.5M16 21v-1.5"/></symbol>
+</svg>
 <nav class="nav" data-theme="dark">
   <a href="https://vladislavpopov.ru/" class="nav-name">Vladislav Popov</a>
   <div class="nav-right">
@@ -447,12 +503,12 @@ details.note p{margin-top:8px}
 <div class="hall" data-theme="dark"><header class="hero container" id="top">
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="eyebrow"><b>Палеокалькулятор</b>, витрина «Люди и их родня»</div>
+      <div class="eyebrow"><b>Палеокалькулятор</b>, вестибюль. Витрина «Люди и их родня»</div>
       <h1>Кто из предков <em>ваш двойник</em>?</h1>
       <p class="lead">Введите рост и вес. Мы поставим вас в один ряд с Люси, неандертальцем и хоббитом в настоящем масштабе и найдём среди 311 ископаемых людей того, кто сложён как вы.</p>
       <form class="hero-form" id="heroForm" autocomplete="off">
-        <div class="field"><label for="y-st">Ваш рост</label><div class="in"><input id="y-st" type="number" inputmode="decimal" step="any" min="50" max="250" placeholder="172"><span class="u">см</span></div></div>
-        <div class="field"><label for="y-bm">Ваш вес</label><div class="in"><input id="y-bm" type="number" inputmode="decimal" step="any" min="15" max="300" placeholder="72"><span class="u">кг</span></div></div>
+        <div class="field"><label for="y-st"><svg class="ic" aria-hidden="true"><use href="#i-anthro"/></svg>Ваш рост</label><div class="in"><input id="y-st" type="number" inputmode="decimal" step="any" min="50" max="250" placeholder="172"><span class="u">см</span></div></div>
+        <div class="field"><label for="y-bm"><svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg>Ваш вес</label><div class="in"><input id="y-bm" type="number" inputmode="decimal" step="any" min="15" max="300" placeholder="72"><span class="u">кг</span></div></div>
         <div class="seg" id="ySex" role="group" aria-label="Пол"><button type="button" data-v="" class="on">Пол не важен</button><button type="button" data-v="M">Мужчина</button><button type="button" data-v="F">Женщина</button></div>
         <button class="btn primary" type="submit">Найти двойника</button>
       </form>
@@ -471,12 +527,13 @@ details.note p{margin-top:8px}
   </div>
 </header></div>
 
+<div class="wall" data-theme="red"><svg class="engr" aria-hidden="true"><use href="#i-cal"/></svg>
 <section class="block container" id="you">
   <div class="sec-head">
-    <div><div class="sec-num">§ 1. Сравнение</div><h2>Вы <em>рядом</em> с предками</h2></div>
+    <div><div class="sec-num"><svg class="ic" aria-hidden="true"><use href="#i-anthro"/></svg>Зал I. Сравнение</div><h2>Вы <em>рядом</em> с предками</h2></div>
     <div class="you-me" id="yMe"></div>
   </div>
-  <div class="pick">
+  <div class="pick" data-theme="light">
     <div class="pick-top">
       <div class="rtitle">С кем сравнить</div>
       <div class="seg" id="pickTabs"><button type="button" data-v="cards" class="on">Знаменитые</button><button type="button" data-v="map">На карте</button><button type="button" data-v="list">Списком</button></div>
@@ -530,14 +587,15 @@ details.note p{margin-top:8px}
     </div>
   </div>
   <details class="note" style="margin-top:18px"><summary><b>Это иллюстрация метода, а не медицинские данные.</b><span>подробнее</span></summary><p>Ваши кости оценены обращением формул, выведенных для другой задачи: длина бедра через постоянное отношение к росту (Feldesman et al. 1990), диаметр головки бедра обращением уравнений массы (среднее Ruff 1991, McHenry 1992, Grine 1995), а обращённая регрессия даёт смещённую оценку. Оценки находок взяты из базы Will et al. 2017 и сами имеют интервалы ±10-20%; типичные объёмы мозга таксонов даны как ориентир. Ничего не отправляется на сервер, пока вы сами не нажмёте «Поделиться ссылкой».</p></details>
-</section>
+</section></div>
 
+<div class="wall" data-theme="navy"><svg class="engr" aria-hidden="true"><use href="#i-anthro"/></svg>
 <section class="block container" id="tree">
   <div class="sec-head">
-    <div><div class="sec-num">§ 2. Шкала эволюции</div><h2>Вы на шкале <em>4 млн лет</em></h2></div>
+    <div><div class="sec-num"><svg class="ic" aria-hidden="true"><use href="#i-ruler"/></svg>Зал II. Шкала эволюции</div><h2>Вы на шкале <em>4 млн лет</em></h2></div>
     <p>Каждая точка: опубликованная оценка для конкретной находки из базы Will, Pablos, Stock 2017. Полоса: ваши рост или масса, а если заполнен калькулятор по костям, его результат с интервалом. Наведите на точку, чтобы увидеть образец, метод и источник.</p>
   </div>
-  <div class="chart-card">
+  <div class="chart-card" data-theme="light">
     <div class="chart-ctrl">
       <div class="seg" id="metricSeg"><button type="button" data-v="bm" class="on">Масса тела</button><button type="button" data-v="st">Рост</button></div>
       <select class="sel" id="taxSel" aria-label="Выделить таксон"><option value="">Выделить таксон: все</option></select>
@@ -546,15 +604,15 @@ details.note p{margin-top:8px}
     <div class="hscroll"><svg id="scatter" viewBox="0 0 960 440" role="img" aria-label="Диаграмма рассеяния: возраст находки и оценка массы тела или роста"></svg></div>
     <div class="chart-foot">Шкала времени нелинейная (квадратный корень), чтобы последние 300 тысяч лет с самыми многочисленными находками не слиплись. Табличный вид тех же данных ниже, в разделе «База».</div>
   </div>
-  <div class="chart-card" style="margin-top:18px">
+  <div class="chart-card" data-theme="light" style="margin-top:18px">
     <div class="chart-ctrl"><div class="rtitle" id="taxaTitle">Разброс по таксонам</div></div>
     <div class="hscroll"><svg id="taxa" viewBox="0 0 960 520" role="img" aria-label="Медиана и размах оценок по таксонам"></svg></div>
     <div class="chart-foot">Точка: медиана оценок по находкам таксона, линия: от минимума до максимума, n: число находок. Таксоны упорядочены по средней датировке, сверху самые древние.</div>
   </div>
-</section>
+</section></div>
 
 <div class="band"><div class="container">
-  <div class="sec-num">Для исследователей</div>
+  <div class="sec-num"><svg class="ic" aria-hidden="true"><use href="#i-square"/></svg>Научный отдел</div>
   <h2>Калькулятор по костям, база находок и методика</h2>
   <p>Ниже научная часть: оценки роста, массы тела и мозга по обмерам костей с источником и интервалом у каждой формулы, открытая база 311 находок и описание метода.</p>
   <details class="note"><summary><b>Черновик для научной проверки.</b><span>подробнее</span></summary><p>Коэффициенты сверены по вторичным источникам (у каждой формулы указано, где) и ждут сверки с оригинальными статьями. Все формулы построены на современных людях: для ископаемых видов реальная неопределённость выше показанных интервалов.</p></details>
@@ -562,7 +620,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="calc">
   <div class="sec-head">
-    <div><div class="sec-num">§ 3. Калькулятор</div><h2>Обмерьте кость, <em>получите</em> тело</h2></div>
+    <div><div class="sec-num"><svg class="ic" aria-hidden="true"><use href="#i-board"/></svg>Зал III. Лаборатория</div><h2>Обмерьте кость, <em>получите</em> тело</h2></div>
     <p>Нажмите на кость на схеме или заполните поле. Можно ввести один обмер, можно все: калькулятор применит каждую подходящую формулу и покажет, насколько они согласуются.</p>
   </div>
   <div class="calc">
@@ -599,7 +657,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="db">
   <div class="sec-head">
-    <div><div class="sec-num">§ 4. База находок</div><h2>Открытые <em>данные</em></h2></div>
+    <div><div class="sec-num"><svg class="ic" aria-hidden="true"><use href="#i-drawer"/></svg>Зал IV. Фонды</div><h2>Открытые <em>данные</em></h2></div>
     <p>Will M., Pablos A., Stock J.T. (2017), Royal Society Open Science, дополнительные материалы под лицензией CC BY. Интервалы с пометкой «b» в оригинале посчитаны как ±20% (масса) и ±10% (рост). Нажмите на строку, чтобы найти находку на шкале.</p>
   </div>
   <div class="dbbar"><span id="siteChip"></span><input class="search" id="q" placeholder="Поиск: AL 288, Neanderthal, Kenya, Feldesman..." aria-label="Поиск по базе"><span class="rsub" id="dbcount"></span>
@@ -609,7 +667,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="methods">
   <div class="sec-head">
-    <div><div class="sec-num">§ 5. Методика</div><h2>Откуда <em>цифры</em></h2></div>
+    <div><div class="sec-num"><svg class="ic" aria-hidden="true"><use href="#i-square"/></svg>Зал V. Методика</div><h2>Откуда <em>цифры</em></h2></div>
     <p>Калькулятор ничего не придумывает: только опубликованные уравнения, ссылки на первоисточники с DOI и явная пометка, где коэффициенты сверены.</p>
   </div>
   <div class="acc">
@@ -630,7 +688,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="about">
   <div class="sec-head">
-    <div><div class="sec-num">§ 6. О проекте</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
+    <div><div class="sec-num">О проекте</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
   </div>
   <div class="about">
     <div>
@@ -651,7 +709,7 @@ details.note p{margin-top:8px}
 
 <footer data-theme="dark"><div class="container">
   <div class="row">
-    <div>Палеокалькулятор v0.7 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
+    <div>Палеокалькулятор v0.8 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
     <div>Данные: <a class="srcl" href="https://doi.org/10.1098/rsos.171339" target="_blank" rel="noopener">Will, Pablos, Stock 2017</a>, CC BY &middot; код MIT</div>
   </div>
 </div></footer>
@@ -703,14 +761,17 @@ function moveTip(e) { const w = tip.offsetWidth, h = tip.offsetHeight; let x = e
 function hideTip() { tip.style.opacity = 0; }
 
 // ---------- поля ----------
+// иконка-инструмент из спрайта в начале body
+const ic = n => n ? `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>` : "";
+// ic: чем снимают обмер (остеометрическая доска, штангенциркуль, толстотный циркуль)
 const GROUPS = [
-  { t: "Длинные кости", h: "для роста", keys: ["femur", "tibia", "humerus"] },
-  { t: "Бедро и таз", h: "для массы тела", keys: ["fh", "lbib", "stature"] },
-  { t: "Череп", h: "для мозга и энцефализации", keys: ["ecv", "bm"] },
+  { t: "Длинные кости", h: "для роста", ic: "board", keys: ["femur", "tibia", "humerus"] },
+  { t: "Бедро и таз", h: "для массы тела", ic: "cal", keys: ["fh", "lbib", "stature"] },
+  { t: "Череп", h: "для мозга и энцефализации", ic: "spread", keys: ["ecv", "bm"] },
 ];
 const HINT = { femur: "максимальная длина", fh: "FHD, вертикальный диаметр", stature: "пусто: возьмём оценку по бедру", lbib: "прижизненная, не скелетная", bm: "пусто: возьмём оценку по головке бедра", ecv: "объём мозговой полости" };
 const LABEL = { femur: "Бедренная кость", tibia: "Большеберцовая", humerus: "Плечевая кость", fh: "Головка бедра", stature: "Рост", lbib: "Ширина таза (LBIB)", ecv: "Объём эндокрана", bm: "Масса тела для EQ" };
-$("fields").innerHTML = GROUPS.map(g => `<div class="fgroup"><h3>${g.t}<span>${g.h}</span></h3><div class="frow">` +
+$("fields").innerHTML = GROUPS.map(g => `<div class="fgroup"><h3><b class="h3t">${ic(g.ic)}${g.t}</b><span>${g.h}</span></h3><div class="frow">` +
   g.keys.map(k => `<div class="field"><label for="${k}">${LABEL[k]}</label><div class="in"><input id="${k}" type="number" inputmode="decimal" step="any" min="0" placeholder="–"><span class="u">${INPUTS[k].unit}</span></div><div class="hint">${HINT[k] || "&nbsp;"}</div></div>`).join("") + `</div></div>`).join("");
 // скелет: фото-иллюстрация 285×900, кость подсвечивается копией картинки, обрезанной по грубому контуру и тонированной
 // (фон картинки прозрачный, поэтому цвет ложится только на кость). Контуры для левой стороны, правая зеркальная.
@@ -780,7 +841,8 @@ function hookForest(card, rs) {
     row.onmouseleave = hideTip;
   });
 }
-function card(id, title, headline, sub, inner) { $(id).innerHTML = `<div class="rtop"><div><div class="rtitle">${title}</div>${headline}</div><div class="rsub">${sub}</div></div>${inner}`; }
+const RIC = { "c-stature": "anthro", "c-mass": "scale", "c-brain": "spread" };
+function card(id, title, headline, sub, inner) { $(id).innerHTML = `<div class="rtop"><div><div class="rtitle">${ic(RIC[id])}${title}</div>${headline}</div><div class="rsub">${sub}</div></div>${inner}`; }
 
 function calc() {
   const v = val();
@@ -1048,13 +1110,14 @@ function drawParade(u) {
   $("parade").querySelectorAll(".pf[data-id]").forEach(g => { const go = () => pick(byId(g.dataset.id), true); g.onclick = go; g.onkeydown = e => { if (e.key === "Enter") go(); }; });
 }
 
-// карточки знаменитых находок и двойника, в одном масштабе
+// карточки знаменитых находок и двойника, в одном масштабе; на этикетке шифр находки, если он не совпадает с названием
+const invOf = c => { const v = c.r.specimen.replace(/ \(.*\)$/, ""); return v !== c.name ? v : ""; };
 function drawCards(u) {
   const list = [{ c: TWIN, tag: "Ваш двойник" }].concat(YS.filter(c => c !== TWIN).map(c => ({ c })));
   const maxSt = Math.max(u.st, ...list.map(x => x.c.r.st));
   $("yCards").innerHTML = list.map(({ c, tag }) => `<button class="card${c === YC ? " on" : ""}" data-id="${c.id}" type="button">${tag ? `<span class="tag">${tag}</span>` : ""}
     <span class="thumb"><img src="img/${c.img}.webp" alt="" loading="lazy" style="height:${(c.r.st / maxSt * 100).toFixed(1)}%;aspect-ratio:${(SKIMG[c.img] * (c.img.startsWith("modern") ? modernWf(c.r) : 1)).toFixed(4)}"></span>
-    <b>${esc(c.name)}</b><span class="cs">${esc(c.sub)}</span><span class="cs">${ageOf(c.r)} · ${fmt(c.r.st, 0)} см · ${fmt(c.r.bm, 0)} кг</span></button>`).join("") +
+    <span class="lab">${invOf(c) ? `<span class="ino">${esc(invOf(c))}</span>` : ""}<b>${esc(c.name)}</b><span class="sp">${esc(c.sub)}</span><span class="cs">${ageOf(c.r)} · ${fmt(c.r.st, 0)} см · ${fmt(c.r.bm, 0)} кг</span></span></button>`).join("") +
     `<button class="card more" type="button" data-more="map"><span class="plus">+${BOTH.length - list.length}</span><b>Другие находки</b><span class="cs">выберите на карте или в списке</span></button>`;
 }
 $("yCards").onclick = e => { const b = e.target.closest(".card"); if (!b) return; if (b.dataset.more) return pickTab("map");
@@ -1390,6 +1453,10 @@ $("reg").innerHTML = `<tr><th>Формула</th><th>Интервал</th><th>И
 
 $("st-f").textContent = FORMULAS.length + EQ_FORMULAS.length; $("st-d").textContent = DB.length;
 renderDb(); calc(); drawTaxa(); drawYou();
+// залы: свет «включается», когда зал входит в экран
+(() => { const ws = document.querySelectorAll(".wall"); if (!("IntersectionObserver" in window)) { ws.forEach(w => w.classList.add("lit")); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("lit"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -25% 0px" });
+  ws.forEach(w => io.observe(w)); })();
 </script>
 </body>
 </html>
