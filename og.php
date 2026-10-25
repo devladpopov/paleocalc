@@ -16,14 +16,14 @@ readfile($cache);
 
 function render($p) {
   $u = $p['u']; $c = $p['c']; $r = $c['r'];
-  $W = 1200; $H = 630; $RG = __DIR__ . '/fonts/Inter-Regular.ttf'; $SB = __DIR__ . '/fonts/Inter-SemiBold.ttf';
+  $W = 1200; $H = 630; $RG = __DIR__ . '/fonts/PT_Sans-Web-Regular.ttf'; $SB = __DIR__ . '/fonts/PT_Sans-Web-Bold.ttf'; $HD = __DIR__ . '/fonts/OldStandard-Regular.ttf';
   $im = imagecreatetruecolor($W, $H); imagealphablending($im, true); imagesavealpha($im, false);
   $col = fn($hex) => imagecolorallocate($im, hexdec(substr($hex, 1, 2)), hexdec(substr($hex, 3, 2)), hexdec(substr($hex, 5, 2)));
-  $white = $col('#ffffff'); $text = $col('#0a0a0e'); $t2 = $col('#3a3a4a'); $t3 = $col('#7a7a8a'); $acc = $col('#4f3cc9'); $grid = $col('#ebebee');
+  $white = $col('#faf8f3'); $text = $col('#1a1917'); $t2 = $col('#4d4840'); $t3 = $col('#8b857a'); $acc = $col('#8a5a1f'); $grid = $col('#e6e0d4');
   $gcol = $col(['#a3a3ad', '#2a78d6', '#eb6834', '#1baf7a'][grp($r['taxon'] ?? '')]);
   imagefilledrectangle($im, 0, 0, $W, $H, $white);
-  // полоса фирменного градиента сверху
-  $stops = [[79, 60, 201], [139, 63, 160], [214, 51, 132]];
+  // тонкая полоса акцентного цвета сверху
+  $stops = [[138, 90, 31], [138, 90, 31], [138, 90, 31]];
   for ($x = 0; $x < $W; $x++) { $t = $x / ($W - 1) * 2; $i = min(1, (int)$t); $f = $t - $i; $a = $stops[$i]; $b = $stops[$i + 1];
     imageline($im, $x, 0, $x, 9, imagecolorallocate($im, (int)($a[0] + ($b[0] - $a[0]) * $f), (int)($a[1] + ($b[1] - $a[1]) * $f), (int)($a[2] + ($b[2] - $a[2]) * $f))); }
   $tw = fn($s, $size, $font) => (function ($b) { return $b[2] - $b[0]; })(imagettfbbox($size, 0, $font, $s));
@@ -56,21 +56,21 @@ function render($p) {
 
   // правая часть: заголовок и цифры
   $x0 = 628; $mw = 530;
-  $txt('ПАЛЕОКАЛЬКУЛЯТОР', $x0, 76, 14, $SB, $acc);
-  $size = 40; do { $lines = $wrap(preg_replace('/ (\S{1,3})$/u', "\u{00A0}$1", headline($u, $c)), $mw, $size, $SB); } while ((count($lines) > 3 || max(array_map(fn($l) => $tw($l, $size, $SB), $lines)) > $mw) && --$size > 24);
-  $y = 136; foreach ($lines as $l) { $txt($l, $x0, $y, $size, $SB, $text); $y += (int)($size * 1.25); }
+  $txt('Палеокалькулятор', $x0, 76, 17, $HD, $acc);
+  $size = 40; do { $lines = $wrap(preg_replace(['/ (\S{1,3})$/u', '/(^| )([сСвВкКоОуУиаяЯ]) /u'], ["\u{00A0}$1", "$1$2\u{00A0}"], headline($u, $c)), $mw, $size, $HD); } while ((count($lines) > 3 || max(array_map(fn($l) => $tw($l, $size, $HD), $lines)) > $mw) && --$size > 24);
+  $y = 136; foreach ($lines as $l) { $txt($l, $x0, $y, $size, $HD, $text); $y += (int)($size * 1.25); }
   $sub = $c['sub'] . ' · ' . ageOf($r['mya']);
   foreach ($wrap($sub, $mw, 15, $RG) as $l) { $txt($l, $x0, $y + 2, 15, $RG, $t2); $y += 24; }
   $y += 34;
   foreach (bigRows($u, $c) as [$a, $b]) {
     if ($y > 470) break;
     imagefilledrectangle($im, $x0, $y - 30, $x0 + 3, $y + 22, $acc);
-    $txt(mb_strtoupper(mb_substr($a, 0, 1)) . mb_substr($a, 1), $x0 + 18, $y, 25, $SB, $text);
+    $txt(mb_strtoupper(mb_substr($a, 0, 1)) . mb_substr($a, 1), $x0 + 18, $y, 25, $HD, $text);
     $txt($b, $x0 + 18, $y + 23, 13, $RG, $t2);
     $y += 74;
   }
   imageline($im, $x0, 528, $W - 42, 528, $grid);
-  $txt('Кто из предков ваш двойник?', $x0, 563, 19, $SB, $text);
+  $txt('Кто из предков ваш двойник?', $x0, 563, 19, $HD, $text);
   $txt('vladislavpopov.ru/paleocalc', $x0, 595, 17, $RG, $acc);
   $txt($c['proxy'] ? 'Рисунок: типичный скелет группы, не сама находка' : 'Коричневые кости найдены, белые восстановлены', 78, 614, 11, $RG, $t3);
   return $im;

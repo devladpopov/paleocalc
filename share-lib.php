@@ -4,7 +4,7 @@
 // Код ссылки: <рост>-<вес>-<m|f|x>[-e<объём мозга>]-<lucy|turkana|ferrassie|hobbit|n<номер в will2017.json>>
 
 const BASE = 'https://vladislavpopov.ru/paleocalc/';
-const OGV = 8; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
+const OGV = 11; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
 
 const FAMOUS = [
   'lucy' => ['spec' => 'AL 288-1', 'name' => 'Люси', 'gen' => 'Люси', 'ins' => 'Люси', 'sub' => 'Au. afarensis, Эфиопия', 'ecv' => 450],

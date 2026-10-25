@@ -15,21 +15,20 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="https://vladislavpopov.ru/favicon-light.svg">
-<link rel="stylesheet" href="https://vladislavpopov.ru/_vendor/fonts/ad1bcbf069.css">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&family=Spectral:ital,wght@0,300;0,400;1,300&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Палеокалькулятор","url":"https://vladislavpopov.ru/paleocalc/","applicationCategory":"ScientificApplication","operatingSystem":"Web","isAccessibleForFree":true,"license":"https://opensource.org/licenses/MIT","codeRepository":"https://github.com/devladpopov/paleocalc","author":{"@type":"Person","name":"Vladislav Popov","url":"https://vladislavpopov.ru/"},"inLanguage":"ru"}</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--fh:"Spectral",Georgia,serif;--fb:"Inter Tight",system-ui,sans-serif;--fm:"IBM Plex Mono",ui-monospace,monospace}
+:root{--fh:"Old Standard TT",Georgia,serif;--fb:"PT Sans",system-ui,sans-serif;--fm:"PT Sans",system-ui,sans-serif}
 [data-theme]{background:var(--bg);color:var(--text)}
 [data-theme="dark"]{--bg:#0e0e0f;--surface:#151516;--surface-2:#1b1b1d;--text:#ece8e1;--text-2:#b0aa9f;--text-3:#7f7a71;--accent:#e6c38a;--accent-dim:rgba(230,195,138,.08);--accent-band:rgba(230,195,138,.16);--border:rgba(255,255,255,.08);--border-h:rgba(255,255,255,.17);--grad:linear-gradient(135deg,#f3dcae,#e6c38a 55%,#c9a46a);--nav-bg:rgba(14,14,15,.82);--bone:#45423d;--s1:#4d93e6;--s2:#e0773f;--s3:#2bb07f;--s0:#8a8a90;--land:#262523;--ink:#ece8e1;--paper:#0e0e0f;color-scheme:dark}
 [data-theme="light"]{--bg:#f1ede5;--surface:#faf8f3;--surface-2:#f5f2eb;--text:#1a1917;--text-2:#4d4840;--text-3:#8b857a;--accent:#8a5a1f;--accent-dim:rgba(138,90,31,.07);--accent-band:rgba(138,90,31,.14);--border:rgba(40,30,10,.10);--border-h:rgba(40,30,10,.22);--grad:linear-gradient(135deg,#8a5a1f,#b07a32 55%,#6e4a1a);--nav-bg:rgba(241,237,229,.86);--bone:#ddd6c8;--s1:#2a6fc4;--s2:#d0612b;--s3:#16946a;--s0:#99958c;--land:#e2dccf;--ink:#111;--paper:#fff;color-scheme:light}
-body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.6;font-variant-numeric:tabular-nums lining-nums;transition:background .4s,color .4s}
 a{color:inherit;text-decoration:none}
-em{font-family:var(--fh);font-style:italic;font-weight:300}
+em{font-family:var(--fh);font-style:italic;font-weight:400}
 .container{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
-h1,h2,h3{font-family:var(--fh);font-weight:300;letter-spacing:-.01em}
+h1,h2,h3{font-family:var(--fh);font-weight:400;letter-spacing:0}
 .ui{font-family:var(--fm)}
 /* nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px clamp(20px,4vw,48px);background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
@@ -44,9 +43,9 @@ h1,h2,h3{font-family:var(--fh);font-weight:300;letter-spacing:-.01em}
 @media(max-width:760px){.nav{flex-wrap:wrap;row-gap:6px;padding:12px 16px 8px}.nav-right{width:100%}.nav-links{width:100%;overflow-x:auto;gap:18px;scrollbar-width:none;padding-bottom:2px}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap;font-size:.8rem;padding:4px 0}}
 /* hero */
 .hero{padding-top:150px;padding-bottom:70px}
-.eyebrow{font-family:var(--fm);font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-2);margin-bottom:22px}
-.eyebrow b{color:var(--accent);font-weight:500}
-.hero h1{font-size:clamp(2.6rem,7vw,5.6rem);line-height:1;font-weight:500;letter-spacing:-.04em;max-width:13ch}
+.eyebrow{font-family:var(--fh);font-style:italic;font-size:1rem;color:var(--text-2);margin-bottom:22px}
+.eyebrow b{color:var(--accent);font-weight:400}
+.hero h1{font-size:clamp(2.6rem,7vw,5.6rem);line-height:1.05;font-weight:400;letter-spacing:-.01em;max-width:13ch}
 .hero h1 em{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.08em}
 .hero-sub{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;margin-top:40px;align-items:end}
 .hero-sub p{font-size:1.1rem;color:var(--text-2);max-width:56ch}
@@ -66,9 +65,9 @@ h1,h2,h3{font-family:var(--fh);font-weight:300;letter-spacing:-.01em}
 /* sections */
 section.block{padding-top:80px;padding-bottom:80px;border-top:1px solid var(--border)}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
-.sec-num{font-family:var(--fm);font-size:.8rem;color:var(--accent);letter-spacing:.1em;margin-bottom:10px}
-.sec-head h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:500;line-height:1.05;letter-spacing:-.03em}
-.sec-head h2 em{font-family:inherit;font-style:normal;font-weight:inherit;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sec-num{font-family:var(--fh);font-style:italic;font-size:1.05rem;color:var(--accent);margin-bottom:6px}
+.sec-head h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:400;line-height:1.1;letter-spacing:-.005em}
+.sec-head h2 em{font-weight:inherit}
 .sec-head p{color:var(--text-2);max-width:52ch;font-size:.95rem}
 /* calculator */
 .calc{display:grid;grid-template-columns:300px 1fr;gap:40px;align-items:start}
@@ -104,7 +103,7 @@ section.block{padding-top:80px;padding-bottom:80px;border-top:1px solid var(--bo
 .results{display:grid;gap:18px;margin-top:40px}
 .rcard{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:22px 24px}
 .rtop{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:end;margin-bottom:12px}
-.rtitle{font-family:var(--fm);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-2)}
+.rtitle{font-family:var(--fh);font-style:italic;font-size:1rem;color:var(--text-2)}
 .hero-n{font-family:var(--fm);font-size:clamp(2.2rem,5vw,3.4rem);font-weight:500;letter-spacing:-.03em;line-height:1.05}
 .hero-n small{font-size:.4em;color:var(--text-2);font-weight:400;margin-left:6px}
 .rsub{font-size:.85rem;color:var(--text-2);max-width:60ch}
@@ -185,7 +184,7 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:44px;align-items:center}
 @media(max-width:960px){.hero-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}.hero-copy{display:contents}.hero h1{order:1}.lead{order:2}.hero-form{order:3}.parade{order:4;margin-top:22px}.hero-meta{order:5}}
 .hero h1{font-size:clamp(2.4rem,5.4vw,4.4rem);max-width:12ch}
-.hero h1 em{font-family:inherit;font-style:normal;font-weight:inherit;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hero h1 em{font-weight:inherit;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .lead{font-size:1.08rem;color:var(--text-2);max-width:46ch;margin-top:22px}
 .hero-form{margin-top:26px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px 14px;max-width:470px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:18px;box-shadow:0 18px 40px -28px rgba(40,30,90,.35)}
 .hero-form .seg{grid-column:1/-1;justify-self:start;flex-wrap:wrap}
@@ -203,7 +202,7 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 #parade .plab{fill:#f2efe8;filter:drop-shadow(0 2px 4px rgba(0,0,0,.6))}
 #parade .me .plab{fill:#e6c38a}
 #parade .pf[data-id]:hover .plab{fill:#fff}
-#parade .pspec{font:500 9px var(--fm);fill:#7a6d55;letter-spacing:.04em}
+#parade .pspec{font:500 9px var(--fm);fill:#7a6d55}
 #parade .pn{font:600 11px var(--fb);fill:#1a1a1a}
 #parade .pa{font:10px var(--fb);fill:#4a463f}
 #parade .ph{font:10.5px var(--fm);fill:#b0aa9f}
@@ -350,33 +349,32 @@ footer a{color:var(--text-2)}
 footer a:hover{color:var(--accent)}
 /* музейная витрина (v0.7) */
 .hall{background:radial-gradient(110% 80% at 72% 0%,#1f1d1a 0%,#0e0e0f 62%)}
-.hero h1{font-weight:300;letter-spacing:-.02em;font-size:clamp(2.4rem,4.6vw,3.9rem)}
+.hero h1{font-weight:400;letter-spacing:-.01em;font-size:clamp(2.4rem,4.6vw,3.9rem)}
 .hero-grid{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:40px}
 .theme-btn[hidden]{display:none}
-.hero h1 em,.sec-head h2 em{font-family:var(--fh);font-style:italic;font-weight:300}
-.sec-head h2,.band h2,#yTitle,.sh-h{font-weight:300}
-.sec-num,.eyebrow,.rtitle{font-family:var(--fm);letter-spacing:.14em;text-transform:uppercase;font-size:.72rem}
+.hero h1 em,.sec-head h2 em{font-family:var(--fh);font-style:italic;font-weight:400}
+.sec-head h2,.band h2,#yTitle,.sh-h{font-weight:400;letter-spacing:0}
+.sec-num,.eyebrow,.rtitle{font-family:var(--fh);font-style:italic;font-size:1rem}
 .eyebrow b{color:var(--accent)}
-.sec-num:before{content:"";display:inline-block;width:48px;height:6px;margin-right:12px;vertical-align:1px;background:repeating-linear-gradient(90deg,var(--text) 0 6px,transparent 6px 12px);outline:1px solid var(--text);outline-offset:0}
-.btn{font-family:var(--fm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;border-radius:2px}
+.btn{font-family:var(--fb);font-size:.95rem;font-weight:700;border-radius:3px}
 .btn.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
 .btn.primary:hover{background:transparent;color:var(--accent)}
 .hero-form{box-shadow:0 30px 60px -36px rgba(0,0,0,.9);border-color:var(--border-h)}
 .field input{font-family:var(--fm)}
-.stat .n,.hero-n,.big3 b{font-family:var(--fh);font-weight:300;letter-spacing:-.01em}
+.stat .n,.hero-n,.big3 b{font-family:var(--fh);font-weight:400;letter-spacing:0}
 .stage{position:relative;box-shadow:0 30px 70px -40px rgba(0,0,0,.6)}
 .stage:before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,236,200,.5),transparent)}
 .card{background:var(--surface)}
 .card b{font-family:var(--fb);font-weight:600}
-.card .tag{background:var(--accent);color:var(--paper);font-family:var(--fm);letter-spacing:.06em;text-transform:uppercase;font-size:.6rem}
-.tabs button{font-family:var(--fm);font-size:.76rem;letter-spacing:.06em;text-transform:uppercase}
+.card .tag{background:var(--accent);color:var(--paper);font-family:var(--fb);font-size:.72rem}
+.tabs button{font-family:var(--fb);font-size:.9rem}
 .story .st-h{font-family:var(--fh);font-weight:400;font-size:1.3rem}
 .band{background:#e8e3d9}
 footer{padding:0;border:0}
 footer .container{padding-top:36px;padding-bottom:50px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 /* телефон (v0.7.2) */
-.inv-more{font:500 .72rem var(--fm);letter-spacing:.06em;text-transform:uppercase;background:none;border:1px dashed var(--border-h);color:var(--accent);padding:3px 10px;border-radius:4px;cursor:pointer}
+.inv-more{font:500 .72rem var(--fm);background:none;border:1px dashed var(--border-h);color:var(--accent);padding:3px 10px;border-radius:4px;cursor:pointer}
 .inv-l li.x{display:none}.inv-l.all li.x{display:list-item}.inv-l.all .inv-more{display:none}
 .inv-l li.mo{border:0;padding:0}
 details.src summary,details.note summary{cursor:pointer;list-style:none}
@@ -385,7 +383,7 @@ details.src summary{font-size:.75rem;color:var(--accent);margin:8px 0}
 details.src summary:after{content:" +"}
 details[open].src summary:after{content:" −"}
 details.note summary{color:var(--text-2)}
-details.note summary span{color:var(--accent);font-family:var(--fm);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;margin-left:6px;white-space:nowrap}
+details.note summary span{color:var(--accent);font-family:var(--fm);font-size:.7rem;margin-left:6px;white-space:nowrap}
 details[open].note summary span{display:none}
 details.note p{margin-top:8px}
 @media(max-width:640px){
@@ -415,7 +413,7 @@ details.note p{margin-top:8px}
   .note{margin-top:22px;font-size:.84rem;padding:12px 14px}
   .band .container{padding-top:44px}
   .chart-card{padding:14px 12px}
-  .chart-card .hscroll:before{content:"← листайте график →";position:sticky;left:0;display:block;width:calc(100vw - 66px);text-align:center;font:.66rem var(--fm);letter-spacing:.06em;color:var(--text-3);margin-bottom:4px}
+  .chart-card .hscroll:before{content:"← листайте график →";position:sticky;left:0;display:block;width:calc(100vw - 66px);text-align:center;font:.66rem var(--fm);color:var(--text-3);margin-bottom:4px}
   .calc{gap:16px;grid-template-columns:minmax(0,1fr)}
   .skel-wrap{position:static;max-width:none;display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;align-items:center;text-align:left;padding:12px}
   #skel{height:300px;grid-row:span 2}
@@ -449,7 +447,7 @@ details.note p{margin-top:8px}
 <div class="hall" data-theme="dark"><header class="hero container" id="top">
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="eyebrow"><b>Палеокалькулятор</b> &middot; зал 01 &middot; витрина «Люди и их родня»</div>
+      <div class="eyebrow"><b>Палеокалькулятор</b>, витрина «Люди и их родня»</div>
       <h1>Кто из предков <em>ваш двойник</em>?</h1>
       <p class="lead">Введите рост и вес. Мы поставим вас в один ряд с Люси, неандертальцем и хоббитом в настоящем масштабе и найдём среди 311 ископаемых людей того, кто сложён как вы.</p>
       <form class="hero-form" id="heroForm" autocomplete="off">
@@ -475,7 +473,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="you">
   <div class="sec-head">
-    <div><div class="sec-num">01 / СРАВНЕНИЕ</div><h2>Вы <em>рядом</em> с предками</h2></div>
+    <div><div class="sec-num">§ 1. Сравнение</div><h2>Вы <em>рядом</em> с предками</h2></div>
     <div class="you-me" id="yMe"></div>
   </div>
   <div class="pick">
@@ -536,7 +534,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="tree">
   <div class="sec-head">
-    <div><div class="sec-num">02 / ШКАЛА ЭВОЛЮЦИИ</div><h2>Вы на шкале <em>4 млн лет</em></h2></div>
+    <div><div class="sec-num">§ 2. Шкала эволюции</div><h2>Вы на шкале <em>4 млн лет</em></h2></div>
     <p>Каждая точка: опубликованная оценка для конкретной находки из базы Will, Pablos, Stock 2017. Полоса: ваши рост или масса, а если заполнен калькулятор по костям, его результат с интервалом. Наведите на точку, чтобы увидеть образец, метод и источник.</p>
   </div>
   <div class="chart-card">
@@ -556,7 +554,7 @@ details.note p{margin-top:8px}
 </section>
 
 <div class="band"><div class="container">
-  <div class="sec-num">ДЛЯ ИССЛЕДОВАТЕЛЕЙ</div>
+  <div class="sec-num">Для исследователей</div>
   <h2>Калькулятор по костям, база находок и методика</h2>
   <p>Ниже научная часть: оценки роста, массы тела и мозга по обмерам костей с источником и интервалом у каждой формулы, открытая база 311 находок и описание метода.</p>
   <details class="note"><summary><b>Черновик для научной проверки.</b><span>подробнее</span></summary><p>Коэффициенты сверены по вторичным источникам (у каждой формулы указано, где) и ждут сверки с оригинальными статьями. Все формулы построены на современных людях: для ископаемых видов реальная неопределённость выше показанных интервалов.</p></details>
@@ -564,7 +562,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="calc">
   <div class="sec-head">
-    <div><div class="sec-num">03 / КАЛЬКУЛЯТОР</div><h2>Обмерьте кость, <em>получите</em> тело</h2></div>
+    <div><div class="sec-num">§ 3. Калькулятор</div><h2>Обмерьте кость, <em>получите</em> тело</h2></div>
     <p>Нажмите на кость на схеме или заполните поле. Можно ввести один обмер, можно все: калькулятор применит каждую подходящую формулу и покажет, насколько они согласуются.</p>
   </div>
   <div class="calc">
@@ -601,7 +599,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="db">
   <div class="sec-head">
-    <div><div class="sec-num">04 / БАЗА</div><h2>Открытые <em>данные</em></h2></div>
+    <div><div class="sec-num">§ 4. База находок</div><h2>Открытые <em>данные</em></h2></div>
     <p>Will M., Pablos A., Stock J.T. (2017), Royal Society Open Science, дополнительные материалы под лицензией CC BY. Интервалы с пометкой «b» в оригинале посчитаны как ±20% (масса) и ±10% (рост). Нажмите на строку, чтобы найти находку на шкале.</p>
   </div>
   <div class="dbbar"><span id="siteChip"></span><input class="search" id="q" placeholder="Поиск: AL 288, Neanderthal, Kenya, Feldesman..." aria-label="Поиск по базе"><span class="rsub" id="dbcount"></span>
@@ -611,7 +609,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="methods">
   <div class="sec-head">
-    <div><div class="sec-num">05 / МЕТОДИКА</div><h2>Откуда <em>цифры</em></h2></div>
+    <div><div class="sec-num">§ 5. Методика</div><h2>Откуда <em>цифры</em></h2></div>
     <p>Калькулятор ничего не придумывает: только опубликованные уравнения, ссылки на первоисточники с DOI и явная пометка, где коэффициенты сверены.</p>
   </div>
   <div class="acc">
@@ -632,7 +630,7 @@ details.note p{margin-top:8px}
 
 <section class="block container" id="about">
   <div class="sec-head">
-    <div><div class="sec-num">06 / О ПРОЕКТЕ</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
+    <div><div class="sec-num">§ 6. О проекте</div><h2>Открытый <em>код</em>, открытые данные</h2></div>
   </div>
   <div class="about">
     <div>
@@ -1016,7 +1014,7 @@ function checker(x, ground, ppc, maxCm, ink, paper, lab) {
   let s = "";
   for (let i = 0; i * 10 < maxCm; i++) s += `<rect x="${x}" y="${(ground - (i + 1) * 10 * ppc).toFixed(1)}" width="7" height="${(10 * ppc).toFixed(1)}" fill="${i % 2 ? paper : ink}"/>`;
   s += `<rect x="${x}" y="${(ground - Math.ceil(maxCm / 10) * 10 * ppc).toFixed(1)}" width="7" height="${(Math.ceil(maxCm / 10) * 10 * ppc).toFixed(1)}" fill="none" stroke="${ink}" stroke-width=".7"/>`;
-  for (let t = 0; t <= maxCm; t += 50) s += `<text x="${x - 5}" y="${(ground - t * ppc + 3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="${lab}" font-family="IBM Plex Mono, monospace">${t}</text>`;
+  for (let t = 0; t <= maxCm; t += 50) s += `<text x="${x - 5}" y="${(ground - t * ppc + 3.5).toFixed(1)}" text-anchor="end" font-size="9" fill="${lab}" font-family="PT Sans, sans-serif">${t}</text>`;
   return s;
 }
 // первый экран: витрина, вы в одном ряду с находками, по времени
@@ -1032,7 +1030,7 @@ function drawParade(u) {
   const tx0 = M ? 44 : 70, tx1 = W - 20, tX = m => tx1 - (tx1 - tx0) * Math.min(m, 4) / 4, ty = 14;
   for (let i = 0; i < 8; i++) s += `<rect x="${tx0 + i * (tx1 - tx0) / 8}" y="${ty}" width="${(tx1 - tx0) / 8}" height="6" fill="${i % 2 ? "#0e0e0f" : "#ece8e1"}"/>`;
   s += `<rect x="${tx0}" y="${ty}" width="${tx1 - tx0}" height="6" fill="none" stroke="#ece8e1" stroke-width=".7"/>`;
-  for (let m = 4; m >= 0; m--) s += `<text x="${tX(m)}" y="${ty + 17}" text-anchor="${m === 4 ? "start" : m === 0 ? "end" : "middle"}" font-size="9" fill="#7f7a71" font-family="IBM Plex Mono, monospace">${m === 4 ? "4 млн лет" : m === 0 ? "сегодня" : m}</text>`;
+  for (let m = 4; m >= 0; m--) s += `<text x="${tX(m)}" y="${ty + 17}" text-anchor="${m === 4 ? "start" : m === 0 ? "end" : "middle"}" font-size="9" fill="#7f7a71" font-family="PT Sans, sans-serif">${m === 4 ? "4 млн лет" : m === 0 ? "сегодня" : m}</text>`;
   s += checker(M ? 16 : 34, ground, ppc, Math.min(200, Math.floor((ground - 60) / ppc / 10) * 10), "#ece8e1", "#0e0e0f", "#7f7a71");
   items.forEach((it, k) => { const x = xs[k], h = it.st * ppc, w = h * SKIMG[it.img] * it.wf, me = !it.c, y0 = ground - h;
     s += spot(px, x, ground, w, 46);
@@ -1128,7 +1126,7 @@ function drawYou() {
   const big = [cmp(times(u.st, sp.st, "выше", "ниже", "см"), "рост", c.gen), cmp(times(u.bm, sp.bm, "тяжелее", "легче", "кг"), "масса", c.gen),
     c.ecv ? cmp(times(u.ecv, c.ecv, "больше", "меньше", "см³"), "объём мозга", c.proxy ? "таксона в среднем" : c.gen) : [ageOf(sp).replace(" назад", ""), "назад жил этот человек"]];
   $("yBig").innerHTML = big.map(([a, b]) => `<div><b>${a}</b><span>${esc(b)}</span></div>`).join("");
-  $("duo").outerHTML = duoSVG(u, c, { acc: "var(--accent)", sp: `var(--s${sp.g})`, grid: "var(--border)", t2: "var(--text-2)", t3: "var(--text-3)", bone: "var(--bone)", line: "var(--border-h)", museum: true }, "IBM Plex Mono, monospace", `id="duo" role="img" aria-label="Вы и ${esc(c.name)} в одном масштабе"`);
+  $("duo").outerHTML = duoSVG(u, c, { acc: "var(--accent)", sp: `var(--s${sp.g})`, grid: "var(--border)", t2: "var(--text-2)", t3: "var(--text-3)", bone: "var(--bone)", line: "var(--border-h)", museum: true }, "PT Sans, sans-serif", `id="duo" role="img" aria-label="Вы и ${esc(c.name)} в одном масштабе"`);
   const F = REVERSE, fu = F.femurFromStature(u.st), fs = F.femurFromStature(sp.st), hu = F.fhFromMass(u.bm), hs = F.fhFromMass(sp.bm);
   const eu = F.eqMartin(u.ecv, u.bm), es = c.ecv ? F.eqMartin(c.ecv, sp.bm) : null;
   const row = (l, a, b, ap = "", bp = "") => `<tr><td>${l}</td><td class="me">${a}${ap ? `<span class="ap">${ap}</span>` : ""}</td><td class="sp">${b}${bp ? `<span class="ap">${bp}</span>` : ""}</td></tr>`;
@@ -1319,7 +1317,7 @@ async function postImage(kind) {
   x.fillStyle = "#ffffff"; x.fillRect(0, 0, W, H);
   const gr = x.createLinearGradient(0, 0, W, 0); gr.addColorStop(0, "#6e4a1a"); gr.addColorStop(.5, "#b07a32"); gr.addColorStop(1, "#d9b47a");
   x.fillStyle = gr; x.fillRect(0, 0, W, 10);
-  const SG = "'Space Grotesk', Arial, sans-serif", IN = "Inter, Arial, sans-serif";
+  const SG = "'Old Standard TT', Georgia, serif", IN = "'PT Sans', Arial, sans-serif";
   const fit = (t, max, size, w, fam) => { let s = size; do x.font = `${w} ${s}px ${fam}`; while (x.measureText(t).width > max && --s > 12); };
   const wrap = (t, x0, y0, max, lh, lines) => { let line = "", n = 0; for (const w of t.split(" ")) { const tt = line ? line + " " + w : w;
       if (x.measureText(tt).width > max && line) { if (n === lines - 1) { x.fillText(line + "…", x0, y0 + n * lh); return lines; } x.fillText(line, x0, y0 + n * lh); n++; line = w; } else line = tt; }
@@ -1330,8 +1328,8 @@ async function postImage(kind) {
     x.fillStyle = L.t2; x.fillText("восстановленные", x1 + fs + 10, y0); };
   const title = headline(u, c, "Я"), sub = `${c.proxy ? c.name + " · " : r.specimen.replace(" (adult)", "") + " · "}${c.sub} · ${ageOf(r)}`;
   if (!wide) {
-    x.fillStyle = L.acc; x.font = `500 24px ${SG}`; x.fillText("ПАЛЕОКАЛЬКУЛЯТОР", 64, 78);
-    x.fillStyle = gr; x.font = `500 64px ${SG}`; const tl = wrap(title, 60, 150, 952, 72, 2);
+    x.fillStyle = L.acc; x.font = `500 24px ${SG}`; x.fillText("Палеокалькулятор", 64, 78);
+    x.fillStyle = L.text; x.font = `400 64px ${SG}`; const tl = wrap(title, 60, 150, 952, 72, 2);
     x.fillStyle = L.t2; fit(sub, 952, 24, 400, IN); x.fillText(sub, 64, 150 + tl * 72 - 22);
     const top = 150 + tl * 72;
     x.drawImage(img, 20, top, 560, 609);
@@ -1347,8 +1345,8 @@ async function postImage(kind) {
     x.fillStyle = L.t3; x.font = `17px ${IN}`; x.fillText("Данные: Will et al. 2017 (CC BY). Формулы: Feldesman 1990, Ruff 1991. Скелеты нарисованы ИИ.", 64, 1318);
   } else {
     x.drawImage(img, 40, 40, 520, 566);
-    x.fillStyle = L.acc; x.font = `500 18px ${SG}`; x.fillText("ПАЛЕОКАЛЬКУЛЯТОР", 640, 84);
-    x.fillStyle = gr; x.font = `500 46px ${SG}`; const tl = wrap(title, 636, 140, 520, 52, 2);
+    x.fillStyle = L.acc; x.font = `500 18px ${SG}`; x.fillText("Палеокалькулятор", 640, 84);
+    x.fillStyle = L.text; x.font = `400 46px ${SG}`; const tl = wrap(title, 636, 140, 520, 52, 2);
     x.fillStyle = L.t2; fit(sub, 520, 18, 400, IN); x.fillText(sub, 640, 140 + tl * 52 - 14);
     big.forEach(([a, b], i) => { const y = 140 + tl * 52 + 60 + i * 84; x.fillStyle = L.acc; x.fillRect(640, y - 36, 3, 60); x.fillStyle = L.text; fit(cap1(a), 500, 34, 500, SG); x.fillText(cap1(a), 660, y); x.fillStyle = L.t2; fit(b, 500, 17, 400, IN); x.fillText(b, 660, y + 23); });
     legend(640, 556, 15);
