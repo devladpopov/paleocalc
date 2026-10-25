@@ -12,3 +12,6 @@ letter*.md
 recent-messages.jsonl
 img/raw/
 img/ref/
+tools/fonts/
+og/
+.work-*

@@ -1,0 +1,6 @@
+# Персональные ссылки и картинки превью (share.php, og.php)
+RewriteEngine On
+RewriteRule ^s/([a-z0-9.-]+)/?$ share.php?c=$1 [L,QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^og/([a-z0-9.-]+)\.png$ og.php?c=$1 [L]
+RewriteRule ^share-lib\.php$ - [F]
