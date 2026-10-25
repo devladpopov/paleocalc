@@ -250,8 +250,8 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 .site.sel{stroke:var(--text);stroke-width:2.5}
 .stage{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:30px;align-items:start;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px;scroll-margin-top:84px}
 @media(max-width:900px){.stage{grid-template-columns:minmax(0,1fr);padding:18px}}
-.stage-pic{position:sticky;top:90px}
-@media(max-width:900px){.stage-pic{position:static}}
+.stage-head{margin-bottom:18px}
+.stage-info>.tabs{margin-top:0}
 #duo{width:100%;height:auto;display:block;cursor:zoom-in}
 #yTitle{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:500;letter-spacing:-.03em;line-height:1.1;margin:6px 0 6px}
 #ySub{margin-bottom:16px}
@@ -615,11 +615,8 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
   </div>
 
   <div class="stage" id="stage" data-theme="dark">
-    <div class="stage-pic">
-      <svg id="duo" viewBox="0 0 340 370" role="img" aria-label="Вы и выбранная находка в одном масштабе"></svg>
-      <div class="fine" id="duoCap"></div>
-    </div>
-    <div class="stage-info">
+    <div class="stage-left">
+    <div class="stage-head">
       <div class="rtitle" id="yKicker">Сравнение</div>
       <h3 id="yTitle"></h3>
       <div class="rsub" id="ySub"></div>
@@ -628,6 +625,13 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
         <button class="btn primary" type="button" id="yShare">Поделиться ссылкой</button>
         <button class="btn" type="button" id="yShow">Я на шкале эволюции</button>
       </div>
+    </div>
+    <div class="stage-pic">
+      <svg id="duo" viewBox="0 0 340 370" role="img" aria-label="Вы и выбранная находка в одном масштабе"></svg>
+      <div class="fine" id="duoCap"></div>
+    </div>
+    </div>
+    <div class="stage-info">
       <div class="tabs" id="yTabs" role="tablist"><button type="button" data-v="about" class="on">О находке</button><button type="button" data-v="diff">Общее и различия</button><button type="button" data-v="nums">Цифры</button><button type="button" data-v="twins">Похожие на вас</button></div>
       <div class="tab-p on" id="tp-about"></div>
       <div class="tab-p" id="tp-diff"><div id="yDiff"></div></div>
