@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Палеокалькулятор: рост, масса тела и мозг ископаемых гоминид</title>
+<style>
+  :root { --fg:#1d1d1f; --mut:#666; --line:#ddd; --acc:#7a4b1f; --bg:#fbfaf7; }
+  body { font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--fg); background:var(--bg); margin:0; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; } h2 { font-size: 19px; margin-top: 32px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  .lead { color: var(--mut); margin: 0 0 16px; }
+  .warn { background:#fff4e0; border:1px solid #f0d090; padding:10px 14px; border-radius:6px; font-size:14px; }
+  form { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:10px 18px; margin: 12px 0; }
+  label { font-size: 13px; color: var(--mut); display:block; }
+  input, select { width:100%; box-sizing:border-box; padding:6px 8px; font-size:15px; border:1px solid #bbb; border-radius:4px; background:#fff; }
+  table { border-collapse: collapse; width:100%; font-size: 14px; margin-top: 8px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align:left; vertical-align: top; }
+  th { background:#f1ede4; position: sticky; top: 0; }
+  td.num { text-align:right; white-space:nowrap; font-variant-numeric: tabular-nums; }
+  .src { font-size: 12px; color: var(--mut); }
+  .f { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; }
+  details { font-size: 13px; color: var(--mut); } summary { cursor: pointer; }
+  .tabs button { font-size:15px; padding:6px 14px; border:1px solid #bbb; background:#fff; border-radius:4px; cursor:pointer; margin-right:6px; }
+  .tabs button.on { background: var(--acc); color:#fff; border-color: var(--acc); }
+  .scroll { max-height: 560px; overflow:auto; border:1px solid var(--line); }
+  a { color: var(--acc); }
+  footer { margin-top: 40px; font-size: 13px; color: var(--mut); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Палеокалькулятор <span style="font-weight:400;color:var(--mut)">v0.1, прототип модуля 1</span></h1>
+  <p class="lead">Оценка роста, массы тела и массы мозга по обмерам костей, по опубликованным формулам. У каждой оценки указаны источник, интервал и способ его расчёта. Открытый код (MIT), данные с указанием авторства (CC BY).</p>
+  <div class="warn"><b>Статус: черновик для научной проверки.</b> Коэффициенты сверены по вторичным источникам (отмечено у каждой формулы) и требуют сверки с оригинальными статьями. Интервалы приближённые: ±1.96·SEE там, где источник даёт стандартную ошибку, иначе конвенция ±20% (масса, Ruff 2010) или ±10% (рост), как в базе Will et al. 2017. Для ископаемых видов реальная неопределённость выше: все формулы построены на современных людях.</div>
+
+  <div class="tabs" style="margin-top:18px">
+    <button id="t-calc" class="on" onclick="tab('calc')">Калькулятор</button>
+    <button id="t-db" onclick="tab('db')">База находок (Will et al. 2017)</button>
+    <button id="t-src" onclick="tab('src')">Формулы и источники</button>
+  </div>
+
+  <section id="calc">
+    <h2>Обмеры</h2>
+    <form id="f"></form>
+    <div><label style="display:inline">Пример ввода:</label>
+      <button type="button" onclick="example()">заполнить демонстрационными значениями</button>
+      <button type="button" onclick="clearAll()">очистить</button></div>
+    <h2>Рост</h2><div id="r-stature" class="src">Введите длину бедренной, большеберцовой или плечевой кости.</div>
+    <h2>Масса тела</h2><div id="r-mass" class="src">Введите диаметр головки бедра или рост с шириной таза.</div>
+    <h2>Мозг и энцефализация</h2><div id="r-brain" class="src">Введите объём эндокрана.</div>
+  </section>
+
+  <section id="db" hidden>
+    <h2>База оценок размеров тела ископаемых гоминид</h2>
+    <p class="src">Источник: Will, Pablos, Stock 2017, R. Soc. Open Sci. 4: 171339, дополнительные материалы (figshare, CC BY). Оценки и интервалы взяты из базы как есть; интервалы с пометкой «b» в оригинале посчитаны как ±20% (масса) и ±10% (рост).</p>
+    <form style="grid-template-columns: 2fr 1fr">
+      <div><label>Поиск по образцу, таксону, стране</label><input id="q" oninput="renderDb()" placeholder="например, AL 288, neanderthalensis, Kenya"></div>
+      <div><label>Таксон</label><select id="tx" onchange="renderDb()"><option value="">все</option></select></div>
+    </form>
+    <div id="dbcount" class="src"></div>
+    <div class="scroll"><table id="dbt"></table></div>
+  </section>
+
+  <section id="src" hidden>
+    <h2>Реестр формул</h2>
+    <div id="srclist"></div>
+  </section>
+
+  <footer>
+    Прототип: <a href="https://github.com/devladpopov/paleocalc">github.com/devladpopov/paleocalc</a>. Автор прототипа: Vlad Popov (PhD, University of York). Научное руководство: открыто к обсуждению.
+    Ошибку в формуле или источнике можно прислать через issue в репозитории.
+  </footer>
+</main>
+<script src="formulas.js"></script>
+<script src="data/will2017.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const fmt = (x, d = 1) => (x == null || !isFinite(x)) ? "" : x.toFixed(d);
+function srcLink(k) { const s = SOURCES[k]; return s.doi ? `<a href="https://doi.org/${s.doi}" target="_blank">${s.cite}</a>` : s.cite; }
+function tab(t) { for (const x of ["calc", "db", "src"]) { $(x).hidden = x !== t; $("t-" + x).classList.toggle("on", x === t); } }
+
+// форма
+const f = $("f");
+f.insertAdjacentHTML("beforeend", `<div><label>Пол (для пол-специфичных формул)</label><select id="sex" onchange="calc()"><option value="">не определён: показать все</option><option value="M">мужской</option><option value="F">женский</option></select></div>`);
+for (const [k, v] of Object.entries(INPUTS)) f.insertAdjacentHTML("beforeend", `<div><label for="${k}">${v.label}, ${v.unit}</label><input id="${k}" type="number" step="any" min="0" oninput="calc()"></div>`);
+function val() { const o = {}; for (const k of Object.keys(INPUTS)) { const x = parseFloat($(k).value); o[k] = isFinite(x) && x > 0 ? x : null; } return o; }
+function example() { const ex = { femur: 432, tibia: 352, humerus: 310, fh: 46, stature: 165, lbib: 28, ecv: 1350 }; for (const k in ex) $(k).value = ex[k]; calc(); }
+function clearAll() { for (const k of Object.keys(INPUTS)) $(k).value = ""; calc(); }
+
+function rows(group, v, sex) {
+  const out = [];
+  for (const fo of FORMULAS.filter(x => x.group === group)) {
+    if (!fo.inputs.every(k => v[k] != null)) continue;
+    if (sex && fo.sex && fo.sex !== sex) continue;
+    const est = fo.fn(v), ci = intervalOf(fo, est);
+    out.push({ fo, est, ci });
+  }
+  return out;
+}
+function table(rs, unit) {
+  if (!rs.length) return null;
+  return `<table><tr><th>Формула</th><th>Оценка, ${unit}</th><th>Интервал</th><th>Основание интервала и примечания</th></tr>` +
+    rs.map(({ fo, est, ci }) => `<tr><td>${fo.name}<div class="f">${fo.formula}</div><div class="src">${srcLink(fo.src)}</div></td>
+      <td class="num"><b>${fmt(est)}</b></td><td class="num">${ci ? fmt(ci[0]) + " – " + fmt(ci[1]) : "не указан"}</td>
+      <td class="src">${fo.interval.basis}.<br>${fo.note || ""}<details><summary>сверка</summary>${fo.check}</details></td></tr>`).join("") + `</table>`;
+}
+function calc() {
+  const v = val(), sex = $("sex").value;
+  const st = rows("stature", v, sex), ms = rows("mass", v, sex), br = rows("brain", v, sex);
+  $("r-stature").innerHTML = table(st, "см") || "Введите длину бедренной, большеберцовой или плечевой кости.";
+  let mh = table(ms, "кг");
+  const fhr = ms.filter(r => r.fo.inputs.includes("fh") && ["ruff91-c", "mch92", "grine95"].includes(r.fo.id));
+  let fhMean = null;
+  if (fhr.length === 3) { fhMean = fhr.reduce((a, r) => a + r.est, 0) / 3;
+    mh += `<p>Среднее Ruff 1991 (оба пола), McHenry 1992 и Grine 1995, как рекомендуют Auerbach & Ruff 2004: <b>${fmt(fhMean)} кг</b> (${fmt(fhMean * 0.8)} – ${fmt(fhMean * 1.2)}, ±20%).</p>`; }
+  $("r-mass").innerHTML = mh || "Введите диаметр головки бедра или рост с шириной таза.";
+  if (!br.length) { $("r-brain").innerHTML = "Введите объём эндокрана."; return; }
+  let bh = table(br, "г");
+  const brain = br[0].est, bm = v.bm || fhMean;
+  if (bm) {
+    const bmSrc = v.bm ? "введённая масса" : "среднее трёх уравнений по головке бедра, интервал по ±20% массы";
+    const lo = v.bm ? bm : bm * 0.8, hi = v.bm ? bm : bm * 1.2;
+    bh += `<table><tr><th>Индекс энцефализации</th><th>EQ</th><th>Диапазон по интервалу массы</th><th>Масса тела</th></tr>` +
+      EQ_FORMULAS.map(e => `<tr><td>${e.name}<div class="f">${e.formula}</div><div class="src">${srcLink(e.src)}</div></td>
+        <td class="num"><b>${fmt(e.fn(brain, bm), 2)}</b></td><td class="num">${v.bm ? "масса задана точно" : fmt(e.fn(brain, hi), 2) + " – " + fmt(e.fn(brain, lo), 2)}</td>
+        <td class="src">${fmt(bm)} кг, ${bmSrc}</td></tr>`).join("") + `</table>`;
+  } else bh += `<p class="src">Для EQ введите массу тела или диаметр головки бедра.</p>`;
+  $("r-brain").innerHTML = bh;
+}
+
+// реестр
+$("srclist").innerHTML = `<table><tr><th>Формула</th><th>Вход</th><th>Интервал</th><th>Источник</th><th>Сверка</th></tr>` +
+  FORMULAS.map(fo => `<tr><td>${fo.name}<div class="f">${fo.formula}</div></td><td class="src">${fo.inputs.map(k => INPUTS[k].label + ", " + INPUTS[k].unit).join("; ")}</td>
+  <td class="src">${fo.interval.basis}</td><td class="src">${srcLink(fo.src)}</td><td class="src">${fo.check}</td></tr>`).join("") +
+  EQ_FORMULAS.map(e => `<tr><td>${e.name}<div class="f">${e.formula}</div></td><td class="src">масса мозга, масса тела</td><td class="src">по интервалу массы тела</td><td class="src">${srcLink(e.src)}</td><td class="src">${e.check}</td></tr>`).join("") +
+  `</table><p class="src">Вторичные источники для сверки: ${srcLink("ELLIOTT2015")}; ${srcLink("WILL2017")}; ${srcLink("RUFF2010")}.</p>`;
+
+// база
+const DB = window.WILL2017 || [];
+const taxa = [...new Set(DB.map(r => r.taxon).filter(Boolean))].sort();
+$("tx").insertAdjacentHTML("beforeend", taxa.map(t => `<option>${t}</option>`).join(""));
+function renderDb() {
+  const q = $("q").value.toLowerCase(), tx = $("tx").value;
+  const rs = DB.filter(r => (!tx || r.taxon === tx) && (!q || [r.specimen, r.taxon, r.country].join(" ").toLowerCase().includes(q)));
+  $("dbcount").textContent = `Записей: ${rs.length} из ${DB.length}`;
+  $("dbt").innerHTML = `<tr><th>Образец</th><th>Таксон</th><th>Млн лет</th><th>Пол</th><th>Масса, кг (интервал)</th><th>Элемент / метод массы</th><th>Рост, см (интервал)</th><th>Метод роста</th></tr>` +
+    rs.map(r => `<tr><td>${r.specimen}</td><td>${r.taxon || ""}</td><td class="num">${r.mya ?? ""}</td><td>${r.sex || ""}</td>
+      <td class="num">${fmt(r.bm)}${r.bm_lo ? ` (${fmt(r.bm_lo)}–${fmt(r.bm_hi)})` : ""}</td><td class="src">${r.bm_el || ""}${r.bm_method ? "; " + r.bm_method : ""}</td>
+      <td class="num">${fmt(r.st)}${r.st_lo ? ` (${fmt(r.st_lo)}–${fmt(r.st_hi)})` : ""}</td><td class="src">${r.st_method || ""}</td></tr>`).join("");
+}
+renderDb();
+</script>
+</body>
+</html>
