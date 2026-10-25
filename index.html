@@ -1292,7 +1292,7 @@ function duoSVG(u, c, C, font, attrs = "") {
 }
 function times(a, b, more, less, unit, d = 0) {
   const r = a / b;
-  if (Math.abs(r - 1) < .15) { const x = a - b; return Math.abs(x) < (d ? .05 : .5) ? "почти одинаково" : `на ${fmt(Math.abs(x), d)}${unit ? " " + unit : ""} ${x > 0 ? more : less}`; }
+  if (Math.abs(r - 1) < .15) { const x = +a.toFixed(d) - +b.toFixed(d); // разница показанных (округлённых) чисел return Math.abs(x) < (d ? .05 : .5) ? "почти одинаково" : `на ${fmt(Math.abs(x), d)}${unit ? " " + unit : ""} ${x > 0 ? more : less}`; }
   return r > 1 ? `в ${fmt(r, 1)} раза ${more}` : `в ${fmt(1 / r, 1)} раза ${less}`;
 }
 const headline = (u, c, me = "Вы") => { const d = Math.round(u.st - c.r.st); return Math.abs(d) < 1 ? `${me} одного роста с ${c.ins}` : `${me} на ${Math.abs(d)} см ${d > 0 ? "выше" : "ниже"} ${c.gen}`; };

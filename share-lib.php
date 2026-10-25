@@ -4,7 +4,7 @@
 // Код ссылки: <рост>-<вес>-<m|f|x>[-e<объём мозга>]-<lucy|turkana|ferrassie|hobbit|n<номер в will2017.json>>
 
 const BASE = 'https://vladislavpopov.ru/paleocalc/';
-const OGV = 11; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
+const OGV = 12; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
 
 const FAMOUS = [
   'lucy' => ['spec' => 'AL 288-1', 'name' => 'Люси', 'gen' => 'Люси', 'ins' => 'Люси', 'sub' => 'Au. afarensis, Эфиопия', 'ecv' => 450],
@@ -28,7 +28,7 @@ const TAXA = [
 function fmt($x, $d = 0) { return str_replace('.', ',', number_format($x, $d, '.', '')); }
 function times($a, $b, $more, $less, $unit, $d = 0) {
   $r = $a / $b;
-  if (abs($r - 1) < .15) { $x = $a - $b; return abs($x) < ($d ? .05 : .5) ? 'почти одинаково' : 'на ' . fmt(abs($x), $d) . ($unit ? " $unit" : '') . ' ' . ($x > 0 ? $more : $less); }
+  if (abs($r - 1) < .15) { $x = round($a, $d) - round($b, $d); return abs($x) < ($d ? .05 : .5) ? 'почти одинаково' : 'на ' . fmt(abs($x), $d) . ($unit ? " $unit" : '') . ' ' . ($x > 0 ? $more : $less); }
   return $r > 1 ? 'в ' . fmt($r, 1) . ' раза ' . $more : 'в ' . fmt(1 / $r, 1) . ' раза ' . $less;
 }
 function ageOf($mya) { return $mya < 1 ? fmt($mya * 1000) . ' тыс. лет назад' : fmt($mya, 1) . ' млн лет назад'; }
