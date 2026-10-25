@@ -469,6 +469,31 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
   .card .thumb{margin:-28px -10px 0;padding-top:28px;height:124px}
   .wall{border-bottom-width:10px}
 }
+/* опись на настоящем скелете (v0.9): нажатие на кость или её название открывает справку */
+.inv{grid-template-columns:minmax(0,1fr);gap:16px}
+.inv-f{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:start}
+.inv-f svg.bimg{height:460px;width:auto;max-height:none;display:block;filter:drop-shadow(0 8px 10px rgba(0,0,0,.45))}
+.inv-f figcaption{display:flex;flex-direction:column;gap:12px;margin:0;font-size:.78rem}
+.inv-leg{display:flex;flex-wrap:wrap;gap:4px 14px}
+.inv-f i.f,.inv-leg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:#a86a3c}
+.inv-leg i.p{opacity:.5}.inv-leg i.no{background:#e9dfcb}
+.binfo{border:1px solid var(--border-h);border-left:3px solid var(--accent);border-radius:3px;padding:12px 14px;font-size:.88rem;line-height:1.5;color:var(--text-2);background:rgba(255,255,255,.03)}
+.binfo b{display:block;color:var(--text);font:400 1.15rem/1.25 var(--fh);margin-bottom:4px}
+.binfo .bst{display:block;font-size:.78rem;color:var(--text-3);margin-bottom:6px}.binfo .bst.yes{color:var(--accent)}
+.inv-note{color:var(--text-3);font-size:.72rem}
+.bimg .bz{fill:transparent;cursor:pointer;outline:none}
+.bimg .bsel{pointer-events:none}
+.bchip{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.inv-l li .bchip i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:#a86a3c}
+.inv-l li.st-p .bchip i,.inv-l li.st-x .bchip i{opacity:.5}
+.inv-l li:hover{border-color:var(--accent)}
+.inv-l li.on{border-color:#f2c96b;background:rgba(242,201,107,.12);color:var(--text)}
+@media(max-width:640px){
+  .inv-f{gap:14px}
+  .inv-f svg.bimg{height:330px}
+  .binfo{padding:10px 12px;font-size:.82rem}
+  .binfo b{font-size:1.02rem}
+}
 </style>
 </head>
 <body>
@@ -709,7 +734,7 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
 
 <footer data-theme="dark"><div class="container">
   <div class="row">
-    <div>Палеокалькулятор v0.8 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
+    <div>Палеокалькулятор v0.9 &middot; прототип: <a href="https://vladislavpopov.ru/">Vladislav Popov</a>, PhD (University of York)</div>
     <div>Данные: <a class="srcl" href="https://doi.org/10.1098/rsos.171339" target="_blank" rel="noopener">Will, Pablos, Stock 2017</a>, CC BY &middot; код MIT</div>
   </div>
 </div></footer>
@@ -742,7 +767,7 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
 <script src="data/sites.js"></script>
 <script src="data/world.js"></script>
 <script src="data/inventory.js?v=2"></script>
-<script src="bonemap.js?v=3"></script>
+<script src="bonemap.js?v=4"></script>
 <script>
 const $ = id => document.getElementById(id);
 const fmt = (x, d = 1) => (x == null || !isFinite(x)) ? "–" : x.toFixed(d).replace(".", ",");
@@ -1272,15 +1297,52 @@ const STORY = {
       "<b>Почему это важно.</b> Хоббит показал, что род Homo был разнообразнее, чем думали, и что существо с мозгом размером с мозг шимпанзе делало каменные орудия. Скорее всего, его предки попали на остров и измельчали, как другие островные животные: на Флоресе жили и карликовые слоны стегодоны. Долго спорили, не больной ли это современный человек, но кости похожих маленьких людей возрастом 700 тыс. лет из Мата-Менге на том же острове говорят в пользу отдельного вида."],
     hook: "Хоббит с острова Флорес жил 60-100 тыс. лет назад, когда наш вид уже существовал. Ростом около метра и с мозгом размером с мозг шимпанзе, он всё же делал каменные орудия." },
 };
+// что это за кость и что по ней понимают антропологи (справка по нажатию на кость в описи)
+const BONE_INFO = {
+  cran: "Черепная коробка. По объёму её полости (эндокрана) оценивают размер мозга, по форме надбровья и затылка различают виды.",
+  mand: "Нижняя челюсть с зубами. По форме челюсти и зубов различают виды и судят о питании; подбородочный выступ есть только у Homo sapiens.",
+  teeth: "Зубы сохраняются лучше всего остального. По ним определяют вид, возраст особи и питание.",
+  cerv: "Шейные позвонки, их семь. Держат голову; по ним судят о посадке головы.",
+  thor: "Грудные позвонки, их двенадцать, к ним крепятся рёбра. По размеру тел позвонков можно оценить массу тела.",
+  lumb: "Поясничные позвонки. Изгиб поясницы вперёд (лордоз) появляется у тех, кто ходит на двух ногах.",
+  sacr: "Крестец: сросшиеся позвонки, которые замыкают таз сзади. Его ширина влияет на ширину таза.",
+  ribs: "Рёбра. По ним восстанавливают форму грудной клетки: у австралопитеков она сужается кверху, как у шимпанзе, у людей рода Homo бочкообразная.",
+  clav: "Ключица соединяет руку с грудиной. По её длине судят о ширине плеч.",
+  scap: "Лопатка. Её форма и направление суставной впадины показывают, насколько вид лазал по деревьям.",
+  hum: "Плечевая кость. По её длине оценивают рост, а отношение длины руки к длине ноги говорит об образе жизни: у лазающих видов руки длиннее.",
+  rad: "Лучевая кость предплечья, со стороны большого пальца. Вместе с локтевой показывает длину предплечья и пропорции руки.",
+  uln: "Локтевая кость предплечья, со стороны мизинца. Изгиб и длина локтевой кости помогают понять, лазал ли вид по деревьям.",
+  hand: "Кисть: запястье, пясть и фаланги пальцев. Изогнутые фаланги говорят о лазании, широкие кончики пальцев и длинный большой палец о точном захвате для изготовления орудий.",
+  coxa: "Тазовая кость. Короткая широкая подвздошная кость признак прямохождения. По ширине таза оценивают массу тела, по форме пол.",
+  fem: "Бедренная кость, самая длинная в теле. По её длине оценивают рост, по диаметру головки массу тела, а угол, под которым бедро сходится к колену, выдаёт двуногую ходьбу.",
+  pat: "Надколенник: небольшая кость в сухожилии над коленом.",
+  tib: "Большеберцовая кость. По её длине оценивают рост, а форма коленного и голеностопного суставов показывает, как ходил вид.",
+  fib: "Малоберцовая кость, тонкая кость голени. К ней крепятся мышцы, которые двигают стопу.",
+  foot: "Стопа. Продольный свод и приведённый большой палец признаки двуногой ходьбы, отставленный палец признак лазания. По таранной кости тоже оценивают массу тела.",
+};
 // опись костей: подпись под сравнением и блок «Что найдено» во вкладке «О находке»
+// у знаменитых свой рисунок (найденные кости уже коричневые), у остальных рисунок группы, найденные кости тонируются по описи
 function invBlock(c) {
-  const r = c.r, v = BONEMAP.invOf(r), list = BONEMAP.boneList(v), col = `var(--s${r.g})`;
-  const txt = v.lvl === 2 ? `<p>${v.pct ? `<b>Сохранилось ${esc(v.pct)} скелета.</b> ` : ""}${esc(v.found_ru || "")}</p>`
+  const r = c.r, v = BONEMAP.invOf(r), list = BONEMAP.boneList(v), l2 = v.lvl === 2;
+  const txt = l2 ? `<p>${v.pct ? `<b>Сохранилось ${esc(v.pct)} скелета.</b> ` : ""}${esc(v.found_ru || "")}</p>`
     : `<p>Полной описи костей этой находки на сайте пока нет. Из базы Will et al. 2017 известно только, по каким костям сделаны оценки: ${v.els.map(e => esc(e)).join("; ") || "не указано"}. Эти кости показаны цветом, сторона в базе не указана.</p>`;
-  const chips = list.length ? `<ul class="inv-l">${list.map(([n, st], k) => `<li class="st-${st}${k >= 6 ? " x" : ""}"><i style="background:${col}"></i>${esc(n)}${st === "p" ? ", фрагмент" : st === "m" ? ", по ней оценка" : ""}</li>`).join("")}${list.length > 6 ? `<li class="mo"><button type="button" class="inv-more">ещё ${list.length - 6}</button></li>` : ""}</ul>` : "";
-  const src = v.lvl === 2 && v.sources && v.sources.length ? `<details class="src"><summary>Источник описи</summary><div class="inv-src">${v.sources.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.cite)}</a>` : esc(x.cite)).join("; ")}</div></details>` : "";
-  return `<div class="inv"><figure class="inv-f">${BONEMAP.boneSVG(v, { col, arm: c.arm, hover: true }, `role="img" aria-label="Схема: какие кости найдены"`)}<figcaption><span><i style="background:${col}"></i>${v.lvl === 2 ? "найдено" : "кость оценки"}</span>${v.lvl === 2 ? `<span><i style="background:${col};opacity:.42"></i>фрагмент</span>` : ""}<span><i class="no"></i>${v.lvl === 2 ? "не найдено" : "нет данных"}</span></figcaption></figure>
-    <div class="story"><h4 class="st-h">Что найдено от скелета</h4>${txt}${chips}${src}<div class="fine">${v.lvl === 2 ? "Опись собрана по публикациям и ждёт проверки научным руководителем." : "Опись появится, когда будет сверена по первоописанию находки."}</div></div></div>`;
+  const chips = list.length ? `<ul class="inv-l">${list.map(([n, st, key], k) => `<li class="st-${st}${k >= 6 ? " x" : ""}"><button type="button" class="bchip" data-z="${key}"><i></i>${esc(n)}${st === "p" ? ", фрагмент" : st === "m" ? ", по ней оценка" : ""}</button></li>`).join("")}${list.length > 6 ? `<li class="mo"><button type="button" class="inv-more">ещё ${list.length - 6}</button></li>` : ""}</ul>` : "";
+  const src = l2 && v.sources && v.sources.length ? `<details class="src"><summary>Источник описи</summary><div class="inv-src">${v.sources.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.cite)}</a>` : esc(x.cite)).join("; ")}</div></details>` : "";
+  const leg = c.proxy ? (l2 ? `<span><i class="f"></i>найдено</span><span><i class="f p"></i>фрагмент</span><span><i class="no"></i>не найдено</span>` : `<span><i class="f"></i>кость, по которой сделана оценка</span><span><i class="no"></i>нет данных</span>`)
+    : `<span><i class="f"></i>найденные кости</span><span><i class="no"></i>восстановленные</span>`;
+  return `<div class="inv"><figure class="inv-f">${BONEMAP.boneImg(v, c.img, { tint: c.proxy, uid: "bi-" + c.id, attrs: `role="group" aria-label="Скелет: нажмите на кость, чтобы узнать, что это"` })}
+    <figcaption><div class="inv-leg">${leg}</div><div class="binfo" id="binfo" aria-live="polite"><b>Нажмите на кость</b> на рисунке или в списке, чтобы узнать, что это за кость, найдена ли она у этой находки и что по ней можно понять.</div>
+    <div class="inv-note">${c.proxy ? "Рисунок: типичный скелет группы, не сама находка. " : ""}Правая сторона находки на рисунке слева, как в атласе.</div></figcaption></figure>
+    <div class="story"><h4 class="st-h">Что найдено от скелета</h4>${txt}${chips}${src}<div class="fine">${l2 ? "Опись собрана по публикациям и ждёт проверки научным руководителем." : "Опись появится, когда будет сверена по первоописанию находки."}</div></div></div>`;
+}
+// выбор кости в описи: подсветка на рисунке, отметка в списке и справка
+function selBone(key) {
+  const box = $("tp-about"), svg = box.querySelector(".bimg"); if (!svg) return;
+  const ids = BONEMAP.boneSel(svg, key), z = BONEMAP.invOf(YC.r).zones || {}, k = key.replace(/_[rlx]$/, "");
+  const sts = [...new Set(ids.map(id => BONEMAP.zoneSt(z, id)))], stRu = sts.map(st => BONEMAP.ST_RU[st] || "не найдена").join("; ");
+  const name = /_[rl]$/.test(key) || ids.length === 1 ? BONEMAP.zoneName(ids.length === 1 ? ids[0] : key) : /_x$/.test(key) ? BONEMAP.NAMES[k] + ", сторона не указана" : BONEMAP.NAMES[k] + (ids.length > 1 ? ", обе стороны" : "");
+  $("binfo").innerHTML = `<b>${esc(cap1(name))}</b><span class="bst${sts.some(Boolean) ? " yes" : ""}">${esc(stRu)}</span>${esc(BONE_INFO[k] || "")}`;
+  box.querySelectorAll(".bchip").forEach(b => { const bk = b.dataset.z; b.parentNode.classList.toggle("on", bk === key || ids.includes(bk) || (bk === k && ids.some(id => id.startsWith(k + "_")))); });
 }
 const ageOf = r => r.mya == null ? "возраст не указан" : r.mya < 1 ? `${fmt(r.mya * 1000, 0)} тыс. лет назад` : `${fmt(r.mya, 1)} млн лет назад`;
 // короткая справка для поста и превью: у знаменитых рассказ, у остальных справка о таксоне
@@ -1294,7 +1356,8 @@ function drawStory(c) {
     .concat([[c.id === "turkana" ? "Оценки для взрослого" : "Оценки", `рост ${fmt(r.st, 0)} см (${fmt(r.st_lo, 0)}–${fmt(r.st_hi, 0)}), масса ${fmt(r.bm, 0)} кг (${fmt(r.bm_lo, 0)}–${fmt(r.bm_hi, 0)})`]]).filter(Boolean);
   const text = s ? `<h4 class="st-h">${esc(s.title)}</h4>${s.p.map(x => `<p>${x}</p>`).join("")}`
     : `<h4 class="st-h">${esc(r.specimen)}: ${esc(taxRu(r))}</h4><p>${esc(c.blurb || "Таксон в базе не указан.")}</p><details class="src"><summary>Откуда оценки</summary><p class="inv-src">${esc(meth)}. Источник по базе Will et al. 2017: ${esc(r.source || "–")}.</p></details>`;
-  $("tp-about").onclick = e => { const b = e.target.closest(".inv-more"); if (b) b.closest("ul").classList.add("all"); };
+  $("tp-about").onclick = e => { const b = e.target.closest(".inv-more"); if (b) b.closest("ul").classList.add("all");
+    const z = e.target.closest("[data-z]"); if (z) selBone(z.dataset.z); };
   $("tp-about").innerHTML = `<div class="story">${text}<div class="fine">Краткий научно-популярный пересказ, ждёт проверки научным руководителем.</div></div>${invBlock(c)}
     <div class="af"><svg class="minimap" id="yMini" viewBox="0 0 960 632" role="img" aria-label="Где найдена ${esc(c.name)}"></svg><dl class="facts">${facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl></div>`;
   const st = r.site; if (!st) return; const [x, y] = PX(st.lon, st.lat);
