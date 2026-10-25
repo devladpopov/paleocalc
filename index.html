@@ -879,6 +879,7 @@ $("q").addEventListener("input", () => { SITEF = null; renderDb(); });
 
 // ---------- Вы и предки ----------
 const SKIMG = { lucy: 270 / 900, turkana: 331 / 900, ferrassie: 340 / 900, hobbit: 362 / 900, "modern-short": 284 / 900, "modern-mid": 285 / 900, "modern-tall": 281 / 900 };
+for (const k of ["lucy", "turkana", "ferrassie", "hobbit"]) SKIMG[k + "-cast"] = SKIMG[k]; // ровный цвет кости, рисунок группы для остальных находок
 const SKHREF = {};
 const modernWf = u => Math.min(1.15, Math.max(.9, Math.sqrt(REVERSE.bmi(u.st, u.bm) / 22)));
 const modernImg = u => u.sex === "F" ? (u.st > 178 ? "modern-mid" : "modern-short") : u.sex === "M" ? (u.st < 165 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid") : (u.st < 163 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid");
@@ -928,7 +929,7 @@ function mk(i) {
   if (MK[i]) return MK[i];
   const t = taxOf(r.taxon);
   return MK[i] = { id: "n" + window.WILL2017.indexOf(r), i, r, name: r.specimen, short: r.specimen, gen: r.specimen, ins: r.specimen, sub: t ? t[1] : "таксон не указан", ecv: t ? t[2] : null, ecvNote: "типичный для таксона, ориентир",
-    arm: r.g === 1 ? 1.1 : 1, img: t && t[3] ? t[3] : modernImg({ st: r.st, sex: r.sex }), proxy: true, blurb: t ? t[4] : "" };
+    arm: r.g === 1 ? 1.1 : 1, img: t && t[3] ? t[3] + "-cast" : modernImg({ st: r.st, sex: r.sex }), proxy: true, blurb: t ? t[4] : "" };
 }
 const byId = id => YS.find(y => y.id === id) || (/^n\d+$/.test(id || "") ? mk(DB.indexOf(window.WILL2017[+id.slice(1)])) : null);
 const SD = (() => { const a = BOTH.map(i => DB[i]), m = k => a.reduce((s, r) => s + r[k], 0) / a.length, ms = m("st"), mb = m("bm");
@@ -995,7 +996,7 @@ function drawCards(u) {
   const list = [{ c: TWIN, tag: "Ваш двойник" }].concat(YS.filter(c => c !== TWIN).map(c => ({ c })));
   const maxSt = Math.max(u.st, ...list.map(x => x.c.r.st));
   $("yCards").innerHTML = list.map(({ c, tag }) => `<button class="card${c === YC ? " on" : ""}" data-id="${c.id}" type="button">${tag ? `<span class="tag">${tag}</span>` : ""}
-    <span class="thumb">${c.proxy ? BONEMAP.boneSVG(BONEMAP.invOf(c.r), { col: `var(--s${c.r.g})`, arm: c.arm }, `style="height:${(c.r.st / maxSt * 100).toFixed(1)}%"`) : `<img src="img/${c.img}.webp" alt="" loading="lazy" style="height:${(c.r.st / maxSt * 100).toFixed(1)}%;aspect-ratio:${SKIMG[c.img]}">`}</span>
+    <span class="thumb"><img src="img/${c.img}.webp" alt="" loading="lazy" style="height:${(c.r.st / maxSt * 100).toFixed(1)}%;aspect-ratio:${(SKIMG[c.img] * (c.img.startsWith("modern") ? modernWf(c.r) : 1)).toFixed(4)}"></span>
     <b>${esc(c.name)}</b><span class="cs">${esc(c.sub)}</span><span class="cs">${ageOf(c.r)} · ${fmt(c.r.st, 0)} см · ${fmt(c.r.bm, 0)} кг</span></button>`).join("") +
     `<button class="card more" type="button" data-more="map"><span class="plus">+${BOTH.length - list.length}</span><b>Другие находки</b><span class="cs">выберите на карте или в списке</span></button>`;
 }
@@ -1042,7 +1043,7 @@ function duoSVG(u, c, C, font, attrs = "") {
   const pic = (id, cx, st, bm) => { const h = st * ppc, wf = id.startsWith("modern") ? modernWf({ st, bm }) : 1, w = h * SKIMG[id] * wf;
     return `<image href="${(C.hrefs || {})[id] || `img/${id}.webp`}" x="${cx - w / 2}" y="${ground - h}" width="${w}" height="${h}" preserveAspectRatio="none"/>`; };
   if (C.schematic) { s += skel(130, ground, ppc, u.st, u.bm, u.ecv, 1, C.acc); s += skel(255, ground, ppc, sp.st, sp.bm, c.ecv || 1000, c.arm, C.sp); }
-  else { s += pic(modernImg(u), 130, u.st, u.bm); s += c.proxy ? BONEMAP.boneAt(BONEMAP.invOf(sp), 255, ground, ppc, sp.st, { col: C.sp, bg: C.bone, line: C.line, arm: c.arm, wf: modernWf(sp) }) : pic(c.img, 255, sp.st, sp.bm); }
+  else { s += pic(modernImg(u), 130, u.st, u.bm); s += pic(c.img, 255, sp.st, sp.bm); }
   const lab = (x, st, a, b, col) => `<text x="${x}" y="${ground - st * ppc - 12}" text-anchor="middle" font-size="12" font-weight="500" fill="${col}" font-family="${font}">${a}</text><text x="${x}" y="${ground + 20}" text-anchor="middle" font-size="11" fill="${C.t2}" font-family="${font}">${b}</text>`;
   s += lab(130, u.st, "Вы", `${fmt(u.st, 0)} см, ${fmt(u.bm, 0)} кг`, C.acc) + lab(255, sp.st, esc(c.short), `${fmt(sp.st, 0)} см, ${fmt(sp.bm, 0)} кг`, C.sp);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 370" ${attrs}>${s}</svg>`;
@@ -1099,9 +1100,9 @@ function drawYou() {
   $("yDiff").innerHTML = `<div class="h4">В цифрах</div><ul class="pl">${nums.map(x => `<li>${x}</li>`).join("")}</ul>` + (c.proxy ? `<p class="rsub" style="margin-top:12px">Подробные «общее» и «различия» пока написаны для знаменитых находок: Люси, Мальчика из Турканы, неандертальца из Ла Ферраси и хоббита.</p>`
     : `<div class="h4">Общее</div><ul class="pl">${c.common.map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="h4">Различия</div><ul class="pl">${c.diff.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`);
   const base = YS.find(y => y.img === c.img);
-  $("duoCap").innerHTML = c.proxy ? `${invNote(sp)} Пропорции схемы условные, рост и масса по базе. Ваш скелет: типичный современный человек вашего роста. Нажмите на рисунок, чтобы увеличить.`
+  $("duoCap").innerHTML = c.proxy ? `Рисунок: типичный скелет группы (${esc(c.sub)}) в росте и массе этой находки по базе. Сама находка сохранилась не целиком: что именно найдено, показано во вкладке «О находке». Ваш скелет: типичный современный человек вашего роста. Нажмите на рисунок, чтобы увеличить.`
     : `<b style="color:#a0663c">Коричневые</b> кости найдены, <b>белые</b> восстановлены. Иллюстрации сгенерированы ИИ (OpenAI) по описи костей и показывают её приблизительно; точная опись: ${esc(c.found)} Ваш скелет: типичный современный человек вашего роста. Нажмите на рисунок, чтобы увеличить.`;
-  $("duo").onclick = () => { const m = modernImg(u); $("lb").innerHTML = `<figure><img src="img/${m}.webp" alt="Скелет современного человека" style="height:calc((100% - 40px) * ${u.st / Math.max(u.st, sp.st)});aspect-ratio:${(SKIMG[m] * modernWf(u)).toFixed(4)}"><figcaption>Вы, ${fmt(u.st, 0)} см</figcaption></figure><figure>${c.proxy ? BONEMAP.boneSVG(BONEMAP.invOf(sp), { col: `var(--s${sp.g})`, arm: c.arm, hover: true }, `style="height:calc((100% - 40px) * ${sp.st / Math.max(u.st, sp.st)})"`) : `<img src="img/${c.img}.webp" alt="${esc(c.name)}" style="height:calc((100% - 40px) * ${sp.st / Math.max(u.st, sp.st)});aspect-ratio:${(SKIMG[c.img] * (c.img.startsWith("modern") ? modernWf(sp) : 1)).toFixed(4)}">`}<figcaption>${esc(c.name)}, ${fmt(sp.st, 0)} см</figcaption></figure>`; $("lb").classList.add("on"); };
+  $("duo").onclick = () => { const m = modernImg(u); $("lb").innerHTML = `<figure><img src="img/${m}.webp" alt="Скелет современного человека" style="height:calc((100% - 40px) * ${u.st / Math.max(u.st, sp.st)});aspect-ratio:${(SKIMG[m] * modernWf(u)).toFixed(4)}"><figcaption>Вы, ${fmt(u.st, 0)} см</figcaption></figure><figure>${`<img src="img/${c.img}.webp" alt="${esc(c.name)}" style="height:calc((100% - 40px) * ${sp.st / Math.max(u.st, sp.st)});aspect-ratio:${(SKIMG[c.img] * (c.img.startsWith("modern") ? modernWf(sp) : 1)).toFixed(4)}">`}<figcaption>${esc(c.name)}, ${fmt(sp.st, 0)} см</figcaption></figure>`; $("lb").classList.add("on"); };
   YLAST = { u, c, big };
   // пока калькулятор по костям пуст, на шкале эволюции показываем вас
   if (!Object.values(val()).some(x => x != null)) { LAST = { bm: { est: u.bm, lo: u.bm, hi: u.bm, who: "Вы" }, st: { est: u.st, lo: u.st, hi: u.st, who: "Вы" } }; drawScatter(); drawTaxa(); }
@@ -1151,7 +1152,6 @@ const STORY = {
     hook: "Хоббит с острова Флорес жил 60-100 тыс. лет назад, когда наш вид уже существовал. Ростом около метра и с мозгом размером с мозг шимпанзе, он всё же делал каменные орудия." },
 };
 // опись костей: подпись под сравнением и блок «Что найдено» во вкладке «О находке»
-const invNote = r => { const v = BONEMAP.invOf(r); return v.lvl === 2 ? `Цветом показаны найденные кости${v.pct ? ` (${esc(v.pct)} скелета)` : ""}, полупрозрачным фрагменты, серым то, чего нет.` : `Полной описи костей этой находки на сайте пока нет. Цветом показана кость, по которой сделана оценка, пунктиром: сторона в базе не указана.`; };
 function invBlock(c) {
   const r = c.r, v = BONEMAP.invOf(r), list = BONEMAP.boneList(v), col = `var(--s${r.g})`;
   const txt = v.lvl === 2 ? `<p>${v.pct ? `<b>Сохранилось ${esc(v.pct)} скелета.</b> ` : ""}${esc(v.found_ru || "")}</p>`
@@ -1263,9 +1263,7 @@ async function postImage(kind) {
   const wrap = (t, x0, y0, max, lh, lines) => { let line = "", n = 0; for (const w of t.split(" ")) { const tt = line ? line + " " + w : w;
       if (x.measureText(tt).width > max && line) { if (n === lines - 1) { x.fillText(line + "…", x0, y0 + n * lh); return lines; } x.fillText(line, x0, y0 + n * lh); n++; line = w; } else line = tt; }
     if (line) { x.fillText(line, x0, y0 + n * lh); n++; } return n; };
-  const legend = (x0, y0, fs) => { if (c.proxy) { const l2 = BONEMAP.invOf(r).lvl === 2, a = l2 ? "найденные кости" : "кость, по которой оценка";
-      x.font = `${fs}px ${IN}`; x.fillStyle = gcol; x.fillRect(x0, y0 - fs + 3, fs, fs); x.fillStyle = L.t2; x.fillText(a, x0 + fs + 10, y0);
-      const x1 = x0 + fs + 22 + x.measureText(a).width; x.fillStyle = "#e9e5db"; x.fillRect(x1, y0 - fs + 3, fs, fs); x.fillStyle = L.t2; x.fillText(l2 ? "не найдены" : "нет данных", x1 + fs + 10, y0); return; }
+  const legend = (x0, y0, fs) => { if (c.proxy) { x.font = `${fs}px ${IN}`; x.fillStyle = L.t2; x.fillText("Рисунок: типичный скелет группы, не сама находка", x0, y0); return; }
     x.font = `${fs}px ${IN}`; x.fillStyle = "#8a5a36"; x.fillRect(x0, y0 - fs + 3, fs, fs); x.fillStyle = L.t2; x.fillText("найденные кости", x0 + fs + 10, y0);
     const x1 = x0 + fs + 22 + x.measureText("найденные кости").width; x.fillStyle = "#f1ece0"; x.fillRect(x1, y0 - fs + 3, fs, fs); x.strokeStyle = "#b9b2a3"; x.lineWidth = 1; x.strokeRect(x1 + .5, y0 - fs + 3.5, fs - 1, fs - 1);
     x.fillStyle = L.t2; x.fillText("восстановленные", x1 + fs + 10, y0); };

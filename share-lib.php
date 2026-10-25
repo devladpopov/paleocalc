@@ -4,7 +4,7 @@
 // Код ссылки: <рост>-<вес>-<m|f|x>[-e<объём мозга>]-<lucy|turkana|ferrassie|hobbit|n<номер в will2017.json>>
 
 const BASE = 'https://vladislavpopov.ru/paleocalc/';
-const OGV = 7; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
+const OGV = 8; // версия рисунка превью: при изменении og.php увеличить, старый кэш перестанет использоваться
 
 const FAMOUS = [
   'lucy' => ['spec' => 'AL 288-1', 'name' => 'Люси', 'gen' => 'Люси', 'ins' => 'Люси', 'sub' => 'Au. afarensis, Эфиопия', 'ecv' => 450],
@@ -13,7 +13,8 @@ const FAMOUS = [
   'hobbit' => ['spec' => 'LB1', 'name' => 'Хоббит с острова Флорес', 'gen' => 'хоббита с Флореса', 'ins' => 'хоббитом с Флореса', 'sub' => 'Homo floresiensis, Индонезия', 'ecv' => 426],
 ];
 // Ширина/высота рисунков img/*.webp, как SKIMG в index.html
-const SKIMG = ['lucy' => 270 / 900, 'turkana' => 331 / 900, 'ferrassie' => 340 / 900, 'hobbit' => 362 / 900, 'modern-short' => 284 / 900, 'modern-mid' => 285 / 900, 'modern-tall' => 281 / 900];
+const SKIMG = ['lucy' => 270 / 900, 'turkana' => 331 / 900, 'ferrassie' => 340 / 900, 'hobbit' => 362 / 900, 'modern-short' => 284 / 900, 'modern-mid' => 285 / 900, 'modern-tall' => 281 / 900,
+  'lucy-cast' => 270 / 900, 'turkana-cast' => 331 / 900, 'ferrassie-cast' => 340 / 900, 'hobbit-cast' => 362 / 900];
 // Таксоны базы: русское название, типичный объём мозга (ориентир, ждёт сверки), рисунок-заменитель. Как TAXA в index.html.
 const TAXA = [
   ['/afarensis/i', 'австралопитек афарский', 450, 'lucy'], ['/africanus/i', 'австралопитек африканский', 460, 'lucy'], ['/sediba/i', 'австралопитек седиба', 420, 'lucy'],
@@ -60,7 +61,7 @@ function target($id) {
   $tx = null; foreach (TAXA as $t) if (preg_match($t[0], $r['taxon'] ?? '')) { $tx = $t; break; }
   $name = $r['specimen'];
   return ['id' => $id, 'r' => $r, 'name' => $name, 'gen' => $name, 'ins' => $name, 'sub' => ($tx ? $tx[1] : 'таксон не указан'),
-    'ecv' => $tx ? $tx[2] : null, 'img' => $tx && $tx[3] ? $tx[3] : modernImg($r['st'], $r['sex'] ?? ''), 'proxy' => true];
+    'ecv' => $tx ? $tx[2] : null, 'img' => $tx && $tx[3] ? $tx[3] . '-cast' : modernImg($r['st'], $r['sex'] ?? ''), 'proxy' => true];
 }
 
 function headline($u, $c) {
