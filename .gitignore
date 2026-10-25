@@ -10,3 +10,4 @@ letter*.md
 .work-shot*
 .playwright-mcp/
 recent-messages.jsonl
+img/raw/

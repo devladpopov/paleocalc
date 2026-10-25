@@ -184,9 +184,14 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 .cmp button span{display:block;font-size:.68rem;color:var(--text-3)}
 .cmp button.on{border-color:var(--accent);color:var(--text);background:var(--accent-dim)}
 .you-out{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px}
-.duo-wrap{display:grid;grid-template-columns:minmax(200px,320px) minmax(0,1fr);gap:24px;align-items:center}
+.duo-wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;align-items:center}
 @media(max-width:700px){.duo-wrap{grid-template-columns:1fr}}
-#duo{width:100%;height:auto;display:block}
+#duo{width:100%;height:auto;display:block;cursor:zoom-in}
+.lb{position:fixed;inset:0;z-index:300;background:rgba(8,8,10,.95);display:none;align-items:center;justify-content:center;gap:4vw;padding:4vh 4vw;cursor:zoom-out}
+.lb.on{display:flex}
+.lb figure{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.lb img{max-width:42vw;object-fit:contain}
+.lb figcaption{color:#f0f0f0;font:500 .95rem "Space Grotesk",sans-serif;margin-top:10px;text-align:center}
 #duo .bn{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .cmpt{width:100%;border-collapse:collapse;font-size:.85rem}
 .cmpt td,.cmpt th{padding:8px 6px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
@@ -278,7 +283,8 @@ footer a:hover{color:var(--accent)}
     <div class="you-out">
       <div class="big3" id="yBig"></div>
       <div class="duo-wrap">
-        <svg id="duo" viewBox="0 0 340 300" role="img" aria-label="Вы и выбранная находка в одном масштабе"></svg>
+        <div><svg id="duo" viewBox="0 0 340 370" role="img" aria-label="Вы и выбранная находка в одном масштабе"></svg>
+        <div class="fine" id="duoCap"></div></div>
         <div style="overflow-x:auto"><table class="cmpt" id="yTab"></table></div>
       </div>
     </div>
@@ -432,6 +438,7 @@ footer a:hover{color:var(--accent)}
   </div>
 </footer>
 <div class="tip" id="tip"></div>
+<div class="lb" id="lb" role="dialog" aria-label="Скелеты крупно"></div>
 
 <script src="formulas.js"></script>
 <script src="data/will2017.js"></script>
@@ -656,17 +663,20 @@ $("q").addEventListener("input", renderDb);
 $("lucyBtn").onclick = () => locate(DB.findIndex(r => r.specimen === "AL 288-1"));
 
 // ---------- Вы и Люси ----------
+const SKIMG = { lucy: 376 / 900, turkana: 331 / 900, ferrassie: 340 / 900, hobbit: 362 / 900, "modern-short": 284 / 900, "modern-mid": 285 / 900, "modern-tall": 281 / 900 };
+const SKHREF = {};
+const modernImg = u => u.sex === "F" ? (u.st > 178 ? "modern-mid" : "modern-short") : u.sex === "M" ? (u.st < 165 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid") : (u.st < 163 ? "modern-short" : u.st > 182 ? "modern-tall" : "modern-mid");
 const YS = [
-  { id: "lucy", spec: "AL 288-1", name: "Люси", gen: "Люси", ins: "Люси", sub: "Au. afarensis, Эфиопия", ecv: 450, ecvNote: "черепа нет, среднее Au. afarensis", arm: 1.12,
+  { id: "lucy", spec: "AL 288-1", name: "Люси", gen: "Люси", ins: "Люси", sub: "Au. afarensis, Эфиопия", ecv: 450, ecvNote: "черепа нет, среднее Au. afarensis", arm: 1.12, found: "около 40% скелета: нижняя челюсть и обломки черепа, обе плечевые кости, правые лучевая и локтевая, обломки рёбер, несколько позвонков, крестец, левая тазовая и левая бедренная кости, концы правой большеберцовой, таранная кость.",
     common: ["Ходила на двух ногах: бедро сходится к колену под углом, как у вас.", "Таз короткий и широкий, перестроенный под прямохождение.", "Большой палец стопы приведён к остальным, а не отставлен, как у шимпанзе."],
     diff: ["Руки длиннее относительно ног, пальцы изогнуты: Люси ещё хорошо лазала по деревьям.", "Грудная клетка воронкообразная, как у человекообразных обезьян.", "Мозг размером с мозг шимпанзе."] },
-  { id: "turkana", spec: "KNM-WT 15000 (adult)", name: "Мальчик из Турканы", gen: "Мальчика из Турканы", ins: "Мальчиком из Турканы", sub: "Homo erectus, Кения", ecv: 880, ecvNote: "на момент смерти", arm: 1,
+  { id: "turkana", spec: "KNM-WT 15000 (adult)", name: "Мальчик из Турканы", gen: "Мальчика из Турканы", ins: "Мальчиком из Турканы", sub: "Homo erectus, Кения", ecv: 880, ecvNote: "на момент смерти", arm: 1, found: "один из самых полных ранних скелетов: череп с челюстью, почти весь позвоночник и рёбра, таз, кости рук и ног; почти нет кистей и стоп.",
     common: ["Пропорции тела почти как у современных жителей жарких стран: длинные ноги, узкий таз.", "Полностью наземная жизнь и выносливость в долгой ходьбе и беге.", "Рост и масса в базе даны для взрослого: сам мальчик умер подростком. Оценки роста взрослого спорны, от 1,6 до 1,85 м."],
     diff: ["Мозг около двух третей вашего.", "Массивные надбровные дуги, нет подбородка.", "Позвоночный канал в грудном отделе уже, чем у современного человека."] },
-  { id: "ferrassie", spec: "La Ferrassie 1", name: "Неандерталец из Ла Ферраси", gen: "неандертальца из Ла Ферраси", ins: "неандертальцем из Ла Ферраси", sub: "H. neanderthalensis, Франция", ecv: 1640, ecvNote: "один из самых крупных", arm: 1,
+  { id: "ferrassie", spec: "La Ferrassie 1", name: "Неандерталец из Ла Ферраси", gen: "неандертальца из Ла Ферраси", ins: "неандертальцем из Ла Ферраси", sub: "H. neanderthalensis, Франция", ecv: 1640, ecvNote: "один из самых крупных", arm: 1, found: "почти полный скелет: череп с челюстью, позвонки и рёбра, повреждённый таз, кости рук и ног, большая часть кистей и стоп.",
     common: ["Мозг не меньше вашего, а скорее больше.", "Рост как у среднего современного мужчины.", "Наш вид скрещивался с неандертальцами: у большинства людей вне Африки 1-2% неандертальских генов."],
     diff: ["Массивное тело с широкой бочкообразной грудной клеткой: при том же росте масса больше.", "Короткие голени и предплечья, как у народов холодного климата.", "Толстые стенки длинных костей: высокие физические нагрузки всю жизнь."] },
-  { id: "hobbit", spec: "LB1", name: "Хоббит с острова Флорес", gen: "хоббита с Флореса", ins: "хоббитом с Флореса", sub: "Homo floresiensis, Индонезия", ecv: 426, ecvNote: "по КТ эндокрана", arm: 1.06,
+  { id: "hobbit", spec: "LB1", name: "Хоббит с острова Флорес", gen: "хоббита с Флореса", ins: "хоббитом с Флореса", sub: "Homo floresiensis, Индонезия", ecv: 426, ecvNote: "по КТ эндокрана", arm: 1.06, found: "череп с челюстью, правые бедренная, большеберцовая и малоберцовая кости, левая тазовая кость, часть костей рук и кистей, многие кости стоп.",
     common: ["Ходил на двух ногах и относится к тому же роду Homo, что и вы.", "Рядом с хоббитами найдены каменные орудия.", "Жил около 60-100 тысяч лет назад, когда Homo sapiens уже существовал."],
     diff: ["Рост около метра: островная карликовость.", "Мозг размером с мозг шимпанзе.", "Длинные стопы относительно ног и примитивное запястье."] },
 ];
@@ -695,15 +705,17 @@ function skel(cx, ground, ppc, st, bm, ecv, arm, col) {
   </g>`;
 }
 function duoSVG(u, c, C, font, attrs = "") {
-  const sp = c.r, ground = 268, maxH = Math.max(u.st, sp.st, 180), ppc = 222 / maxH;
+  const sp = c.r, ground = 338, maxH = Math.max(u.st, sp.st, 180), ppc = 292 / maxH;
   let s = "";
   for (let t = 50; t <= maxH; t += 50) { const y = ground - t * ppc; s += `<line x1="34" x2="330" y1="${y}" y2="${y}" stroke="${C.grid}" stroke-width="1"/><text x="28" y="${y + 4}" text-anchor="end" font-size="10" fill="${C.t3}" font-family="${font}">${t}</text>`; }
   s += `<line x1="34" x2="330" y1="${ground}" y2="${ground}" stroke="${C.t3}" stroke-width="1"/><text x="28" y="${ground + 4}" text-anchor="end" font-size="10" fill="${C.t3}" font-family="${font}">0 см</text>`;
-  s += skel(130, ground, ppc, u.st, u.bm, u.ecv, 1, C.acc);
-  s += skel(255, ground, ppc, sp.st, sp.bm, c.ecv, c.arm, C.sp);
+  const pic = (id, cx, st, bm) => { const h = st * ppc, wf = id.startsWith("modern") ? Math.min(1.15, Math.max(.9, Math.sqrt(REVERSE.bmi(st, bm) / 22))) : 1, w = h * SKIMG[id] * wf;
+    return `<image href="${(C.hrefs || {})[id] || `img/${id}.webp`}" x="${cx - w / 2}" y="${ground - h}" width="${w}" height="${h}" preserveAspectRatio="none"/>`; };
+  if (C.schematic) { s += skel(130, ground, ppc, u.st, u.bm, u.ecv, 1, C.acc); s += skel(255, ground, ppc, sp.st, sp.bm, c.ecv, c.arm, C.sp); }
+  else { s += pic(modernImg(u), 130, u.st, u.bm); s += pic(c.id, 255, sp.st, sp.bm); }
   const lab = (x, st, a, b, col) => `<text x="${x}" y="${ground - st * ppc - 12}" text-anchor="middle" font-size="12" font-weight="500" fill="${col}" font-family="${font}">${a}</text><text x="${x}" y="${ground + 20}" text-anchor="middle" font-size="11" fill="${C.t2}" font-family="${font}">${b}</text>`;
   s += lab(130, u.st, "Вы", `${fmt(u.st, 0)} см, ${fmt(u.bm, 0)} кг`, C.acc) + lab(255, sp.st, esc(c.name.split(" ")[0]), `${fmt(sp.st, 0)} см, ${fmt(sp.bm, 0)} кг`, C.sp);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 300" ${attrs}>${s}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 370" ${attrs}>${s}</svg>`;
 }
 function times(a, b, more, less, unit, d = 0) {
   const r = a / b;
@@ -752,6 +764,8 @@ function drawYou() {
     : `Индекс массы тела ${fmt(bu)} у вас и ${fmt(bs)} у ${esc(c.gen)}: ${bu > bs ? "вы сложены плотнее" : "вы сложены легче"}.`);
   $("yDiffT").textContent = `Что у вас общего с ${c.ins}`;
   $("yDiff").innerHTML = `<div class="h4">В цифрах</div><ul class="pl">${nums.map(x => `<li>${x}</li>`).join("")}</ul><div class="h4">Общее</div><ul class="pl">${c.common.map(x => `<li>${esc(x)}</li>`).join("")}</ul><div class="h4">Различия</div><ul class="pl">${c.diff.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  $("duoCap").innerHTML = `<b style="color:#a0663c">Коричневые</b> кости найдены, <b>белые</b> восстановлены. Иллюстрации сгенерированы ИИ (OpenAI) по описи костей и показывают её приблизительно; точная опись: ${esc(c.found)} Ваш скелет: типичный современный человек вашего роста. Нажмите на рисунок, чтобы увеличить.`;
+  $("duo").onclick = () => { const m = modernImg(u); $("lb").innerHTML = `<figure><img src="img/${m}.webp" alt="Скелет современного человека" style="height:calc((100% - 40px) * ${u.st / Math.max(u.st, sp.st)})"><figcaption>Вы, ${fmt(u.st, 0)} см</figcaption></figure><figure><img src="img/${c.id}.webp" alt="${esc(c.name)}" style="height:calc((100% - 40px) * ${sp.st / Math.max(u.st, sp.st)})"><figcaption>${esc(c.name)}, ${fmt(sp.st, 0)} см</figcaption></figure>`; $("lb").classList.add("on"); };
   YLAST = { u, c, big };
 }
 function drawRM(u, both, near) {
@@ -767,6 +781,8 @@ function drawRM(u, both, near) {
   s += `<circle cx="${sx(u.st)}" cy="${sy(u.bm)}" r="9" fill="none" stroke="var(--accent)" stroke-width="2.5"/><circle cx="${sx(u.st)}" cy="${sy(u.bm)}" r="3" fill="var(--accent)"/><text class="lbl" x="${sx(u.st) - 14}" y="${sy(u.bm) + 4}" text-anchor="end">Вы</text>`;
   $("rm").innerHTML = s;
 }
+$("lb").onclick = () => $("lb").classList.remove("on");
+addEventListener("keydown", e => { if (e.key === "Escape") $("lb").classList.remove("on"); });
 $("yShow").onclick = () => { const u = you(); LAST = { bm: { est: u.bm, lo: u.bm, hi: u.bm, who: "Вы" }, st: { est: u.st, lo: u.st, hi: u.st, who: "Вы" } }; drawAll(); $("tree").scrollIntoView({ behavior: "smooth" }); };
 $("yLink").onclick = async () => {
   const u = you(), q = new URLSearchParams({ h: u.st, w: u.bm, c: YC.id }); if (u.sex) q.set("s", u.sex); if (u.ecvOwn) q.set("e", u.ecv);
@@ -778,12 +794,14 @@ $("yCard").onclick = async () => {
   if (!YLAST) return; const { u, c, big } = YLAST;
   const L = { bg: "#f7f5f0", text: "#0a0a0e", t2: "#3a3a4a", t3: "#7a7a8a", acc: "#4f3cc9", grid: "rgba(0,0,0,.08)" }, gcol = ["#a3a3ad", "#2a78d6", "#eb6834", "#1baf7a"][c.r.g];
   try { await document.fonts.ready; } catch {}
-  const img = new Image(); img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(duoSVG(u, c, { acc: L.acc, sp: gcol, grid: L.grid, t2: L.t2, t3: L.t3 }, "Arial, sans-serif")); await img.decode();
+  const hrefs = {};
+  for (const id of [modernImg(u), c.id]) hrefs[id] = SKHREF[id] || (SKHREF[id] = await fetch(`img/${id}.webp`).then(r => r.blob()).then(b => new Promise(res => { const f = new FileReader(); f.onload = () => res(f.result); f.readAsDataURL(b); })));
+  const img = new Image(); img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(duoSVG(u, c, { acc: L.acc, sp: gcol, grid: L.grid, t2: L.t2, t3: L.t3, hrefs }, "Arial, sans-serif")); await img.decode();
   const cv = document.createElement("canvas"); cv.width = 1200; cv.height = 630; const x = cv.getContext("2d");
   x.fillStyle = L.bg; x.fillRect(0, 0, 1200, 630);
   const gr = x.createLinearGradient(640, 0, 1160, 0); gr.addColorStop(0, "#4f3cc9"); gr.addColorStop(.5, "#8b3fa0"); gr.addColorStop(1, "#d63384");
   x.fillStyle = gr; x.fillRect(0, 0, 1200, 8);
-  x.drawImage(img, 30, 60, 570, 503);
+  x.drawImage(img, 40, 40, 520, 566);
   const SG = "'Space Grotesk', Arial, sans-serif", IN = "Inter, Arial, sans-serif";
   x.fillStyle = L.acc; x.font = `500 18px ${SG}`; x.fillText("ПАЛЕОКАЛЬКУЛЯТОР", 640, 92);
   x.fillStyle = gr; x.font = `500 60px ${SG}`; x.fillText(`Я и ${c.name.split(" ")[0]}`, 636, 158);
