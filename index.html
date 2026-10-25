@@ -41,7 +41,7 @@ h1,h2,h3{font-family:var(--fh);font-weight:300;letter-spacing:-.01em}
 .theme-btn{font:inherit;font-size:.8rem;padding:7px 15px;border:1px solid var(--border);border-radius:2px;background:transparent;color:var(--text-2);cursor:pointer}
 .theme-btn:hover{border-color:var(--border-h);color:var(--text)}
 [data-theme="dark"] .t-light,[data-theme="light"] .t-dark{display:none}
-@media(max-width:760px){.nav-links{display:none}}
+@media(max-width:760px){.nav{flex-wrap:wrap;row-gap:6px;padding:12px 16px 8px}.nav-right{width:100%}.nav-links{width:100%;overflow-x:auto;gap:18px;scrollbar-width:none;padding-bottom:2px}.nav-links::-webkit-scrollbar{display:none}.nav-links a{white-space:nowrap;font-size:.8rem;padding:4px 0}}
 /* hero */
 .hero{padding-top:150px;padding-bottom:70px}
 .eyebrow{font-family:var(--fm);font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-2);margin-bottom:22px}
@@ -183,7 +183,7 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 /* первый экран */
 .hero{padding-top:118px;padding-bottom:56px}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:44px;align-items:center}
-@media(max-width:960px){.hero-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}.hero-copy{display:contents}.hero h1{order:1}.parade{order:2;margin-top:18px}.lead{order:3}.hero-form{order:4}.hero-meta{order:5}}
+@media(max-width:960px){.hero-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}.hero-copy{display:contents}.hero h1{order:1}.lead{order:2}.hero-form{order:3}.parade{order:4;margin-top:22px}.hero-meta{order:5}}
 .hero h1{font-size:clamp(2.4rem,5.4vw,4.4rem);max-width:12ch}
 .hero h1 em{font-family:inherit;font-style:normal;font-weight:inherit;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .lead{font-size:1.08rem;color:var(--text-2);max-width:46ch;margin-top:22px}
@@ -207,10 +207,12 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 #parade .pn{font:600 11px var(--fb);fill:#1a1a1a}
 #parade .pa{font:10px var(--fb);fill:#4a463f}
 #parade .ph{font:10.5px var(--fm);fill:#b0aa9f}
+#parade .pnm{font:600 13px var(--fb);fill:#ece8e1}#parade .me .pnm{fill:#e6c38a}#parade .pam{font:11px var(--fb);fill:#8f897e}
+@media(max-width:640px){#parade .ph{font-size:12px}}
 #parade .me .ph{fill:#e6c38a}
 .parade figcaption{font-size:.76rem;color:var(--text-3);text-align:center;margin-top:2px}
 .stats{grid-template-columns:repeat(4,1fr);margin-top:44px}
-@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr);row-gap:10px}}
+@media(max-width:640px){.stats{grid-template-columns:repeat(4,1fr);gap:8px;margin-top:28px}.stat .n{font-size:1.45rem}.stat .l{font-size:.66rem;line-height:1.25}}
 /* сравнение */
 .you-me{font-size:.88rem;color:var(--text-2)}
 .you-me b{font-family:var(--fm);font-weight:500;color:var(--text)}
@@ -303,7 +305,7 @@ select.sel{font:inherit;font-size:.82rem;color:var(--text);background:var(--surf
 .big3 div{border-top:2px solid var(--accent);padding-top:8px}
 .big3 b{font-family:var(--fm);font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:500;letter-spacing:-.02em;display:block;line-height:1.1}
 .big3 span{font-size:.74rem;color:var(--text-2);display:block;margin-top:4px;line-height:1.3}
-@media(max-width:520px){.big3{grid-template-columns:1fr}}
+@media(max-width:520px){.big3{gap:8px}.big3 b{font-size:.98rem}.big3 span{font-size:.66rem}}
 .near{margin-bottom:10px}
 .near li{list-style:none;display:flex;justify-content:space-between;gap:12px;padding:9px 6px;border-top:1px solid var(--border);font-size:.86rem;cursor:pointer;border-radius:6px}
 .near li:hover{background:var(--accent-dim)}
@@ -373,6 +375,58 @@ footer a:hover{color:var(--accent)}
 footer{padding:0;border:0}
 footer .container{padding-top:36px;padding-bottom:50px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* телефон (v0.7.2) */
+.inv-more{font:500 .72rem var(--fm);letter-spacing:.06em;text-transform:uppercase;background:none;border:1px dashed var(--border-h);color:var(--accent);padding:3px 10px;border-radius:4px;cursor:pointer}
+.inv-l li.x{display:none}.inv-l.all li.x{display:list-item}.inv-l.all .inv-more{display:none}
+.inv-l li.mo{border:0;padding:0}
+details.src summary,details.note summary{cursor:pointer;list-style:none}
+details.src summary::-webkit-details-marker,details.note summary::-webkit-details-marker{display:none}
+details.src summary{font-size:.75rem;color:var(--accent);margin:8px 0}
+details.src summary:after{content:" +"}
+details[open].src summary:after{content:" −"}
+details.note summary{color:var(--text-2)}
+details.note summary span{color:var(--accent);font-family:var(--fm);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;margin-left:6px;white-space:nowrap}
+details[open].note summary span{display:none}
+details.note p{margin-top:8px}
+@media(max-width:640px){
+  .hero{padding-top:118px;padding-bottom:36px}
+  .hero h1{font-size:2.3rem}
+  .lead{font-size:.95rem;margin-top:14px}
+  .hero-form{margin-top:18px;padding:14px}
+  .hero-form .seg{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}.hero-form .seg button{padding:8px 4px}
+  .hero-form .btn,.stage-act .btn{width:100%;justify-content:center}
+  section.block{padding-top:52px;padding-bottom:52px}
+  .sec-head{margin-bottom:22px;gap:10px}
+  .pick{padding:12px 12px 14px}
+  #pickTabs{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}#pickTabs button{padding:8px 4px}
+  .cards{grid-auto-columns:40%;gap:8px}
+  .card{padding:28px 10px 10px}.card .thumb{height:96px}.card b{font-size:.84rem}.card .cs{font-size:.7rem}
+  .stage{padding:14px;gap:14px}
+  .stage-pic .fine{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+  .stage-pic .fine.open{display:block}
+  #yTitle{font-size:1.5rem}
+  .stage-act{flex-direction:column}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:0;gap:6px}
+  .tabs button{border:1px solid var(--border-h);margin:0;padding:9px 4px;white-space:normal;text-align:center;font-size:.68rem}
+  .tabs button.on{border-color:var(--accent);background:var(--accent-dim)}
+  .inv{grid-template-columns:1fr;gap:12px}
+  .inv-f{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:end}.inv-f svg{max-height:260px}
+  .inv-f figcaption{flex-direction:column;gap:6px}
+  .note{margin-top:22px;font-size:.84rem;padding:12px 14px}
+  .band .container{padding-top:44px}
+  .chart-card{padding:14px 12px}
+  .chart-card .hscroll:before{content:"← листайте график →";position:sticky;left:0;display:block;width:calc(100vw - 66px);text-align:center;font:.66rem var(--fm);letter-spacing:.06em;color:var(--text-3);margin-bottom:4px}
+  .calc{gap:16px;grid-template-columns:minmax(0,1fr)}
+  .skel-wrap{position:static;max-width:none;display:grid;grid-template-columns:104px minmax(0,1fr);gap:12px;align-items:center;text-align:left;padding:12px}
+  #skel{height:300px;grid-row:span 2}
+  .bones{justify-content:flex-start;margin-top:0}
+  .toolbar .seg{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}.toolbar .seg button{padding:7px 2px;font-size:.74rem}
+  .fields{gap:12px}.fgroup{padding:14px}
+  .frow{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .results{margin-top:20px;gap:10px}.rcard{padding:14px 16px}
+  .scroll{max-height:60vh}#dbt{min-width:760px}#dbt td{white-space:nowrap}
+  .dbbar{flex-wrap:wrap}
+}
 </style>
 </head>
 <body>
@@ -477,7 +531,7 @@ footer .container{padding-top:36px;padding-bottom:50px}
       </div>
     </div>
   </div>
-  <div class="note" style="margin-top:18px"><b>Это иллюстрация метода, а не медицинские данные.</b> Ваши кости оценены обращением формул, выведенных для другой задачи: длина бедра через постоянное отношение к росту (Feldesman et al. 1990), диаметр головки бедра обращением уравнений массы (среднее Ruff 1991, McHenry 1992, Grine 1995), а обращённая регрессия даёт смещённую оценку. Оценки находок взяты из базы Will et al. 2017 и сами имеют интервалы ±10-20%; типичные объёмы мозга таксонов даны как ориентир. Ничего не отправляется на сервер, пока вы сами не нажмёте «Поделиться ссылкой».</div>
+  <details class="note" style="margin-top:18px"><summary><b>Это иллюстрация метода, а не медицинские данные.</b><span>подробнее</span></summary><p>Ваши кости оценены обращением формул, выведенных для другой задачи: длина бедра через постоянное отношение к росту (Feldesman et al. 1990), диаметр головки бедра обращением уравнений массы (среднее Ruff 1991, McHenry 1992, Grine 1995), а обращённая регрессия даёт смещённую оценку. Оценки находок взяты из базы Will et al. 2017 и сами имеют интервалы ±10-20%; типичные объёмы мозга таксонов даны как ориентир. Ничего не отправляется на сервер, пока вы сами не нажмёте «Поделиться ссылкой».</p></details>
 </section>
 
 <section class="block container" id="tree">
@@ -505,7 +559,7 @@ footer .container{padding-top:36px;padding-bottom:50px}
   <div class="sec-num">ДЛЯ ИССЛЕДОВАТЕЛЕЙ</div>
   <h2>Калькулятор по костям, база находок и методика</h2>
   <p>Ниже научная часть: оценки роста, массы тела и мозга по обмерам костей с источником и интервалом у каждой формулы, открытая база 311 находок и описание метода.</p>
-  <div class="note"><b>Черновик для научной проверки.</b> Коэффициенты сверены по вторичным источникам (у каждой формулы указано, где) и ждут сверки с оригинальными статьями. Все формулы построены на современных людях: для ископаемых видов реальная неопределённость выше показанных интервалов.</div>
+  <details class="note"><summary><b>Черновик для научной проверки.</b><span>подробнее</span></summary><p>Коэффициенты сверены по вторичным источникам (у каждой формулы указано, где) и ждут сверки с оригинальными статьями. Все формулы построены на современных людях: для ископаемых видов реальная неопределённость выше показанных интервалов.</p></details>
 </div></div>
 
 <section class="block container" id="calc">
@@ -966,27 +1020,32 @@ function checker(x, ground, ppc, maxCm, ink, paper, lab) {
   return s;
 }
 // первый экран: витрина, вы в одном ряду с находками, по времени
+let PARU = null; const PARMQ = matchMedia("(max-width:640px)"); PARMQ.addEventListener("change", () => PARU && drawParade(PARU));
 function drawParade(u) {
-  const W = 660, ground = 372, ppc = 286 / Math.max(190, u.st), xs = [118, 236, 354, 472, 598], top = 0, px = "pv";
+  PARU = u; const M = PARMQ.matches;
+  const W = M ? 420 : 660, H = M ? 420 : 480, ground = M ? 352 : 372, ppc = (M ? 262 : 286) / Math.max(190, u.st), xs = M ? [62, 142, 222, 302, 376] : [118, 236, 354, 472, 598], px = "pv";
+  $("parade").setAttribute("viewBox", `0 0 ${W} ${H}`);
   const items = [...YS].sort((a, b) => b.r.mya - a.r.mya).map(c => ({ c, img: c.img, st: c.r.st, wf: 1, spec: c.r.specimen.replace(" (adult)", ""), name: c.short, age: ageOf(c.r).replace(" назад", ""), mya: c.r.mya }))
     .concat({ img: modernImg(u), st: u.st, wf: modernWf(u), spec: "H. SAPIENS", name: "Вы", age: "сегодня", mya: 0 });
-  let s = museumDefs(px) + `<rect width="${W}" height="480" fill="url(#${px}v)"/><rect y="${ground}" width="${W}" height="${480 - ground}" fill="#0d0d0d"/><line x1="0" x2="${W}" y1="${ground}" y2="${ground}" stroke="#2c2a27"/>`;
+  let s = museumDefs(px) + `<rect width="${W}" height="${H}" fill="url(#${px}v)"/><rect y="${ground}" width="${W}" height="${H - ground}" fill="#0d0d0d"/><line x1="0" x2="${W}" y1="${ground}" y2="${ground}" stroke="#2c2a27"/>`;
   // шкала времени сверху: 4 млн лет слева, сегодня справа
-  const tx0 = 70, tx1 = 640, tX = m => tx1 - (tx1 - tx0) * Math.min(m, 4) / 4, ty = 14;
+  const tx0 = M ? 44 : 70, tx1 = W - 20, tX = m => tx1 - (tx1 - tx0) * Math.min(m, 4) / 4, ty = 14;
   for (let i = 0; i < 8; i++) s += `<rect x="${tx0 + i * (tx1 - tx0) / 8}" y="${ty}" width="${(tx1 - tx0) / 8}" height="6" fill="${i % 2 ? "#0e0e0f" : "#ece8e1"}"/>`;
   s += `<rect x="${tx0}" y="${ty}" width="${tx1 - tx0}" height="6" fill="none" stroke="#ece8e1" stroke-width=".7"/>`;
   for (let m = 4; m >= 0; m--) s += `<text x="${tX(m)}" y="${ty + 17}" text-anchor="${m === 4 ? "start" : m === 0 ? "end" : "middle"}" font-size="9" fill="#7f7a71" font-family="IBM Plex Mono, monospace">${m === 4 ? "4 млн лет" : m === 0 ? "сегодня" : m}</text>`;
-  s += checker(34, ground, ppc, Math.min(200, Math.floor((ground - 60) / ppc / 10) * 10), "#ece8e1", "#0e0e0f", "#7f7a71");
+  s += checker(M ? 16 : 34, ground, ppc, Math.min(200, Math.floor((ground - 60) / ppc / 10) * 10), "#ece8e1", "#0e0e0f", "#7f7a71");
   items.forEach((it, k) => { const x = xs[k], h = it.st * ppc, w = h * SKIMG[it.img] * it.wf, me = !it.c, y0 = ground - h;
     s += spot(px, x, ground, w, 46);
     s += `<path d="M${tX(it.mya)} ${ty + 22} L${tX(it.mya)} ${ty + 26} L${x} ${Math.min(y0 - 24, 70)} L${x} ${y0 - 20}" fill="none" stroke="#5a564f" stroke-width=".7" stroke-dasharray="2 2"/>`;
     s += `<g class="pf${me ? " me" : ""}" ${me ? "" : `data-id="${it.c.id}" tabindex="0" role="button" aria-label="Сравнить себя: ${esc(it.c.name)}"`}>
       <image href="img/${it.img}.webp" x="${x - w / 2}" y="${y0}" width="${w}" height="${h}" preserveAspectRatio="none"/>
       <text x="${x}" y="${y0 - 8}" text-anchor="middle" class="ph">${fmt(it.st, 0)} см</text>
-      <rect x="${x - 56}" y="${ground + 16}" width="112" height="50" class="plab"/>
+      ${M ? `<text x="${x}" y="${ground + 20}" text-anchor="middle" class="pn pnm">${esc(it.name.replace("Мальчик из Турканы", "Туркана"))}</text>
+      <text x="${x}" y="${ground + 36}" text-anchor="middle" class="pa pam">${it.age}</text>`
+      : `<rect x="${x - 56}" y="${ground + 16}" width="112" height="50" class="plab"/>
       <text x="${x - 49}" y="${ground + 29}" class="pspec">${esc(it.spec)}</text>
       <text x="${x - 49}" y="${ground + 44}" class="pn">${esc(it.name)}</text>
-      <text x="${x - 49}" y="${ground + 58}" class="pa">${it.age}</text></g>`; });
+      <text x="${x - 49}" y="${ground + 58}" class="pa">${it.age}</text>`}</g>`; });
   $("parade").innerHTML = s;
   $("parade").querySelectorAll(".pf[data-id]").forEach(g => { const go = () => pick(byId(g.dataset.id), true); g.onclick = go; g.onkeydown = e => { if (e.key === "Enter") go(); }; });
 }
@@ -1102,6 +1161,7 @@ function drawYou() {
   const base = YS.find(y => y.img === c.img);
   $("duoCap").innerHTML = c.proxy ? `Рисунок: типичный скелет группы (${esc(c.sub)}) в росте и массе этой находки по базе. Сама находка сохранилась не целиком: что именно найдено, показано во вкладке «О находке». Ваш скелет: типичный современный человек вашего роста. Нажмите на рисунок, чтобы увеличить.`
     : `<b style="color:#a0663c">Коричневые</b> кости найдены, <b>белые</b> восстановлены. Иллюстрации сгенерированы ИИ (OpenAI) по описи костей и показывают её приблизительно; точная опись: ${esc(c.found)} Ваш скелет: типичный современный человек вашего роста. Нажмите на рисунок, чтобы увеличить.`;
+  $("duoCap").onclick = () => $("duoCap").classList.toggle("open");
   $("duo").onclick = () => { const m = modernImg(u); $("lb").innerHTML = `<figure><img src="img/${m}.webp" alt="Скелет современного человека" style="height:calc((100% - 40px) * ${u.st / Math.max(u.st, sp.st)});aspect-ratio:${(SKIMG[m] * modernWf(u)).toFixed(4)}"><figcaption>Вы, ${fmt(u.st, 0)} см</figcaption></figure><figure>${`<img src="img/${c.img}.webp" alt="${esc(c.name)}" style="height:calc((100% - 40px) * ${sp.st / Math.max(u.st, sp.st)});aspect-ratio:${(SKIMG[c.img] * (c.img.startsWith("modern") ? modernWf(sp) : 1)).toFixed(4)}">`}<figcaption>${esc(c.name)}, ${fmt(sp.st, 0)} см</figcaption></figure>`; $("lb").classList.add("on"); };
   YLAST = { u, c, big };
   // пока калькулятор по костям пуст, на шкале эволюции показываем вас
@@ -1156,8 +1216,8 @@ function invBlock(c) {
   const r = c.r, v = BONEMAP.invOf(r), list = BONEMAP.boneList(v), col = `var(--s${r.g})`;
   const txt = v.lvl === 2 ? `<p>${v.pct ? `<b>Сохранилось ${esc(v.pct)} скелета.</b> ` : ""}${esc(v.found_ru || "")}</p>`
     : `<p>Полной описи костей этой находки на сайте пока нет. Из базы Will et al. 2017 известно только, по каким костям сделаны оценки: ${v.els.map(e => esc(e)).join("; ") || "не указано"}. Эти кости показаны цветом, сторона в базе не указана.</p>`;
-  const chips = list.length ? `<ul class="inv-l">${list.map(([n, st]) => `<li class="st-${st}"><i style="background:${col}"></i>${esc(n)}${st === "p" ? ", фрагмент" : st === "m" ? ", по ней оценка" : ""}</li>`).join("")}</ul>` : "";
-  const src = v.lvl === 2 && v.sources && v.sources.length ? `<div class="inv-src">Источник описи: ${v.sources.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.cite)}</a>` : esc(x.cite)).join("; ")}</div>` : "";
+  const chips = list.length ? `<ul class="inv-l">${list.map(([n, st], k) => `<li class="st-${st}${k >= 6 ? " x" : ""}"><i style="background:${col}"></i>${esc(n)}${st === "p" ? ", фрагмент" : st === "m" ? ", по ней оценка" : ""}</li>`).join("")}${list.length > 6 ? `<li class="mo"><button type="button" class="inv-more">ещё ${list.length - 6}</button></li>` : ""}</ul>` : "";
+  const src = v.lvl === 2 && v.sources && v.sources.length ? `<details class="src"><summary>Источник описи</summary><div class="inv-src">${v.sources.map(x => x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.cite)}</a>` : esc(x.cite)).join("; ")}</div></details>` : "";
   return `<div class="inv"><figure class="inv-f">${BONEMAP.boneSVG(v, { col, arm: c.arm, hover: true }, `role="img" aria-label="Схема: какие кости найдены"`)}<figcaption><span><i style="background:${col}"></i>${v.lvl === 2 ? "найдено" : "кость оценки"}</span>${v.lvl === 2 ? `<span><i style="background:${col};opacity:.42"></i>фрагмент</span>` : ""}<span><i class="no"></i>${v.lvl === 2 ? "не найдено" : "нет данных"}</span></figcaption></figure>
     <div class="story"><h4 class="st-h">Что найдено от скелета</h4>${txt}${chips}${src}<div class="fine">${v.lvl === 2 ? "Опись собрана по публикациям и ждёт проверки научным руководителем." : "Опись появится, когда будет сверена по первоописанию находки."}</div></div></div>`;
 }
@@ -1172,7 +1232,8 @@ function drawStory(c) {
     : [["Образец", r.specimen], ["Таксон", `${taxRu(r)} (${r.taxon})`], ["Возраст", ageOf(r)], ["Где", r.site ? `${r.site.n}, ${r.site.c}${r.site.approx ? " (примерно)" : ""}` : r.country], r.sex && ["Пол", r.sex === "M" ? "мужской" : "женский"]])
     .concat([[c.id === "turkana" ? "Оценки для взрослого" : "Оценки", `рост ${fmt(r.st, 0)} см (${fmt(r.st_lo, 0)}–${fmt(r.st_hi, 0)}), масса ${fmt(r.bm, 0)} кг (${fmt(r.bm_lo, 0)}–${fmt(r.bm_hi, 0)})`]]).filter(Boolean);
   const text = s ? `<h4 class="st-h">${esc(s.title)}</h4>${s.p.map(x => `<p>${x}</p>`).join("")}`
-    : `<h4 class="st-h">${esc(r.specimen)}: ${esc(taxRu(r))}</h4><p>${esc(c.blurb || "Таксон в базе не указан.")}</p><p><b>Откуда оценки.</b> ${esc(meth)}. Источник по базе Will et al. 2017: ${esc(r.source || "–")}.</p>`;
+    : `<h4 class="st-h">${esc(r.specimen)}: ${esc(taxRu(r))}</h4><p>${esc(c.blurb || "Таксон в базе не указан.")}</p><details class="src"><summary>Откуда оценки</summary><p class="inv-src">${esc(meth)}. Источник по базе Will et al. 2017: ${esc(r.source || "–")}.</p></details>`;
+  $("tp-about").onclick = e => { const b = e.target.closest(".inv-more"); if (b) b.closest("ul").classList.add("all"); };
   $("tp-about").innerHTML = `<div class="story">${text}<div class="fine">Краткий научно-популярный пересказ, ждёт проверки научным руководителем.</div></div>${invBlock(c)}
     <div class="af"><svg class="minimap" id="yMini" viewBox="0 0 960 632" role="img" aria-label="Где найдена ${esc(c.name)}"></svg><dl class="facts">${facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl></div>`;
   const st = r.site; if (!st) return; const [x, y] = PX(st.lon, st.lat);
