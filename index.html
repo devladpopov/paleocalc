@@ -494,6 +494,30 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
   .binfo{padding:10px 12px;font-size:.82rem}
   .binfo b{font-size:1.02rem}
 }
+/* скелет калькулятора в масштабе (v0.9.1) */
+.sk-scale{position:relative;height:min(66vh,620px);display:flex;align-items:flex-end;justify-content:center;padding-left:30px;--k:.773}
+.sk-scale #skel{height:calc(var(--k) * 100% * 912 / 906);transition:height .5s ease}
+.sk-rule{position:absolute;left:0;top:0;bottom:0;width:7px;background:repeating-linear-gradient(to top,var(--text) 0 9.09%,var(--surface) 9.09% 18.18%);outline:1px solid var(--text)}
+.sk-rule span{position:absolute;left:11px;transform:translateY(50%);font-size:.66rem;color:var(--text-3);white-space:nowrap}
+.sk-mark{position:absolute;left:24px;right:0;border-top:1px solid var(--accent);transition:bottom .5s ease;pointer-events:none}
+.sk-mark span{position:absolute;right:0;top:-1.45em;font-size:.72rem;color:var(--accent);background:var(--surface);padding:0 4px}
+.sk-mark.est{border-top-style:dashed;border-color:var(--text-3)}.sk-mark.est span{color:var(--text-3);top:2px}
+.st-cmp{font-size:.84rem;color:var(--text-2);border-left:3px solid var(--accent);padding:6px 10px;margin:10px 0;background:var(--accent-dim)}
+.st-cmp.off{border-left-color:#b5462f}
+@media(max-width:640px){
+  .skel-wrap{grid-template-columns:150px minmax(0,1fr)}
+  .sk-scale{height:300px;grid-row:span 2;padding-left:26px}
+  .sk-scale #skel{height:calc(var(--k) * 100% * 912 / 906)}
+}
+/* научный отдел: гравюра с инструментами (v0.9.1) */
+.band-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center}
+.band-grid .note{margin-top:24px}
+.band .band-grid{padding-bottom:48px}
+.plate{margin:0}
+.plate img{display:block;width:100%;height:auto;mix-blend-mode:multiply;filter:grayscale(1) contrast(1.08) brightness(1.04)}
+.plate figcaption{font-size:.76rem;color:var(--text-3);margin-top:8px;line-height:1.45}
+.plate figcaption i{font-family:var(--fh);color:var(--text-2)}
+@media(max-width:900px){.band-grid{grid-template-columns:minmax(0,1fr);gap:22px}.plate{max-width:560px}}
 </style>
 </head>
 <body>
@@ -636,11 +660,14 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
   </div>
 </section></div>
 
-<div class="band"><div class="container">
+<div class="band"><div class="container band-grid"><div>
   <div class="sec-num"><svg class="ic" aria-hidden="true"><use href="#i-square"/></svg>Научный отдел</div>
   <h2>Калькулятор по костям, база находок и методика</h2>
   <p>Ниже научная часть: оценки роста, массы тела и мозга по обмерам костей с источником и интервалом у каждой формулы, открытая база 311 находок и описание метода.</p>
   <details class="note"><summary><b>Черновик для научной проверки.</b><span>подробнее</span></summary><p>Коэффициенты сверены по вторичным источникам (у каждой формулы указано, где) и ждут сверки с оригинальными статьями. Все формулы построены на современных людях: для ископаемых видов реальная неопределённость выше показанных интервалов.</p></details>
+</div>
+  <figure class="plate"><img src="img/plate.webp" width="1200" height="800" alt="Гравюра: бедренная кость на остеометрической доске, штангенциркуль, толстотный циркуль, череп и антропометр" loading="lazy">
+    <figcaption><i>Табл. I.</i> Инструменты антрополога: остеометрическая доска с бедренной костью, штангенциркуль, толстотный циркуль и антропометр Мартина. Ими снимают обмеры, по которым работает калькулятор.</figcaption></figure>
 </div></div>
 
 <section class="block container" id="calc">
@@ -650,7 +677,9 @@ section.block{border-top:0;background-image:repeating-linear-gradient(90deg,var(
   </div>
   <div class="calc">
     <div class="skel-wrap">
-      <svg id="skel" viewBox="-6 -6 297 912" role="group" aria-label="Скелет современного человека: нажмите на кость, чтобы ввести обмер"></svg>
+      <div class="sk-scale" id="skScale"><div class="sk-rule" aria-hidden="true"><span style="bottom:22.7%">50</span><span style="bottom:45.5%">100</span><span style="bottom:68.2%">150</span><span style="bottom:90.9%">200 см</span></div>
+        <svg id="skel" viewBox="-6 -6 297 912" role="group" aria-label="Скелет современного человека: нажмите на кость, чтобы ввести обмер"></svg>
+        <div class="sk-mark" id="skMark" hidden><span></span></div><div class="sk-mark est" id="skMark2" hidden><span></span></div></div>
       <div class="bones" id="bones"></div>
       <div class="cap">Нажмите на кость. Подсвечены кости, по которым есть обмер.</div>
     </div>
@@ -869,6 +898,13 @@ function hookForest(card, rs) {
 const RIC = { "c-stature": "anthro", "c-mass": "scale", "c-brain": "spread" };
 function card(id, title, headline, sub, inner) { $(id).innerHTML = `<div class="rtop"><div><div class="rtitle">${ic(RIC[id])}${title}</div>${headline}</div><div class="rsub">${sub}</div></div>${inner}`; }
 
+// скелет калькулятора в масштабе линейки 0-220 см: высота по введённому росту, иначе по оценке по костям
+function skelScale(stIn, stEst) {
+  const shown = stIn || (stEst && stEst.est), H = 220, mk = (el, cm, txt) => { el.hidden = !cm; if (cm) { el.style.bottom = (Math.min(cm, H) / H * 100) + "%"; el.firstChild.textContent = txt; } };
+  $("skScale").style.setProperty("--k", Math.min(shown || 170, H) / H);
+  mk($("skMark"), shown, stIn ? `${fmt(stIn, 0)} см, ваш` : shown ? `${fmt(shown, 0)} см по костям` : "");
+  mk($("skMark2"), stIn && stEst && Math.abs(stIn - stEst.est) >= 2 ? stEst.est : null, stEst ? `${fmt(stEst.est, 0)} по костям` : "");
+}
 function calc() {
   const v = val();
   document.querySelectorAll("#skel g.part, #bones button").forEach(g => g.classList.toggle("has", v[g.dataset.k] != null));
@@ -882,7 +918,13 @@ function calc() {
       `Основная оценка: ${esc(main.fo.name.split(",")[0])}, интервал ${fmt(main.ci[0], 0)}–${fmt(main.ci[1], 0)} см. ${st.length > 1 ? `Разные формулы дают ${fmt(lo, 0)}–${fmt(hi, 0)} см.` : ""}`,
       forest(st, "см") + detailTable(st, "см"));
     hookForest($("c-stature"), st);
-  } else card("c-stature", "Рост", "", "", `<div class="empty">Введите длину бедренной, большеберцовой или плечевой кости.</div>`);
+  } else card("c-stature", "Рост", v.stature ? `<div class="hero-n">${fmt(v.stature, 0)}<small>см</small></div>` : "", v.stature ? "Рост введён вами. Чтобы оценить его по костям и сравнить, введите длину бедренной, большеберцовой или плечевой кости." : "",
+    v.stature ? "" : `<div class="empty">Введите длину бедренной, большеберцовой или плечевой кости.</div>`);
+  // введённый рост: сравнить с оценкой по костям
+  if (v.stature && stEst) { const d = v.stature - stEst.est, inCi = v.stature >= stEst.ci[0] && v.stature <= stEst.ci[1];
+    $("c-stature").querySelector(".rtop").insertAdjacentHTML("afterend", `<div class="st-cmp${inCi ? "" : " off"}">Вы ввели <b>${fmt(v.stature, 0)} см</b>: ${d > 0 ? "на " + fmt(d, 0) + " см выше" : d < 0 ? "на " + fmt(-d, 0) + " см ниже" : "столько же, сколько"} оценки по костям, ${inCi ? "в пределах её интервала." : "за пределами её интервала: проверьте обмеры."} Введённый рост идёт в уравнения массы по ширине таза.</div>`); }
+  $("stature").placeholder = stEst ? `${fmt(stEst.est, 0)} по костям` : "–";
+  skelScale(v.stature, stEst);
   // масса: рост для морфометрических уравнений можно взять из оценки по бедру
   const v2 = { ...v }; let stFrom = null;
   if (v2.stature == null && v2.lbib != null && stEst) { v2.stature = stEst.est; stFrom = stEst.fo.name.split(",")[0]; }
@@ -896,7 +938,7 @@ function calc() {
   if (ms.length) {
     const how = fhMean != null ? "среднее Ruff 1991, McHenry 1992 и Grine 1995 по головке бедра (Auerbach и Ruff 2004)" : "среднее мужского и женского уравнений Ruff 2000 по росту и ширине таза";
     card("c-mass", "Масса тела", `<div class="hero-n">${fmt(bmMain, 0)}<small>кг</small></div>`,
-      `Основная оценка: ${how}, интервал ±20%: ${fmt(bmMain * .8, 0)}–${fmt(bmMain * 1.2, 0)} кг.${stFrom ? ` Рост для уравнений с тазом взят из оценки ${esc(stFrom)}.` : ""}`,
+      `Основная оценка: ${how}, интервал ±20%: ${fmt(bmMain * .8, 0)}–${fmt(bmMain * 1.2, 0)} кг.${stFrom ? ` Рост для уравнений с тазом взят из оценки ${esc(stFrom)}.` : ""}${v.stature && fhMean != null ? ` Введённый рост меняет только уравнения по ширине таза (в списке ниже), основная оценка идёт по головке бедра.` : ""}`,
       forest(ms, "кг") + detailTable(ms, "кг"));
     hookForest($("c-mass"), ms);
   } else card("c-mass", "Масса тела", "", "", `<div class="empty">Введите диаметр головки бедра или ширину таза вместе с ростом.</div>`);
