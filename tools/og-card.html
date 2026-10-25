@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- Общая картинка превью img/og.png (1200x630). Снимок: открыть через http.server из корня проекта, окно 1200x630, скриншот. -->
+<html lang="ru"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;1,400&family=PT+Sans:wght@400;700&display=block">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{display:grid;grid-template-columns:650px 550px;font-family:"PT Sans",sans-serif;font-variant-numeric:lining-nums tabular-nums}
+.hall{position:relative;background:radial-gradient(60% 55% at 25% 0%,rgba(255,236,205,.10),transparent 70%),radial-gradient(60% 55% at 78% 0%,rgba(255,236,205,.08),transparent 70%),radial-gradient(90% 80% at 50% 0%,#211f1c 0%,#0e0e0f 70%);border-right:10px solid #5c1b21}
+.row{position:absolute;left:58px;right:24px;bottom:96px;display:flex;align-items:flex-end;justify-content:space-between}
+.sp{display:flex;flex-direction:column;align-items:center;position:relative}
+.sp img{display:block;width:auto;filter:drop-shadow(0 6px 6px rgba(0,0,0,.5))}
+.sp i{font:13px "PT Sans";color:#b0aa9f;font-style:normal;margin-bottom:6px}
+.sp.me i{color:#ecc98f}
+.floor{position:absolute;left:0;right:0;bottom:96px;height:1px;background:rgba(255,236,205,.25)}
+.labs{position:absolute;left:58px;right:24px;bottom:30px;display:flex;justify-content:space-between}
+.labs div{width:114px;white-space:nowrap;overflow:hidden;background:#efeae0;color:#1a1917;padding:5px 6px;font:11px/1.25 "PT Sans"}
+.labs div b{display:block;font-size:11.5px}
+.labs div.me{background:#ecc98f}
+.ruler{position:absolute;left:22px;bottom:96px;width:8px;background:repeating-linear-gradient(#ece8e1 0 20px,#111 20px 40px);outline:1px solid #ece8e1}
+.paper{background:#f1ede5;padding:58px 52px 44px 52px;display:flex;flex-direction:column}
+.plq{font:italic 21px "Old Standard TT";color:#8a5a1f}
+h1{font:400 64px/1.04 "Old Standard TT";color:#1a1917;margin-top:22px}
+h1 em{font-style:italic;color:#5c1b21}
+p{font-size:20px;line-height:1.4;color:#4d4840;margin-top:22px}
+.facts{margin-top:auto;display:flex;gap:26px;border-top:1px solid rgba(40,30,10,.18);padding-top:18px}
+.facts div{font-size:14px;color:#4d4840;line-height:1.25}
+.facts b{display:block;font:400 34px "Old Standard TT";color:#1a1917}
+.url{margin-top:18px;font-size:19px;color:#8a5a1f}
+</style></head><body>
+<div class="hall">
+  <div class="ruler" id="ruler"></div>
+  <div class="row" id="row"></div>
+  <div class="floor"></div>
+  <div class="labs" id="labs"></div>
+</div>
+<div class="paper">
+  <div class="plq">Палеокалькулятор</div>
+  <h1>Кто из предков <em>ваш двойник</em>?</h1>
+  <p>Встаньте в один ряд с Люси, неандертальцем и хоббитом в настоящем масштабе.</p>
+  <div class="facts"><div><b>311</b>ископаемых людей</div><div><b>17</b>опубликованных формул</div><div><b>4,4</b>млн лет эволюции</div></div>
+  <div class="url">vladislavpopov.ru/paleocalc</div>
+</div>
+<script>
+// рост по базе Will 2017 (как в витрине на сайте); 1 см = PPC px
+const PPC = 1.95;
+const S = [["lucy", 105, "AL 288-1", "Люси", "3,2 млн лет"], ["turkana", 178, "KNM-WT 15000", "Турканский мальчик", "1,5 млн лет"], ["hobbit", 104, "LB1", "Хоббит", "80 тыс. лет"], ["ferrassie", 172, "La Ferrassie 1", "Неандерталец", "47 тыс. лет"], ["modern-mid", 172, "H. sapiens", "Вы", "сегодня"]];
+document.getElementById("row").innerHTML = S.map(([img, st, , nm]) => `<div class="sp${nm === "Вы" ? " me" : ""}"><i>${st} см</i><img src="../img/${img}.webp" style="height:${st * PPC}px"></div>`).join("");
+document.getElementById("labs").innerHTML = S.map(([, , sp, nm, age]) => `<div${nm === "Вы" ? ' class="me"' : ""}>${sp}<b>${nm}</b>${age}</div>`).join("");
+document.getElementById("ruler").style.height = 200 * PPC + "px";
+</script>
+</body></html>

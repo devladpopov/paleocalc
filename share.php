@@ -8,7 +8,7 @@ $u = $p['u']; $c = $p['c'];
 $h = fn($s) => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 $title = headline($u, $c);
 $desc = description($u, $c);
-$img = BASE . 'og/' . $p['code'] . '.png';
+$img = BASE . 'og/' . $p['code'] . '.png?v=' . OGV; // версия в адресе: соцсети кэшируют картинку по URL
 $self = BASE . 's/' . $p['code'];
 $to = targetUrl($p);
 header('Content-Type: text/html; charset=utf-8');
